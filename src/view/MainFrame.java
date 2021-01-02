@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
     public MainFrame() {
-        super("Werkverzeichnis");
+        super("Wrkvrzns");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(1000,700));
 
@@ -20,8 +20,10 @@ public class MainFrame extends JFrame {
 
         Controller controller = new ControllerImplementation(model, adressbook);
 
+        this.add(new Toolbar(controller), BorderLayout.NORTH);
+
         ObjectViewPanel panel = new ObjectViewPanel(model, controller);
-        this.add (panel);
+        this.add (panel, BorderLayout.CENTER);
 
         this.setVisible(true);
         this.pack();
