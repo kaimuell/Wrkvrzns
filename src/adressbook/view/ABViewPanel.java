@@ -1,7 +1,7 @@
 package adressbook.view;
 
 import adressbook.controller.ABController;
-import adressbook.model.IABModelReader;
+import adressbook.model.ABModelReader;
 import adressbook.model.PersonEntry;
 
 import javax.swing.*;
@@ -14,14 +14,14 @@ import java.util.Iterator;
 public class ABViewPanel extends JPanel implements ABViewer {
     private final JFrame superFrame;
     private ABController controller;
-    private IABModelReader model;
+    private ABModelReader model;
     private static final Color EVEN_ROW_COLOR = new Color(240,240,255);
     private static final Color ODD_ROW_COLOR = new Color(255,255,240);
     private static final Color SELECTED_ELEMENT_COLOR = new Color(255, 218, 220);
 
 
 
-    public ABViewPanel(IABModelReader model, ABController controller, JFrame superFrame) {
+    public ABViewPanel(ABModelReader model, ABController controller, JFrame superFrame) {
 
         this.model = model;
         this.controller = controller;

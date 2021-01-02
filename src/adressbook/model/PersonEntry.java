@@ -1,5 +1,9 @@
 package adressbook.model;
 
+/**
+ * Der Eintrag einer Person im Adressbuch, enthält zusätzlich eine eindeutige ID, sowie eine Zahl die Angibt wieviele externe Links existieren,
+ */
+
 public class PersonEntry extends Person {
     int id;
     int links;

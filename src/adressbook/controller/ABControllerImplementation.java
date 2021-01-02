@@ -5,6 +5,7 @@ import adressbook.model.ABModel;
 import adressbook.model.Person;
 import adressbook.model.PersonEntry;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +30,17 @@ public class ABControllerImplementation implements ABController {
 
     @Override
     public void deleteSelectedPerson() {
-        model.getPersonList().remove(this.selectedPerson);
-        updateViews();
+        if (selectedPerson != null) {
+            if (selectedPerson.getLinks() == 0) {
+                model.getPersonList().remove(this.selectedPerson);
+            } else {
+                int confirmation = JOptionPane.showConfirmDialog(null, "Dieser Eintrag ist extern verlinkt. Wirklich löschen?");
+                if (confirmation == JOptionPane.OK_OPTION){
+                    model.getPersonList().remove(this.selectedPerson);
+                }
+            }
+            updateViews();
+        }
     }
 
 

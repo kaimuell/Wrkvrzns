@@ -1,5 +1,8 @@
 package adressbook.model;
 
+/**
+ * Klasse mit den relevanten Daten einer Person
+ */
 public class Person {
     private String familyName;
     private String firstName;

@@ -23,4 +23,11 @@ public class ArtPieceEntry extends ArtPiece {
         this.bitmapPath = bitmapPath;
     }
 
+    public void setBitmap(Image bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public Image getBitmap() {
+        return bitmap;
+    }
 }

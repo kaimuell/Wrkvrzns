@@ -1,5 +1,8 @@
 package adressbook.model;
 
+/**
+ * Klasse zum Speichern von Adressinformationen
+ */
 public class Adress {
     private String street;
     private String houseNo;

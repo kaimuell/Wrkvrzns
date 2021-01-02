@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ABModel implements Serializable, IABModelReader {
+/**
+ * Das Model des Adressbuxhs
+ */
+
+public class ABModel implements Serializable, ABModelReader {
     List<PersonEntry> personList;
 
     public ABModel() {
