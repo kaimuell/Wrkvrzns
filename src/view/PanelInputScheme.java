@@ -11,10 +11,10 @@ import java.awt.event.MouseListener;
 
 
 public class PanelInputScheme implements MouseListener, KeyListener {
-    boolean CtrlHold;
-    boolean ShiftHold;
-    ArtPieceEntry artPieceEntry;
-    Controller controller;
+    private boolean CtrlHold;
+    private boolean ShiftHold;
+    private ArtPieceEntry artPieceEntry;
+    private Controller controller;
 
     public PanelInputScheme(Controller controller, ArtPieceEntry artPiece) {
         this.controller = controller;

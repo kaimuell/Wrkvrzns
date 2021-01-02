@@ -1,9 +1,9 @@
 package view;
 
 import adressbook.model.ABModel;
+import controller.Controller;
 import controller.ControllerImplementation;
 import model.Model;
-import model.ModelViewAccess;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,14 +13,14 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         super("Werkverzeichnis");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(700,500));
+        setPreferredSize(new Dimension(1000,700));
 
         ABModel adressbook = new ABModel();
         Model model = new Model(adressbook);
 
-        ControllerImplementation controllerImplementation = new ControllerImplementation(model, adressbook);
+        Controller controller = new ControllerImplementation(model, adressbook);
 
-        ObjectViewPanel panel = new ObjectViewPanel(model, controllerImplementation);
+        ObjectViewPanel panel = new ObjectViewPanel(model, controller);
         this.add (panel);
 
         this.setVisible(true);

@@ -16,11 +16,11 @@ import java.util.List;
  */
 
 public class ControllerImplementation implements Controller {
-    ABController addressbookController;
-    ABModel addressBook;
-    Model model;
-    List<Views> views;
-    List<ArtPieceEntry> selectedElements;
+    private ABController addressbookController;
+    private ABModel addressBook;
+    private Model model;
+    private List<Views> views;
+    private List<ArtPieceEntry> selectedElements;
 
     public ControllerImplementation(Model model, ABModel addressBook) {
         this.model = model;

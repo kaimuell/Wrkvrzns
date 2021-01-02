@@ -10,8 +10,8 @@ import java.awt.*;
  * Implementiert eine Zeile im {@link ObjectViewPanel}
  */
 class ArtPiecePanel extends JPanel {
-    ArtPieceEntry artPiece;
-    Controller controller;
+    private ArtPieceEntry artPiece;
+    private Controller controller;
 
 
     ArtPiecePanel(ArtPieceEntry artPiece, Controller controller, Color color) {

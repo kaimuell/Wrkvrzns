@@ -8,8 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Model implements Serializable, ModelViewAccess {
-    ABModel adressbuch;
-    List<ArtPieceEntry> pieces;
+    private ABModel adressbuch;
+    private List<ArtPieceEntry> pieces;
 
     public Model(ABModel adressbuch) {
         this.adressbuch = adressbuch;

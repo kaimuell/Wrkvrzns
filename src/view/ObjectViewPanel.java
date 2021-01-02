@@ -10,8 +10,8 @@ import java.awt.*;
 import java.util.Iterator;
 
 public class ObjectViewPanel extends JPanel implements Views {
-    ModelViewAccess model;
-    Controller controller;
+    private ModelViewAccess model;
+    private Controller controller;
 
     private static final Color EVEN_ROW_COLOR = new Color(240,240,255);
     private static final Color ODD_ROW_COLOR = new Color(255,255,240);
@@ -30,23 +30,23 @@ public class ObjectViewPanel extends JPanel implements Views {
 
         panel.setBackground(Color.lightGray);
         Iterator<ArtPieceEntry> it = model.artPieceIterator();
-        boolean isEvenRownumber = true;
+        boolean isEvenRowNumber = true;
         while (it.hasNext()) {
             ArtPieceEntry artPiece = it.next();
-            Color color = selectColor(artPiece,  isEvenRownumber);
+            Color color = selectColor(artPiece,  isEvenRowNumber);
             panel.add(new ArtPiecePanel (artPiece, controller, color));
-            isEvenRownumber = !isEvenRownumber;
+            isEvenRowNumber = !isEvenRowNumber;
         }
         this.add(panel);
         revalidate();
 
     }
 
-    private Color selectColor(ArtPieceEntry artPiece, boolean isEvenRownumber) {
+    private Color selectColor(ArtPieceEntry artPiece, boolean isEvenRowNumber) {
         if (controller.isASelectedElement(artPiece)){
             return SELECTED_ELEMENT_COLOR;
         } else {
-            if (isEvenRownumber){
+            if (isEvenRowNumber){
                 return EVEN_ROW_COLOR;
             } else {
                 return ODD_ROW_COLOR;
