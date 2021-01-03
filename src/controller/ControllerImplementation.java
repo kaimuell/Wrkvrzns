@@ -46,4 +46,14 @@ public class ControllerImplementation implements Controller {
         this.selectedElements = new ArrayList<>();
         selectedElements.add(artPieceEntry);
     }
+
+    @Override
+    public void modifyEntry(ArtPieceEntry artPieceEntry) {
+        //TODO schreiben
+    }
+
+    @Override
+    public void addEntry(ArtPieceEntry artPieceEntry) {
+        model.getPieces().add(artPieceEntry);
+    }
 }
