@@ -29,4 +29,13 @@ public class Model implements Serializable, ModelViewAccess {
     public Iterator<ArtPieceEntry> artPieceIterator() {
         return pieces.iterator();
     }
+
+    public ArtPieceEntry getEntryWithId(ArtPieceEntry artPieceEntry) {
+        for (ArtPieceEntry entry : pieces) {
+            if(entry.getId() == artPieceEntry.getId()){
+                return entry;
+            }
+        }
+        return null;
+    }
 }

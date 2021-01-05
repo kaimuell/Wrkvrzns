@@ -49,7 +49,9 @@ public class ControllerImplementation implements Controller {
 
     @Override
     public void modifyEntry(ArtPieceEntry artPieceEntry) {
-        //TODO schreiben
+        ArtPieceEntry entryToChange = model.getEntryWithId(artPieceEntry);
+        entryToChange.setVariablesTo(artPieceEntry);
+        //TODO ungetestet
     }
 
     @Override
