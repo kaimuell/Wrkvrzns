@@ -12,5 +12,5 @@ public interface Controller {
 
     void addEntry(ArtPieceEntry artPieceEntry);
 
-    Model getModel();
+    String getPersonWithIDFromAdressBook(int buyerID);
 }

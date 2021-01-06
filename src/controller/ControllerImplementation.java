@@ -58,4 +58,9 @@ public class ControllerImplementation implements Controller {
     public void addEntry(ArtPieceEntry artPieceEntry) {
         model.getPieces().add(artPieceEntry);
     }
+
+    @Override
+    public String getPersonWithIDFromAdressBook(int buyerID) {
+        return model.getPersonWithIDFromAdressBook(buyerID);
+    }
 }

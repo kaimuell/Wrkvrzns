@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import gui.OpenSingleJPEGDialog;
 import model.ArtPieceEntry;
 import model.Model;
@@ -13,7 +14,7 @@ import java.io.File;
 
 
 public class ArtPieceDialog extends JDialog {
-    private Model model;
+    private Controller controller;
     private JLabel buyerLabel;
     private JTextField priceField;
     private JTextField yearField;
@@ -28,19 +29,19 @@ public class ArtPieceDialog extends JDialog {
     private boolean isApproved;
     private JPanel mainPanel;
 
-    public ArtPieceDialog(ArtPieceEntry artPiece, Model model) {
+    public ArtPieceDialog(ArtPieceEntry artPiece, Controller controller) {
         this.artPiece = artPiece;
-        this.model = model;
+        this.controller = controller;
         this.isApproved = false;
 
         drawPanels();
     }
 
-    public ArtPieceDialog(Model model) {
+    public ArtPieceDialog(Controller controller) {
 
         this.isApproved = false;
         this.artPiece = ArtPieceEntry.createEmptyArtpieceEntry();
-        this.model = model;
+        this.controller = controller;
 
         drawPanels();
 
@@ -117,7 +118,7 @@ public class ArtPieceDialog extends JDialog {
 
 
         JLabel isSoldLabel = new JLabel("Verkauft an:");
-        buyerLabel = new JLabel(model.getPersonWithIDFromAdressBook(artPiece.getBuyerID()));
+        buyerLabel = new JLabel(controller.getPersonWithIDFromAdressBook(artPiece.getBuyerID()));
         JButton selectBuyerButton = new JButton("Käufer hinzufügen");
         selectBuyerButton.addActionListener(new ActionListener() {
             @Override
@@ -128,7 +129,7 @@ public class ArtPieceDialog extends JDialog {
 
                 artPiece.setSold(true);
                 artPiece.setBuyerID(id);
-                buyerLabel.setText(model.getPersonWithIDFromAdressBook(artPiece.getBuyerID()));
+                buyerLabel.setText(controller.getPersonWithIDFromAdressBook(artPiece.getBuyerID()));
             }
         });
 
