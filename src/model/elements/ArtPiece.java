@@ -1,18 +1,19 @@
 package model.elements;
 
 public class ArtPiece {
-    String name;
-    String technique;
-    ArtworkType type;
-    int height;
-    int width;
-    int depth;
-    int length;
-    int year;
-    boolean isSold;
-    int buyerID;
+    private String name;
+    private String technique;
+    private ArtworkType type;
+    private int height;
+    private int width;
+    private int depth;
+    private int length;
+    private int year;
+    private boolean isSold;
+    private int buyerID;
+    private int price;
 
-    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, boolean isSold, int buyerID) {
+    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, boolean isSold, int buyerID) {
         this.name = name;
         this.technique = technique;
         this.type = type;
@@ -21,6 +22,7 @@ public class ArtPiece {
         this.depth = depth;
         this.length = length;
         this.year = year;
+        this.price = price;
         this.isSold = isSold;
         this.buyerID = buyerID;
     }
@@ -115,5 +117,13 @@ public class ArtPiece {
 
     public void setBuyerID(int buyerID) {
         this.buyerID = buyerID;
+    }
+
+    public int getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

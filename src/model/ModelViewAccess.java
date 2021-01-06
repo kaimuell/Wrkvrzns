@@ -5,4 +5,6 @@ import java.util.Iterator;
 public interface ModelViewAccess {
     int getNumberOfEntries();
     Iterator<ArtPieceEntry> artPieceIterator();
+
+    String getPersonWithIDFromAdressBook(int buyerID);
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import model.ArtPieceEntry;
+import model.Model;
 
 public interface Controller {
     boolean isASelectedElement(ArtPieceEntry artPiece);
@@ -10,4 +11,6 @@ public interface Controller {
     void modifyEntry(ArtPieceEntry artPieceEntry);
 
     void addEntry(ArtPieceEntry artPieceEntry);
+
+    Model getModel();
 }

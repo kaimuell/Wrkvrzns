@@ -53,7 +53,7 @@ public class PanelInputScheme implements MouseListener, KeyListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getClickCount() == 2){
-            new DialogController(controller).createModifyDialogThread(artPieceEntry).start();
+            new DialogController(controller, controller.getModel()).createModifyDialogThread(artPieceEntry).start();
         }
         if(ShiftHold){
             controller.addSelectedElement(artPieceEntry);
