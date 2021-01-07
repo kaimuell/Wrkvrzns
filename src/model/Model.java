@@ -32,9 +32,9 @@ public class Model implements Serializable, ModelViewAccess {
     }
 
     @Override
-    public String getPersonWithIDFromAdressBook(int buyerID) {
-        PersonEntry person = adressbuch.getPersonWithID(buyerID);
-        return (person.getFirstName() + " " + person.getFamilyName() + ", " + person.geteMail() + ",  " + person.getTel());
+    public PersonEntry getPersonWithIDFromAdressBook(int buyerID) {
+        return  adressbuch.getPersonWithID(buyerID);
+
     }
 
     public ArtPieceEntry getEntryWithId(ArtPieceEntry artPieceEntry) {

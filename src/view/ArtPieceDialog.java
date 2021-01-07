@@ -1,10 +1,11 @@
 package view;
 
+import adressbook.model.PersonEntry;
 import controller.Controller;
+import gui.ArtworkTypeChoice;
 import gui.OpenSingleJPEGDialog;
 import model.ArtPieceEntry;
-import model.Model;
-import model.elements.ArtworkType;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +29,9 @@ public class ArtPieceDialog extends JDialog {
     private ArtPieceEntry artPiece;
     private boolean isApproved;
     private JPanel mainPanel;
+    private JLabel errorInfoLabel;
+    private ArtworkTypeChoice typeChoice;
+
 
     public ArtPieceDialog(ArtPieceEntry artPiece, Controller controller) {
         this.artPiece = artPiece;
@@ -44,8 +48,9 @@ public class ArtPieceDialog extends JDialog {
         this.controller = controller;
 
         drawPanels();
-
     }
+
+
 
     private void drawPanels() {
 
@@ -55,27 +60,79 @@ public class ArtPieceDialog extends JDialog {
         initTypeChoice();
 
         JPanel entryPanel = new JPanel(new GridLayout(6,4));
+        initPictureSelection(entryPanel);
+        initTextFields(entryPanel);
+        initBuyerSelection(entryPanel);
 
-        JLabel pictureLabel = new JLabel ("Adresse der Abbildung");
-        pictureField = new JTextField(artPiece.getPicturePath());
-        JButton loadPictureButton = new JButton("Bild laden");
-        loadPictureButton.addActionListener(new ActionListener() {
+        mainPanel.add(entryPanel);
+
+        initErrorLabel();
+        initOKButton();
+
+        this.add(mainPanel);
+    }
+
+    private void initErrorLabel() {
+        errorInfoLabel = new JLabel();
+        mainPanel.add(errorInfoLabel);
+    }
+
+    private void initOKButton() {
+        JPanel buttonPanel = new JPanel();
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                File f = null;
-                OpenSingleJPEGDialog openDialog = new OpenSingleJPEGDialog();
-                int returnVal = openDialog.showOpenDialog(null);
-                if(returnVal == JFileChooser.APPROVE_OPTION){
-                    pictureField.setText(f.getPath());
-                    //TODO Vorschau Bild erstellen?
+                try {
+                    setArtPieceInfoToTextFields();
+                    isApproved = true;
+                }catch (NumberFormatException error){
+                    errorInfoLabel.setText("Eingabe in einem Textfeld, dass nur Zahlen annimmt nicht gültig.");
                 }
             }
         });
-        entryPanel.add(pictureLabel);
-        entryPanel.add(pictureField);
-        entryPanel.add(loadPictureButton);
-        leaveEmptySpace(entryPanel);
+    }
 
+    private void initBuyerSelection(JPanel entryPanel) {
+        JLabel isSoldLabel = new JLabel("Verkauft an:");
+        buyerLabel = new JLabel(
+                createShortdescriptionOfPerson(
+                    controller.getPersonWithIDFromAdressBook(artPiece.getBuyerID())));
+        JButton selectBuyerButton = new JButton("Käufer hinzufügen");
+        selectBuyerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO Dialog erzeugen in der das Adressbuch aufgerufen wird und eine Person ausgewählt werden kann.
+
+                int id = 0; //id zurückgeben
+
+                artPiece.setSold(true);
+                artPiece.setBuyerID(id);
+                buyerLabel.setText(
+                        createShortdescriptionOfPerson(
+                            controller.getPersonWithIDFromAdressBook(artPiece.getBuyerID())));
+                mainPanel.repaint();
+            }
+        });
+
+        JButton deleteBuyerButton = new JButton("Käufer löschen");
+        deleteBuyerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?");
+                if (returnval == JOptionPane.YES_OPTION){
+                    artPiece.setSold(false);
+                    artPiece.setBuyerID(-1);
+                }
+            }
+        });
+
+        entryPanel.add(isSoldLabel);
+        entryPanel.add(buyerLabel);
+        entryPanel.add(selectBuyerButton);
+    }
+
+    private void initTextFields(JPanel entryPanel) {
         JLabel nameLabel = new JLabel("Titel");
         nameField = new JTextField(artPiece.getName(), 15);
         entryPanel.add(nameLabel);
@@ -115,31 +172,52 @@ public class ArtPieceDialog extends JDialog {
         priceField = new JTextField(((Integer) artPiece.getPrice()).toString(), 9);
         entryPanel.add(priceLabel);
         entryPanel.add(priceField);
+    }
 
-
-        JLabel isSoldLabel = new JLabel("Verkauft an:");
-        buyerLabel = new JLabel(controller.getPersonWithIDFromAdressBook(artPiece.getBuyerID()));
-        JButton selectBuyerButton = new JButton("Käufer hinzufügen");
-        selectBuyerButton.addActionListener(new ActionListener() {
+    private void initPictureSelection(JPanel entryPanel) {
+        JLabel pictureLabel = new JLabel ("Adresse der Abbildung");
+        pictureField = new JTextField(artPiece.getPicturePath());
+        JButton loadPictureButton = new JButton("Bild laden");
+        loadPictureButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO Dialog erzeugen in der das Adressbuch aufgerufen wird und eine Person ausgewählt werden kann.
-
-                int id = 0; //id zurückgeben
-
-                artPiece.setSold(true);
-                artPiece.setBuyerID(id);
-                buyerLabel.setText(controller.getPersonWithIDFromAdressBook(artPiece.getBuyerID()));
+                File f = null;
+                OpenSingleJPEGDialog openDialog = new OpenSingleJPEGDialog();
+                int returnVal = openDialog.showOpenDialog(null);
+                if(returnVal == JFileChooser.APPROVE_OPTION){
+                    pictureField.setText(f.getPath());
+                    //TODO Vorschau Bild erstellen?
+                }
             }
         });
+        entryPanel.add(pictureLabel);
+        entryPanel.add(pictureField);
+        entryPanel.add(loadPictureButton);
+        leaveEmptySpace(entryPanel);
+    }
 
-        entryPanel.add(isSoldLabel);
-        entryPanel.add(buyerLabel);
-        entryPanel.add(selectBuyerButton);
+    private void setArtPieceInfoToTextFields() throws NumberFormatException{
+        artPiece.setType(typeChoice.getSelectedArtworkType());
+        //TODO wie Bilder setzen ?????????????
+        artPiece.setName(nameField.getText());
+        artPiece.setTechnique(techniqueField.getText());
+        artPiece.setHeight(ParseIntegerFromTextField(heightField));
+        artPiece.setWidth(ParseIntegerFromTextField(widthField));
+        artPiece.setDepth(ParseIntegerFromTextField(depthField));
+        artPiece.setLength(ParseIntegerFromTextField(lengthField));
+        artPiece.setYear(ParseIntegerFromTextField(yearField));
 
-        mainPanel.add(entryPanel);
+    }
 
-        this.add(mainPanel);
+    private String createShortdescriptionOfPerson(PersonEntry person){
+        return (person.getFirstName() + " " + person.getFamilyName() + ", " + person.geteMail() + ",  " + person.getTel());
+    }
+
+    private int ParseIntegerFromTextField(JTextField textField) throws NumberFormatException{
+
+        int info = Integer.parseInt(textField.getText());
+
+        return info;
     }
 
     private void leaveEmptySpace(JPanel panel) {
@@ -148,12 +226,7 @@ public class ArtPieceDialog extends JDialog {
 
     private void initTypeChoice() {
         JPanel choicePanel =  new JPanel();
-        Choice typeChoice = new Choice();
-        typeChoice.add(ArtworkType.PAINTING.toString());
-        typeChoice.add(ArtworkType.GRAFIK.toString());
-        typeChoice.add(ArtworkType.SCULPTURE.toString());
-        typeChoice.add(ArtworkType.INSTALLATION.toString());
-        typeChoice.add(ArtworkType.VIDEO.toString());
+        typeChoice = new ArtworkTypeChoice();
         typeChoice.select(artPiece.getType().toString());
         choicePanel.add(typeChoice);
         mainPanel.add(choicePanel);
@@ -164,10 +237,8 @@ public class ArtPieceDialog extends JDialog {
     }
 
     public ArtPieceEntry getArtPieceInfo() {
-        if (artPiece == null){
-            //TODO erschaffe neues Artpiece aus Information
-        }
-        //TODO Informationen aus Feldern auslesen
         return artPiece;
     }
+
+
 }
