@@ -1,9 +1,10 @@
-package view;
+package gui;
 
 import adressbook.model.ABModel;
 import controller.Controller;
 import controller.ControllerImplementation;
 import model.Model;
+import view.ObjectViewPanel;
 
 import javax.swing.*;
 import java.awt.*;

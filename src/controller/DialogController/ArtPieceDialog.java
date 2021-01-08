@@ -177,18 +177,16 @@ class ArtPieceDialog extends JDialog {
         JLabel pictureLabel = new JLabel ("Adresse der Abbildung");
         pictureField = new JTextField(artPiece.getPicturePath());
         JButton loadPictureButton = new JButton("Bild laden");
-        loadPictureButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                File f = null;
-                OpenSingleJPEGDialog openDialog = new OpenSingleJPEGDialog();
-                int returnVal = openDialog.showOpenDialog(null);
-                if(returnVal == JFileChooser.APPROVE_OPTION){
-                    pictureField.setText(f.getPath());
-                    //TODO Vorschau Bild erstellen?
-                }
+        loadPictureButton.addActionListener(e -> {
+            File f = null;
+            OpenSingleJPEGDialog openDialog = new OpenSingleJPEGDialog();
+            int returnVal = openDialog.showOpenDialog(null);
+            if(returnVal == JFileChooser.APPROVE_OPTION){
+                pictureField.setText(f.getPath());
+                //TODO Vorschau Bild erstellen?
             }
         });
+
         entryPanel.add(pictureLabel);
         entryPanel.add(pictureField);
         entryPanel.add(loadPictureButton);

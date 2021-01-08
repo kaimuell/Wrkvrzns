@@ -1,6 +1,6 @@
 package tests;
 
-import view.MainFrame;
+import gui.MainFrame;
 
 
 public class MainFrameTest {
