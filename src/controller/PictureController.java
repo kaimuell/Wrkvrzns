@@ -68,4 +68,8 @@ public interface PictureController {
         jpgWriter.write(null, outputImage, jpgWriteParam);
         jpgWriter.dispose();
     }
+
+    static Image defaultEmptyImage() {
+        return null;
+    }
 }

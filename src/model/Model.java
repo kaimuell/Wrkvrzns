@@ -34,7 +34,6 @@ public class Model implements Serializable, ModelViewAccess {
     @Override
     public PersonEntry getPersonWithIDFromAdressBook(int buyerID) {
         return  adressbuch.getPersonWithID(buyerID);
-
     }
 
     public ArtPieceEntry getEntryWithId(ArtPieceEntry artPieceEntry) {

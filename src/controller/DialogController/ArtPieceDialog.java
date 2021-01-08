@@ -2,6 +2,7 @@ package controller.DialogController;
 
 import adressbook.model.PersonEntry;
 import controller.Controller;
+import controller.PictureController;
 import gui.ArtworkTypeChoice;
 import model.ArtPieceEntry;
 
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 
 class ArtPieceDialog extends JDialog {
@@ -31,6 +33,7 @@ class ArtPieceDialog extends JDialog {
     private JPanel mainPanel;
     private JLabel errorInfoLabel;
     private ArtworkTypeChoice typeChoice;
+    private JLabel imagePreviewIcon;
 
 
     public ArtPieceDialog(ArtPieceEntry artPiece, Controller controller) {
@@ -60,6 +63,7 @@ class ArtPieceDialog extends JDialog {
         initTypeChoice();
 
         JPanel entryPanel = new JPanel(new GridLayout(6,4));
+
         initPictureSelection(entryPanel);
         initTextFields(entryPanel);
         initBuyerSelection(entryPanel);
@@ -132,41 +136,66 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void initTextFields(JPanel entryPanel) {
+        addNameTextFieldTo(entryPanel);
+        addTechniqueTextFieldTo(entryPanel);
+        addHeightTextFieldTo(entryPanel);
+        addWithTextFieldTo(entryPanel);
+        addDepthTextFieldTo(entryPanel);
+        addLengthTextFieldTo(entryPanel);
+        addYearTextFieldTo(entryPanel);
+        addPriceTextFieldTo(entryPanel);
+    }
+
+    private void addNameTextFieldTo(JPanel entryPanel) {
         JLabel nameLabel = new JLabel("Titel");
         nameField = new JTextField(artPiece.getName(), 15);
         entryPanel.add(nameLabel);
         entryPanel.add(nameField);
+    }
 
+    private void addTechniqueTextFieldTo(JPanel entryPanel) {
         JLabel techniqueLabel = new JLabel("Technik");
         techniqueField = new JTextField(artPiece.getTechnique(),25);
         entryPanel.add(techniqueLabel);
         entryPanel.add(techniqueField);
+    }
 
+    private void addHeightTextFieldTo(JPanel entryPanel) {
         JLabel heightLabel = new JLabel("Höhe (in cm)");
         heightField = new JTextField(((Integer)artPiece.getHeight()).toString(), 6);
         entryPanel.add(heightLabel);
         entryPanel.add(heightField);
+    }
 
+    private void addWithTextFieldTo(JPanel entryPanel) {
         JLabel widthLabel = new JLabel("Breite (in cm)");
         widthField = new JTextField(((Integer) artPiece.getWidth()).toString(), 6);
         entryPanel.add(widthLabel);
         entryPanel.add(widthField);
+    }
 
+    private void addDepthTextFieldTo(JPanel entryPanel) {
         JLabel depthLabel = new JLabel("Tiefe (in cm)");
         depthField = new JTextField(((Integer) artPiece.getDepth()).toString(), 6);
         entryPanel.add(depthLabel);
         entryPanel.add(depthField);
+    }
 
+    private void addLengthTextFieldTo(JPanel entryPanel) {
         JLabel lengthLabel = new JLabel("Länge (in min)");
         lengthField = new JTextField(((Integer) artPiece.getLength()).toString(), 6);
         entryPanel.add(lengthLabel);
         entryPanel.add(lengthField);
+    }
 
+    private void addYearTextFieldTo(JPanel entryPanel) {
         JLabel yearLabel = new JLabel("Entstehungsjahr");
         yearField = new JTextField(((Integer) artPiece.getYear()).toString(), 6);
         entryPanel.add(yearLabel);
         entryPanel.add(yearField);
+    }
 
+    private void addPriceTextFieldTo(JPanel entryPanel) {
         JLabel priceLabel = new JLabel("Preis (€)");
         priceField = new JTextField(((Integer) artPiece.getPrice()).toString(), 9);
         entryPanel.add(priceLabel);
@@ -174,28 +203,39 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void initPictureSelection(JPanel entryPanel) {
+        imagePreviewIcon.setIcon(
+                artPiece.getBitmap() == null ? (Icon) PictureController.defaultEmptyImage() : (Icon) artPiece.getBitmap());
         JLabel pictureLabel = new JLabel ("Adresse der Abbildung");
         pictureField = new JTextField(artPiece.getPicturePath());
         JButton loadPictureButton = new JButton("Bild laden");
         loadPictureButton.addActionListener(e -> {
-            File f = null;
+            File pictureFile = null;
             OpenSingleJPEGDialog openDialog = new OpenSingleJPEGDialog();
             int returnVal = openDialog.showOpenDialog(null);
             if(returnVal == JFileChooser.APPROVE_OPTION){
-                pictureField.setText(f.getPath());
-                //TODO Vorschau Bild erstellen?
+                try {
+                    pictureField.setText(pictureFile.getPath());
+                    Image image = PictureController.loadImage(pictureFile.getPath());
+                    Image bitmap = PictureController.createBitmap(image);
+                    imagePreviewIcon.setIcon((Icon) bitmap);
+                    errorInfoLabel.setText("");
+                    repaint();
+                } catch (IOException ex) {
+                    errorInfoLabel.setText("Bild konnte nicht geladen werden");
+                    repaint();
+                }
             }
         });
 
+        entryPanel.add(imagePreviewIcon);
         entryPanel.add(pictureLabel);
         entryPanel.add(pictureField);
         entryPanel.add(loadPictureButton);
-        leaveEmptySpace(entryPanel);
     }
 
     private void setArtPieceInfoToTextFields() throws NumberFormatException{
         artPiece.setType(typeChoice.getSelectedArtworkType());
-        //TODO wie Bilder setzen ?????????????
+        artPiece.setPicturePath(pictureField.getText());
         artPiece.setName(nameField.getText());
         artPiece.setTechnique(techniqueField.getText());
         artPiece.setHeight(ParseIntegerFromTextField(heightField));
@@ -217,9 +257,6 @@ class ArtPieceDialog extends JDialog {
         return info;
     }
 
-    private void leaveEmptySpace(JPanel panel) {
-        panel.add(new JLabel());
-    }
 
     private void initTypeChoice() {
         JPanel choicePanel =  new JPanel();
@@ -236,6 +273,5 @@ class ArtPieceDialog extends JDialog {
     public ArtPieceEntry getArtPieceInfo() {
         return artPiece;
     }
-
 
 }
