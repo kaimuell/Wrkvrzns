@@ -14,7 +14,7 @@ public class OpenSingleJPEGDialog extends JFileChooser{
 
     {
         setFileSelectionMode(FILES_AND_DIRECTORIES);
-        addChoosableFileFilter(new FileNameExtensionFilter("Petrinet File", "pnml"));
+        addChoosableFileFilter(new FileNameExtensionFilter("JPEG", "jpg"));
         setAcceptAllFileFilterUsed(false);
         setMultiSelectionEnabled(false);
         setVisible(true);

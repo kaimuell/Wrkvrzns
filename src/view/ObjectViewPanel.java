@@ -1,7 +1,7 @@
 package view;
 
 import controller.Controller;
-import model.ArtPieceEntry;
+import model.elements.ArtPieceEntry;
 import model.ModelViewAccess;
 
 

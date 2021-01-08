@@ -2,6 +2,7 @@ package model;
 
 import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
+import model.elements.ArtPieceEntry;
 
 import java.io.Serializable;
 import java.util.ArrayList;

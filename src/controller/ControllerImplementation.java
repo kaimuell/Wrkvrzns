@@ -4,7 +4,7 @@ import adressbook.controller.ABController;
 import adressbook.controller.ABControllerImplementation;
 import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
-import model.ArtPieceEntry;
+import model.elements.ArtPieceEntry;
 import model.Model;
 import view.Views;
 
@@ -61,7 +61,7 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public PersonEntry getPersonWithIDFromAdressBook(int buyerID) {
+    public PersonEntry getPersonWithIDFromAddressBook(int buyerID) {
         return model.getPersonWithIDFromAdressBook(buyerID);
     }
 }

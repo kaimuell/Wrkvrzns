@@ -1,7 +1,4 @@
-package model;
-
-import model.elements.ArtPiece;
-import model.elements.ArtworkType;
+package model.elements;
 
 import java.awt.*;
 
@@ -59,7 +56,7 @@ public class ArtPieceEntry extends ArtPiece {
     }
 
 
-    public static ArtPieceEntry createEmptyArtpieceEntry(){
+    public static ArtPieceEntry createEmptyArtPieceEntry(){
         return new ArtPieceEntry(-1,
                 new ArtPiece("","", ArtworkType.PAINTING,
                         0, 0, 0, 0, 0, 0, false, -1),

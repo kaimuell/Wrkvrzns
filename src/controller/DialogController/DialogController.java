@@ -2,7 +2,7 @@ package controller.DialogController;
 
 import adressbook.model.PersonEntry;
 import controller.Controller;
-import model.ArtPieceEntry;
+import model.elements.ArtPieceEntry;
 
 import static controller.DialogController.OkCancelOption.*;
 import static java.lang.Thread.sleep;

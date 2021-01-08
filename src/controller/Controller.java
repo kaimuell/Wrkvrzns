@@ -1,7 +1,7 @@
 package controller;
 
 import adressbook.model.PersonEntry;
-import model.ArtPieceEntry;
+import model.elements.ArtPieceEntry;
 
 public interface Controller {
     boolean isASelectedElement(ArtPieceEntry artPiece);
@@ -12,5 +12,5 @@ public interface Controller {
 
     void addEntry(ArtPieceEntry artPieceEntry);
 
-    PersonEntry getPersonWithIDFromAdressBook(int buyerID);
+    PersonEntry getPersonWithIDFromAddressBook(int buyerID);
 }

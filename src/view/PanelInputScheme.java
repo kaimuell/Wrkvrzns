@@ -2,7 +2,7 @@ package view;
 
 import controller.Controller;
 import controller.DialogController.DialogController;
-import model.ArtPieceEntry;
+import model.elements.ArtPieceEntry;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

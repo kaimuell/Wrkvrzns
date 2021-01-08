@@ -4,13 +4,11 @@ import adressbook.model.PersonEntry;
 import controller.Controller;
 import controller.PictureController;
 import gui.ArtworkTypeChoice;
-import model.ArtPieceEntry;
+import model.elements.ArtPieceEntry;
 
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -42,46 +40,71 @@ class ArtPieceDialog extends JDialog {
         this.isApproved = false;
 
         drawPanels();
+
+        pack();
+        setVisible(true);
     }
 
     public ArtPieceDialog(Controller controller) {
 
         this.isApproved = false;
-        this.artPiece = ArtPieceEntry.createEmptyArtpieceEntry();
+        this.artPiece = ArtPieceEntry.createEmptyArtPieceEntry();
         this.controller = controller;
 
         drawPanels();
+
+        pack();
+        setVisible(true);
     }
 
 
 
     private void drawPanels() {
 
-        mainPanel = new JPanel();
-        mainPanel.setPreferredSize(new Dimension(400,400));
+        mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(750,300));
 
         initTypeChoice();
 
-        JPanel entryPanel = new JPanel(new GridLayout(6,4));
+        JPanel centralPanel =  new JPanel(new BorderLayout());
 
-        initPictureSelection(entryPanel);
+        JPanel pictureSelectionPanel = new JPanel(new GridLayout(1,4));
+        initPictureSelection(pictureSelectionPanel);
+        centralPanel.add(pictureSelectionPanel, BorderLayout.NORTH);
+
+        JPanel entryPanel = new JPanel(new GridLayout(5,4));
+
         initTextFields(entryPanel);
         initBuyerSelection(entryPanel);
 
-        mainPanel.add(entryPanel);
+        centralPanel.add(entryPanel, BorderLayout.CENTER);
+        mainPanel.add(centralPanel);
 
-        initErrorLabel();
-        initOKButton();
+        JPanel errorAndButtoPanel = new JPanel(new BorderLayout());
+        errorAndButtoPanel.add(initErrorLabel(), BorderLayout.NORTH);
+        errorAndButtoPanel.add(initOKButton(), BorderLayout.SOUTH);
+
+        mainPanel.add(errorAndButtoPanel, BorderLayout.SOUTH);
 
         this.add(mainPanel);
     }
 
-    private void initErrorLabel() {
-        errorInfoLabel = new JLabel();
-        mainPanel.add(errorInfoLabel);
+    private void initTypeChoice() {
+        JPanel choicePanel =  new JPanel();
+        typeChoice = new ArtworkTypeChoice();
+        typeChoice.select(artPiece.getType().toString());
+        choicePanel.add(typeChoice);
+        mainPanel.add(choicePanel, BorderLayout.NORTH);
     }
 
-    private void initOKButton() {
+    private JPanel initErrorLabel() {
+        JPanel errorInfoPanel = new JPanel();
+        errorInfoLabel = new JLabel();
+        errorInfoPanel.add(errorInfoLabel);
+        return errorInfoPanel;
+    }
+
+    private JPanel initOKButton() {
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton("OK");
         okButton.addActionListener(e -> {
@@ -90,44 +113,50 @@ class ArtPieceDialog extends JDialog {
                 isApproved = true;
             }catch (NumberFormatException error){
                 errorInfoLabel.setText("Eingabe in einem Textfeld, dass nur Zahlen annimmt nicht gültig.");
+                repaint();
             }
         });
+        buttonPanel.add(okButton);
+        return buttonPanel;
     }
 
     private void initBuyerSelection(JPanel entryPanel) {
+
         JLabel isSoldLabel = new JLabel("Verkauft an:");
+
         buyerLabel = new JLabel(
                 createShortdescriptionOfPerson(
-                    controller.getPersonWithIDFromAdressBook(artPiece.getBuyerID())));
+                    controller.getPersonWithIDFromAddressBook(artPiece.getBuyerID())));
+
         JButton selectBuyerButton = new JButton("Käufer hinzufügen");
-        selectBuyerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PersonEntry buyer = selectPersonFromAddressbook();
-                artPiece.setSold(true);
-                artPiece.setBuyerID(buyer.getId());
-                buyerLabel.setText(
-                        createShortdescriptionOfPerson(
-                            controller.getPersonWithIDFromAdressBook(artPiece.getBuyerID())));
-                mainPanel.repaint();
-            }
-        });
+        selectBuyerButton.addActionListener(e -> setBuyerToSelctionFromDialog());
 
         JButton deleteBuyerButton = new JButton("Käufer löschen");
-        deleteBuyerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?");
-                if (returnval == JOptionPane.YES_OPTION){
-                    artPiece.setSold(false);
-                    artPiece.setBuyerID(-1);
-                }
-            }
-        });
+        deleteBuyerButton.addActionListener(e -> deleteBuyer());
 
         entryPanel.add(isSoldLabel);
         entryPanel.add(buyerLabel);
         entryPanel.add(selectBuyerButton);
+    }
+
+    private void setBuyerToSelctionFromDialog() {
+        PersonEntry buyer = selectPersonFromAddressbook();
+        if (buyer != null) {
+            artPiece.setSold(true);
+            artPiece.setBuyerID(buyer.getId());
+            buyerLabel.setText(
+                    createShortdescriptionOfPerson(
+                            controller.getPersonWithIDFromAddressBook(artPiece.getBuyerID())));
+            mainPanel.repaint();
+        }
+    }
+
+    private void deleteBuyer() {
+        int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?");
+        if (returnval == JOptionPane.YES_OPTION){
+            artPiece.setSold(false);
+            artPiece.setBuyerID(-1);
+        }
     }
 
     private PersonEntry selectPersonFromAddressbook() {
@@ -202,35 +231,50 @@ class ArtPieceDialog extends JDialog {
         entryPanel.add(priceField);
     }
 
-    private void initPictureSelection(JPanel entryPanel) {
+    private void initPictureSelection(JPanel panel) {
+        JPanel picturePanel = new JPanel(new BorderLayout());
+
+        JPanel previewPanel =  new JPanel();
+        JPanel inputPanel = new JPanel(new GridLayout(1,3));
+
+        imagePreviewIcon = new JLabel();
         imagePreviewIcon.setIcon(
                 artPiece.getBitmap() == null ? (Icon) PictureController.defaultEmptyImage() : (Icon) artPiece.getBitmap());
         JLabel pictureLabel = new JLabel ("Adresse der Abbildung");
         pictureField = new JTextField(artPiece.getPicturePath());
         JButton loadPictureButton = new JButton("Bild laden");
-        loadPictureButton.addActionListener(e -> {
-            File pictureFile = null;
-            OpenSingleJPEGDialog openDialog = new OpenSingleJPEGDialog();
-            int returnVal = openDialog.showOpenDialog(null);
-            if(returnVal == JFileChooser.APPROVE_OPTION){
-                try {
-                    pictureField.setText(pictureFile.getPath());
-                    Image image = PictureController.loadImage(pictureFile.getPath());
-                    Image bitmap = PictureController.createBitmap(image);
-                    imagePreviewIcon.setIcon((Icon) bitmap);
-                    errorInfoLabel.setText("");
-                    repaint();
-                } catch (IOException ex) {
-                    errorInfoLabel.setText("Bild konnte nicht geladen werden");
-                    repaint();
-                }
-            }
-        });
+        loadPictureButton.addActionListener(e -> selectPictureFromDialog());
 
-        entryPanel.add(imagePreviewIcon);
-        entryPanel.add(pictureLabel);
-        entryPanel.add(pictureField);
-        entryPanel.add(loadPictureButton);
+        previewPanel.add(imagePreviewIcon);
+        inputPanel.add(pictureLabel);
+        inputPanel.add(pictureField);
+        inputPanel.add(loadPictureButton);
+        picturePanel.add(previewPanel, BorderLayout.WEST);
+        picturePanel.add(inputPanel, BorderLayout.EAST);
+        panel.add(picturePanel);
+    }
+
+    private void selectPictureFromDialog() {
+        OpenSingleJPEGDialog openDialog = new OpenSingleJPEGDialog();
+        int returnVal = openDialog.showOpenDialog(null);
+        if(returnVal == JFileChooser.APPROVE_OPTION){
+            try {
+                setTextAndPictureFieldToSelectionOf(openDialog);
+                repaint();
+            } catch (IOException ex) {
+                errorInfoLabel.setText("Bild konnte nicht geladen werden");
+                repaint();
+            }
+        }
+    }
+
+    private void setTextAndPictureFieldToSelectionOf(OpenSingleJPEGDialog openDialog) throws IOException {
+        File pictureFile = openDialog.getSelectedFile();
+        pictureField.setText(pictureFile.getPath());
+        Image image = PictureController.loadImage(pictureFile.getPath());
+        Image bitmap = PictureController.createBitmap(image);
+        imagePreviewIcon.setIcon(new ImageIcon(bitmap));
+        errorInfoLabel.setText("");
     }
 
     private void setArtPieceInfoToTextFields() throws NumberFormatException{
@@ -243,28 +287,21 @@ class ArtPieceDialog extends JDialog {
         artPiece.setDepth(ParseIntegerFromTextField(depthField));
         artPiece.setLength(ParseIntegerFromTextField(lengthField));
         artPiece.setYear(ParseIntegerFromTextField(yearField));
-
+        artPiece.setPrice(ParseIntegerFromTextField(priceField));
     }
 
     private String createShortdescriptionOfPerson(PersonEntry person){
-        return (person.getFirstName() + " " + person.getFamilyName() + ", " + person.geteMail() + ",  " + person.getTel());
+        if (person != null) {
+            return (person.getFirstName() + " " + person.getFamilyName() + ", " + person.geteMail() + ",  " + person.getTel());
+        }else {
+            return "";
+        }
     }
 
     private int ParseIntegerFromTextField(JTextField textField) throws NumberFormatException{
-
-        int info = Integer.parseInt(textField.getText());
-
-        return info;
+        return Integer.parseInt(textField.getText());
     }
 
-
-    private void initTypeChoice() {
-        JPanel choicePanel =  new JPanel();
-        typeChoice = new ArtworkTypeChoice();
-        typeChoice.select(artPiece.getType().toString());
-        choicePanel.add(typeChoice);
-        mainPanel.add(choicePanel);
-    }
 
     public boolean isApproved() {
         return isApproved;

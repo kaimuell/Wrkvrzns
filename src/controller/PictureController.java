@@ -28,12 +28,12 @@ public interface PictureController {
     /**
      *
      * @param imageToSave
-     * @param outputfile
+     * @param outputFile
      * @param quality 1f = 100% 0.7f = 70%
      * @throws IOException
      */
 
-    static void saveImage(Image imageToSave, File outputfile, float quality) throws IOException {
+    static void saveImage(Image imageToSave, File outputFile, float quality) throws IOException {
 
         BufferedImage image = (BufferedImage) imageToSave;
         ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
@@ -41,7 +41,7 @@ public interface PictureController {
         jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
         jpgWriteParam.setCompressionQuality(quality);
 
-        jpgWriter.setOutput(ImageIO.createImageOutputStream(outputfile));
+        jpgWriter.setOutput(ImageIO.createImageOutputStream(outputFile));
         IIOImage outputImage = new IIOImage(image, null, null);
         jpgWriter.write(null, outputImage, jpgWriteParam);
         jpgWriter.dispose();
@@ -51,13 +51,13 @@ public interface PictureController {
     /**
      *
      * @param imageToSave
-     * @param outputfile
+     * @param outputFile
      * @param quality 1f = 100% 0.7f = 70%
      * @throws IOException
      */
-    static void saveImage(Image imageToSave, String outputfile, float quality) throws IOException {
+    static void saveImage(Image imageToSave, String outputFile, float quality) throws IOException {
         BufferedImage image = (BufferedImage) imageToSave;
-        File jpegFiletoSave = new File(outputfile);
+        File jpegFiletoSave = new File(outputFile);
         ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
         ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
         jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
@@ -72,4 +72,6 @@ public interface PictureController {
     static Image defaultEmptyImage() {
         return null;
     }
+    
+    
 }
