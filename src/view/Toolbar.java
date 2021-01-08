@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import controller.DialogController.DialogController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

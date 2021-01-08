@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import controller.DialogController.DialogController;
 import model.ArtPieceEntry;
 
 import java.awt.event.KeyEvent;

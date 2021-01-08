@@ -1,9 +1,8 @@
-package view;
+package controller.DialogController;
 
 import adressbook.model.PersonEntry;
 import controller.Controller;
 import gui.ArtworkTypeChoice;
-import gui.OpenSingleJPEGDialog;
 import model.ArtPieceEntry;
 
 
@@ -14,7 +13,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 
-public class ArtPieceDialog extends JDialog {
+class ArtPieceDialog extends JDialog {
+
     private Controller controller;
     private JLabel buyerLabel;
     private JTextField priceField;
@@ -80,15 +80,12 @@ public class ArtPieceDialog extends JDialog {
     private void initOKButton() {
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton("OK");
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    setArtPieceInfoToTextFields();
-                    isApproved = true;
-                }catch (NumberFormatException error){
-                    errorInfoLabel.setText("Eingabe in einem Textfeld, dass nur Zahlen annimmt nicht gültig.");
-                }
+        okButton.addActionListener(e -> {
+            try {
+                setArtPieceInfoToTextFields();
+                isApproved = true;
+            }catch (NumberFormatException error){
+                errorInfoLabel.setText("Eingabe in einem Textfeld, dass nur Zahlen annimmt nicht gültig.");
             }
         });
     }
@@ -102,12 +99,9 @@ public class ArtPieceDialog extends JDialog {
         selectBuyerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO Dialog erzeugen in der das Adressbuch aufgerufen wird und eine Person ausgewählt werden kann.
-
-                int id = 0; //id zurückgeben
-
+                PersonEntry buyer = selectPersonFromAddressbook();
                 artPiece.setSold(true);
-                artPiece.setBuyerID(id);
+                artPiece.setBuyerID(buyer.getId());
                 buyerLabel.setText(
                         createShortdescriptionOfPerson(
                             controller.getPersonWithIDFromAdressBook(artPiece.getBuyerID())));
@@ -130,6 +124,11 @@ public class ArtPieceDialog extends JDialog {
         entryPanel.add(isSoldLabel);
         entryPanel.add(buyerLabel);
         entryPanel.add(selectBuyerButton);
+    }
+
+    private PersonEntry selectPersonFromAddressbook() {
+        DialogController dialogController = new DialogController(controller);
+        return dialogController.selectPersonFromAddressBookDialog();
     }
 
     private void initTextFields(JPanel entryPanel) {
