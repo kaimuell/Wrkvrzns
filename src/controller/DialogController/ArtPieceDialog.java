@@ -12,6 +12,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Eingabe Dialog für die Informationen eines {@link ArtPieceEntry}
+ */
 
 class ArtPieceDialog extends JDialog {
 
@@ -69,7 +72,7 @@ class ArtPieceDialog extends JDialog {
         JPanel centralPanel =  new JPanel(new BorderLayout());
 
         JPanel pictureSelectionPanel = new JPanel(new GridLayout(1,4));
-        initPictureSelection(pictureSelectionPanel);
+        addPictureSelectionTo(pictureSelectionPanel);
         centralPanel.add(pictureSelectionPanel, BorderLayout.NORTH);
 
         JPanel entryPanel = new JPanel(new GridLayout(5,4));
@@ -80,11 +83,11 @@ class ArtPieceDialog extends JDialog {
         centralPanel.add(entryPanel, BorderLayout.CENTER);
         mainPanel.add(centralPanel);
 
-        JPanel errorAndButtoPanel = new JPanel(new BorderLayout());
-        errorAndButtoPanel.add(initErrorLabel(), BorderLayout.NORTH);
-        errorAndButtoPanel.add(initOKButton(), BorderLayout.SOUTH);
+        JPanel errorAndButtonPanel = new JPanel(new BorderLayout());
+        errorAndButtonPanel.add(initErrorLabel(), BorderLayout.NORTH);
+        errorAndButtonPanel.add(initOKButton(), BorderLayout.SOUTH);
 
-        mainPanel.add(errorAndButtoPanel, BorderLayout.SOUTH);
+        mainPanel.add(errorAndButtonPanel, BorderLayout.SOUTH);
 
         this.add(mainPanel);
     }
@@ -125,11 +128,11 @@ class ArtPieceDialog extends JDialog {
         JLabel isSoldLabel = new JLabel("Verkauft an:");
 
         buyerLabel = new JLabel(
-                createShortdescriptionOfPerson(
+                createShortDescriptionOfPerson(
                     controller.getPersonWithIDFromAddressBook(artPiece.getBuyerID())));
 
         JButton selectBuyerButton = new JButton("Käufer hinzufügen");
-        selectBuyerButton.addActionListener(e -> setBuyerToSelctionFromDialog());
+        selectBuyerButton.addActionListener(e -> setBuyerToSelectionFromDialog());
 
         JButton deleteBuyerButton = new JButton("Käufer löschen");
         deleteBuyerButton.addActionListener(e -> deleteBuyer());
@@ -137,15 +140,16 @@ class ArtPieceDialog extends JDialog {
         entryPanel.add(isSoldLabel);
         entryPanel.add(buyerLabel);
         entryPanel.add(selectBuyerButton);
+        entryPanel.add(deleteBuyerButton);
     }
 
-    private void setBuyerToSelctionFromDialog() {
+    private void setBuyerToSelectionFromDialog() {
         PersonEntry buyer = selectPersonFromAddressbook();
         if (buyer != null) {
             artPiece.setSold(true);
             artPiece.setBuyerID(buyer.getId());
             buyerLabel.setText(
-                    createShortdescriptionOfPerson(
+                    createShortDescriptionOfPerson(
                             controller.getPersonWithIDFromAddressBook(artPiece.getBuyerID())));
             mainPanel.repaint();
         }
@@ -231,7 +235,7 @@ class ArtPieceDialog extends JDialog {
         entryPanel.add(priceField);
     }
 
-    private void initPictureSelection(JPanel panel) {
+    private void addPictureSelectionTo(JPanel panel) {
         JPanel picturePanel = new JPanel(new BorderLayout());
 
         JPanel previewPanel =  new JPanel();
@@ -290,7 +294,7 @@ class ArtPieceDialog extends JDialog {
         artPiece.setPrice(ParseIntegerFromTextField(priceField));
     }
 
-    private String createShortdescriptionOfPerson(PersonEntry person){
+    private String createShortDescriptionOfPerson(PersonEntry person){
         if (person != null) {
             return (person.getFirstName() + " " + person.getFamilyName() + ", " + person.geteMail() + ",  " + person.getTel());
         }else {
@@ -302,7 +306,10 @@ class ArtPieceDialog extends JDialog {
         return Integer.parseInt(textField.getText());
     }
 
-
+    /**
+     * Gibt zurück ob der Ok Button betätigt wurde
+     * @return wurde ok gedrückt?
+     */
     public boolean isApproved() {
         return isApproved;
     }

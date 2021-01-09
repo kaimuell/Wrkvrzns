@@ -7,6 +7,10 @@ import model.elements.ArtPieceEntry;
 import static controller.DialogController.OkCancelOption.*;
 import static java.lang.Thread.sleep;
 
+/**
+ * Realisiert Dialog Aufrufe
+ */
+
 public class DialogController {
     private Controller controller;
 

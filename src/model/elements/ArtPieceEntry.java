@@ -29,6 +29,16 @@ public class ArtPieceEntry extends ArtPiece {
         return bitmap;
     }
 
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Gibt die eindeutige Id des Eintrags zurück.
+     * Gibt es noch keinen Eintrag in der Liste des Modells ist diese auf -1 gesetzt
+     * @return die Id
+     */
     public int getId() {
         return id;
     }

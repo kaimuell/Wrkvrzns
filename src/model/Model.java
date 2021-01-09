@@ -37,9 +37,9 @@ public class Model implements Serializable, ModelViewAccess {
         return  adressbuch.getPersonWithID(buyerID);
     }
 
-    public ArtPieceEntry getEntryWithId(ArtPieceEntry artPieceEntry) {
+    public ArtPieceEntry getEntryWithId(int id) {
         for (ArtPieceEntry entry : pieces) {
-            if(entry.getId() == artPieceEntry.getId()){
+            if(entry.getId() == id.getId()){
                 return entry;
             }
         }
