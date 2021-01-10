@@ -23,7 +23,7 @@ class ArtPieceDialog extends JDialog {
 
     private Controller controller;
     private ArtPieceEntry artPiece;
-    
+
     private JTextField priceField;
     private JTextField yearField;
     private JTextField lengthField;
@@ -281,7 +281,6 @@ class ArtPieceDialog extends JDialog {
 
     private String setTextAndPictureFieldToSelectionOf(JFileChooser openDialog) throws IOException {
         File pictureFile = openDialog.getSelectedFile();
-        pictureField.setText(pictureFile.getPath());
         Image image = PictureController.loadImage(pictureFile.getPath());
         Image bitmap = PictureController.createBitmap(image, 50, 50);
         imagePreviewIcon.setIcon(new ImageIcon(bitmap));
@@ -291,7 +290,6 @@ class ArtPieceDialog extends JDialog {
 
     private void setArtPieceInfoToTextFields() throws NumberFormatException{
         artPiece.setType(typeChoice.getSelectedArtworkType());
-        this.picturePath = pictureField.getText();
         artPiece.setName(nameField.getText());
         artPiece.setTechnique(techniqueField.getText());
         artPiece.setHeight(ParseIntegerFromTextField(heightField));
