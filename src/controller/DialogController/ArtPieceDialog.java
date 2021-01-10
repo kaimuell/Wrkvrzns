@@ -5,12 +5,15 @@ import controller.Controller;
 import controller.PictureController;
 import gui.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
+import model.elements.ArtPieceEntryAndPicturePath;
 
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+
+import static controller.DialogController.OkCancelOption.*;
 
 /**
  * Eingabe Dialog für die Informationen eines {@link ArtPieceEntry}
@@ -19,7 +22,8 @@ import java.io.IOException;
 class ArtPieceDialog extends JDialog {
 
     private Controller controller;
-    private JLabel buyerLabel;
+    private ArtPieceEntry artPiece;
+    
     private JTextField priceField;
     private JTextField yearField;
     private JTextField lengthField;
@@ -28,19 +32,21 @@ class ArtPieceDialog extends JDialog {
     private JTextField heightField;
     private JTextField techniqueField;
     private JTextField nameField;
-    private JTextField pictureField;
-    private ArtPieceEntry artPiece;
-    private boolean isApproved;
     private JPanel mainPanel;
     private JLabel errorInfoLabel;
     private ArtworkTypeChoice typeChoice;
     private JLabel imagePreviewIcon;
+    private JLabel buyerLabel;
+
+    private String picturePath;
+
+    private OkCancelOption okCancelOption;
 
 
-    public ArtPieceDialog(ArtPieceEntry artPiece, Controller controller) {
+    ArtPieceDialog(ArtPieceEntry artPiece, Controller controller) {
         this.artPiece = artPiece;
         this.controller = controller;
-        this.isApproved = false;
+        this.okCancelOption = UNDECIDED;
 
         drawPanels();
 
@@ -50,7 +56,7 @@ class ArtPieceDialog extends JDialog {
 
     public ArtPieceDialog(Controller controller) {
 
-        this.isApproved = false;
+        this.okCancelOption = UNDECIDED;
         this.artPiece = ArtPieceEntry.createEmptyArtPieceEntry();
         this.controller = controller;
 
@@ -85,7 +91,7 @@ class ArtPieceDialog extends JDialog {
 
         JPanel errorAndButtonPanel = new JPanel(new BorderLayout());
         errorAndButtonPanel.add(initErrorLabel(), BorderLayout.NORTH);
-        errorAndButtonPanel.add(initOKButton(), BorderLayout.SOUTH);
+        errorAndButtonPanel.add(initOkAndCancelButtons(), BorderLayout.SOUTH);
 
         mainPanel.add(errorAndButtonPanel, BorderLayout.SOUTH);
 
@@ -107,18 +113,23 @@ class ArtPieceDialog extends JDialog {
         return errorInfoPanel;
     }
 
-    private JPanel initOKButton() {
+    private JPanel initOkAndCancelButtons() {
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton("OK");
         okButton.addActionListener(e -> {
             try {
                 setArtPieceInfoToTextFields();
-                isApproved = true;
+                okCancelOption = OK;
             }catch (NumberFormatException error){
                 errorInfoLabel.setText("Eingabe in einem Textfeld, dass nur Zahlen annimmt nicht gültig.");
                 repaint();
             }
         });
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener( e -> {
+            this.okCancelOption = CANCEL;
+        });
+
         buttonPanel.add(okButton);
         return buttonPanel;
     }
@@ -156,10 +167,12 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void deleteBuyer() {
-        int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?");
-        if (returnval == JOptionPane.YES_OPTION){
-            artPiece.setSold(false);
-            artPiece.setBuyerID(-1);
+        if (artPiece.getBuyerID() != -1) {
+            int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?");
+            if (returnval == JOptionPane.YES_OPTION) {
+                artPiece.setSold(false);
+                artPiece.setBuyerID(-1);
+            }
         }
     }
 
@@ -239,19 +252,13 @@ class ArtPieceDialog extends JDialog {
         JPanel picturePanel = new JPanel(new BorderLayout());
 
         JPanel previewPanel =  new JPanel();
-        JPanel inputPanel = new JPanel(new GridLayout(1,3));
-
+        JPanel inputPanel = new JPanel();
         imagePreviewIcon = new JLabel();
         imagePreviewIcon.setIcon(
                 artPiece.getBitmap() == null ? (Icon) PictureController.defaultEmptyImage() : (Icon) artPiece.getBitmap());
-        JLabel pictureLabel = new JLabel ("Adresse der Abbildung");
-        pictureField = new JTextField(artPiece.getPicturePath());
         JButton loadPictureButton = new JButton("Bild laden");
         loadPictureButton.addActionListener(e -> selectPictureFromDialog());
-
         previewPanel.add(imagePreviewIcon);
-        inputPanel.add(pictureLabel);
-        inputPanel.add(pictureField);
         inputPanel.add(loadPictureButton);
         picturePanel.add(previewPanel, BorderLayout.WEST);
         picturePanel.add(inputPanel, BorderLayout.EAST);
@@ -259,11 +266,11 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void selectPictureFromDialog() {
-        OpenSingleJPEGDialog openDialog = new OpenSingleJPEGDialog();
-        int returnVal = openDialog.showOpenDialog(null);
+        JFileChooser openDialog = DialogController.createChooseSingleJPEGDialog();
+        int returnVal = openDialog.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION){
             try {
-                setTextAndPictureFieldToSelectionOf(openDialog);
+                this.picturePath = setTextAndPictureFieldToSelectionOf(openDialog);
                 repaint();
             } catch (IOException ex) {
                 errorInfoLabel.setText("Bild konnte nicht geladen werden");
@@ -272,18 +279,19 @@ class ArtPieceDialog extends JDialog {
         }
     }
 
-    private void setTextAndPictureFieldToSelectionOf(OpenSingleJPEGDialog openDialog) throws IOException {
+    private String setTextAndPictureFieldToSelectionOf(JFileChooser openDialog) throws IOException {
         File pictureFile = openDialog.getSelectedFile();
         pictureField.setText(pictureFile.getPath());
         Image image = PictureController.loadImage(pictureFile.getPath());
-        Image bitmap = PictureController.createBitmap(image);
+        Image bitmap = PictureController.createBitmap(image, 50, 50);
         imagePreviewIcon.setIcon(new ImageIcon(bitmap));
         errorInfoLabel.setText("");
+        return pictureFile.getPath();
     }
 
     private void setArtPieceInfoToTextFields() throws NumberFormatException{
         artPiece.setType(typeChoice.getSelectedArtworkType());
-        artPiece.setPicturePath(pictureField.getText());
+        this.picturePath = pictureField.getText();
         artPiece.setName(nameField.getText());
         artPiece.setTechnique(techniqueField.getText());
         artPiece.setHeight(ParseIntegerFromTextField(heightField));
@@ -307,15 +315,15 @@ class ArtPieceDialog extends JDialog {
     }
 
     /**
-     * Gibt zurück ob der Ok Button betätigt wurde
-     * @return wurde ok gedrückt?
+     * Gibt zurück Ob Eingabe bestätigt wurde, oder Abgebrochen
+     * @return wurde ok oder cancel gedrückt?
      */
-    public boolean isApproved() {
-        return isApproved;
+    public OkCancelOption okCancelOption() {
+        return okCancelOption;
     }
 
-    public ArtPieceEntry getArtPieceInfo() {
-        return artPiece;
+    public ArtPieceEntryAndPicturePath getArtPieceInfo() {
+        return new ArtPieceEntryAndPicturePath(artPiece, picturePath);
     }
 
 }

@@ -26,6 +26,21 @@ public class AdressBookFrame extends JFrame implements ABViewer{
         setVisible(true);
     }
 
+    public AdressBookFrame (ABModel addressbook){
+        super("AdressBuch");
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setPreferredSize(new Dimension(550, 550));
+        ABModel model = addressbook;
+        controller = new ABControllerImplementation(model);
+        initViewPanel(model, controller);
+        JToolBar toolBar = new ABToolbar(controller, this);
+        this.add(toolBar, BorderLayout.NORTH);
+        this.setResizable(false);
+        controller.addViewAsListener(this);
+        pack();
+        setVisible(true);
+    }
+
     private void initViewPanel(ABModel model, ABControllerImplementation controller) {
         ABViewPanel viewPanel = new ABViewPanel(model, controller, this);
         JScrollPane scrollPane = new JScrollPane (viewPanel,

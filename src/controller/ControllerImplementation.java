@@ -6,6 +6,7 @@ import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
 import model.elements.ArtPieceEntry;
 import model.Model;
+import model.elements.ArtPieceEntryAndPicturePath;
 import view.Views;
 
 import java.net.MalformedURLException;
@@ -58,9 +59,14 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public void modifyEntry(ArtPieceEntry artPieceEntry) {
-        ArtPieceEntry entryToChange = model.getEntryWithId(artPieceEntry.getId());
-        entryToChange.setVariablesTo(artPieceEntry);
+    public void modifyEntry(ArtPieceEntryAndPicturePath entryWithPicturePath) {
+        ArtPieceEntry entry = entryWithPicturePath.artPieceEntry;
+        String picturePath = entryWithPicturePath.picturePath;
+        ArtPieceEntry entryToChange = model.getEntryWithId(entry.getId());
+        entryToChange.setVariablesTo(entry);
+        if (picturePath != null) {
+            FileHandler.relinkPictures(entryToChange, picturePath);
+        }
         refreshViews();
         //TODO ungetestet
     }
@@ -70,12 +76,18 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public void addEntry(ArtPieceEntry artPieceEntry) {
-        if (artPieceEntry.getId() == -1) { artPieceEntry.setId(createUnusedID());}
+    public void addEntry(ArtPieceEntryAndPicturePath entryWithPicturePath) {
+        ArtPieceEntry entry = entryWithPicturePath.artPieceEntry;
+        String picturePath = entryWithPicturePath.picturePath;
+        if (entry.getId() == -1) { entry.setId(createUnusedID());}
+
         //TODO TEST LÖSCHEN WENN LANGE GENUG GETESTET
-        assert (model.getEntryWithId(artPieceEntry.getId()) != null);
-        FileHandler.relinkPictures(artPieceEntry);
-        model.getPieces().add(artPieceEntry);
+        assert (model.getEntryWithId(entry.getId()) != null);
+
+        if (picturePath != null) {
+            FileHandler.relinkPictures(entry, picturePath);
+        }
+        model.getPieces().add(entry);
         refreshViews();
     }
 
@@ -96,5 +108,10 @@ public class ControllerImplementation implements Controller {
     @Override
     public void addView(Views view) {
             this.views.add(view);
+    }
+
+    @Override
+    public ABModel getAddressbook() {
+        return this.addressBook;
     }
 }

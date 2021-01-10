@@ -33,7 +33,7 @@ public class FileHandler {
             initialise();
     }
 
-    public static void relinkPictures(ArtPieceEntry artPieceEntry) {
+    public static void relinkPictures(ArtPieceEntry artPieceEntry, String picturePath) {
         //TODO
     }
 

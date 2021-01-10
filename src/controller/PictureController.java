@@ -15,8 +15,8 @@ import java.io.IOException;
 
 public interface PictureController {
 
-    static Image createBitmap(Image image){
-        return image.getScaledInstance(50,50,Image.SCALE_SMOOTH);
+    static Image createBitmap(Image image, int width, int height){
+        return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 
     static Image loadImage(String filepath) throws IOException{

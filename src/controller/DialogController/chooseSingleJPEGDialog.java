@@ -8,9 +8,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 
 
-public class OpenSingleJPEGDialog extends JFileChooser{
+class chooseSingleJPEGDialog extends JFileChooser{
 
-    public OpenSingleJPEGDialog()
+    chooseSingleJPEGDialog()
 
     {
         setFileSelectionMode(FILES_AND_DIRECTORIES);

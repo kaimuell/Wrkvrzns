@@ -1,5 +1,6 @@
 package controller.DialogController;
 
+import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
 import adressbook.view.AdressBookFrame;
 
@@ -13,8 +14,10 @@ class SelectPersonFromAdressBookDialog extends AdressBookFrame {
 
     public OkCancelOption ok_cancel_option;
 
-    SelectPersonFromAdressBookDialog(){
-        this.ok_cancel_option = NOTDECIDED;
+    SelectPersonFromAdressBookDialog(ABModel adressbook){
+        super(adressbook);
+
+        this.ok_cancel_option = UNDECIDED;
 
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 

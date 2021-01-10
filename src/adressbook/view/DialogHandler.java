@@ -63,6 +63,8 @@ class DialogHandler {
         });
     }
 
+
+
     private Person createEmptyPerson(){
         return new Person("","","","", new Adress("","","","",""));
     }
