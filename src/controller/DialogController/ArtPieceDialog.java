@@ -3,7 +3,7 @@ package controller.DialogController;
 import adressbook.model.PersonEntry;
 import controller.Controller;
 import controller.PictureController;
-import gui.ArtworkTypeChoice;
+import gui.elements.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtPieceEntryAndPicturePath;
 

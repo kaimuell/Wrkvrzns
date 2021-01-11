@@ -10,11 +10,11 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Model implements Serializable, ModelViewAccess {
-    private ABModel adressbuch;
+    public ABModel adressbook;
     private List<ArtPieceEntry> pieces;
 
     public Model(ABModel adressbuch) {
-        this.adressbuch = adressbuch;
+        this.adressbook = adressbuch;
         this.pieces = new ArrayList<>();
     }
 
@@ -34,7 +34,7 @@ public class Model implements Serializable, ModelViewAccess {
 
     @Override
     public PersonEntry getPersonWithIDFromAdressBook(int buyerID) {
-        return  adressbuch.getPersonWithID(buyerID);
+        return  adressbook.getPersonWithID(buyerID);
     }
 
     public ArtPieceEntry getEntryWithId(int id) {

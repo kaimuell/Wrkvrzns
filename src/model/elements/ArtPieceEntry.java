@@ -65,4 +65,5 @@ public class ArtPieceEntry extends ArtPiece {
                         0, 0, 0, 0, 0, 0, false, -1),
                 null);
     }
+
 }

@@ -27,6 +27,19 @@ public class ArtPiece {
         this.buyerID = buyerID;
     }
 
+    public ArtPiece (ArtPiece piece){
+        this.name = piece.getName();
+        this.technique = piece.getTechnique();
+        this.type = piece.getType();
+        this.height = piece.getHeight();
+        this.width = piece.getWidth();
+        this.depth = piece.getDepth();
+        this.year = piece.getYear();
+        this.price = piece.getPrice();
+        this.isSold = piece.isSold();
+        this.buyerID = piece.getBuyerID();
+    }
+
     public String getMeatDataRepresentation(){
         if (type == ArtworkType.PAINTING || type == ArtworkType.GRAFIK){
             return (height + " x " + width + " cm");
