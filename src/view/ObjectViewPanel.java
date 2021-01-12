@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import model.Model;
 import model.elements.ArtPieceEntry;
 import model.ModelViewAccess;
 
@@ -17,8 +18,8 @@ public class ObjectViewPanel extends JPanel implements Views {
     private static final Color ODD_ROW_COLOR = new Color(255,255,240);
     private static final Color SELECTED_ELEMENT_COLOR = new Color(255, 218, 220);
 
-    public ObjectViewPanel(ModelViewAccess model, Controller controller) {
-        this.model = model;
+    public ObjectViewPanel(Controller controller) {
+
         this.controller = controller;
         refreshView();
     }
@@ -40,6 +41,11 @@ public class ObjectViewPanel extends JPanel implements Views {
         this.add(panel);
         revalidate();
 
+    }
+
+    @Override
+    public void setModelTo(Model model) {
+        this.model = model;
     }
 
     private Color selectColor(ArtPieceEntry artPiece, boolean isEvenRowNumber) {

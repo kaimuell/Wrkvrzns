@@ -8,15 +8,16 @@ import model.elements.ArtPieceEntry;
 
 import java.awt.*;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.util.Iterator;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Klasse die die Operationen auf Datein realisiert
  */
 
 public class FileHandler {
-    private final String PATH_SETTINGS_FILE  = "../settings.wv";
+    private final String PATH_SETTINGS_FILE  = "./settings.wvs";
     private String pictureFolder;
     private String bitmapFolder;
     private String saveFile;
@@ -25,31 +26,32 @@ public class FileHandler {
     /**
      * Konstruktor
      * Lädt bei Initialisierung Informationen aus dem Sekundärspeicher
-     * @throws MalformedURLException
      */
     public FileHandler() {
         try {
             initialise();
+            System.out.println("saveFile = "+ saveFile);
+            System.out.println("bitmapFolder = "+ bitmapFolder);
+            System.out.println("pictureFolder = "+ pictureFolder);
         } catch (Exception e) {
-
             createSettingsFileAndEmptySaveFile();
+            initialiseNewPathSettingsFile();
         }
     }
 
 
 
-    public void initialise(){
+    public synchronized void initialise()throws IOException{
+        System.out.println("FileHandler : initialisiere");
         try {
             parseInitialSettings(new File(PATH_SETTINGS_FILE));
-        } catch (IOException e){
-            initialiseNewPathSettingsFile();
         } catch (VersionControllException e2) {
             e2.printStackTrace();
         }
     }
 
     private void createSettingsFileAndEmptySaveFile() {
-        //TODO erschaffe neue Datei mit Standardinformationen, erschaffe neuen leeren SaveFile und lege Ordner für Bilder desselben an.
+        System.out.println("FileHandler : lege neue Dateien an");
         try {
             File file = new File(PATH_SETTINGS_FILE);
             file.createNewFile();
@@ -62,6 +64,7 @@ public class FileHandler {
     }
 
     private void createInitialSaveFile() throws IOException {
+        System.out.println("FileHandler : lege SaveFile an");
         File saveFile = initialiseFolders();
         saveFile.createNewFile();
         writeEmptyModelToSaveFile();
@@ -69,7 +72,8 @@ public class FileHandler {
     }
 
     private File initialiseFolders() {
-        String folderPath = "../profile";
+        System.out.println("FileHandler : lege Ordner an");
+        String folderPath = "./profiles";
         File folder = new File(folderPath);
         folder.mkdir();
         File bitmapFolder = new File(folderPath + "/bitmaps");
@@ -78,12 +82,13 @@ public class FileHandler {
         File pictureFolder = new File(folderPath + "/pictures");
         pictureFolder.mkdir();
         this.pictureFolder = pictureFolder.getPath();
-        File saveFile = new File(folderPath + "profile.wz");
-        this.saveFile = saveFile.getAbsolutePath();
+        File saveFile = new File(folderPath + "/profile.wz");
+        this.saveFile = saveFile.getPath();
         return saveFile;
     }
 
     private void writeEmptyModelToSaveFile() throws IOException {
+        System.out.println("FileHandler: lege leeres Model an");
         Model model = new Model(new ABModel());
         save(model);
     }
@@ -91,6 +96,8 @@ public class FileHandler {
     public void relinkPictures(ArtPieceEntry artPieceEntry, String picturePath) throws IOException {
         Image picture = PictureController.loadImage(picturePath);
         Image bitmap = PictureController.createBitmap(picture, 150, 150);
+        System.out.println("FileHandler : schreibe Bild nach : " +  this.pictureFolder + artPieceEntry.getId() + ".jpg");
+        System.out.println("FileHandler : schreibe Bitmap nach : " + this.bitmapFolder + artPieceEntry.getId() + ".jpg");
         String pictureFilename = this.pictureFolder + artPieceEntry.getId() + ".jpg";
         String bitmapFilename = this.bitmapFolder + artPieceEntry.getId() + ".jpg";
         PictureController.saveImage(picture, pictureFilename,  1.0f);
@@ -98,14 +105,20 @@ public class FileHandler {
     }
 
     private void initialiseNewPathSettingsFile()  {
+        System.out.println("FileHandler : lege neues PathSettingsFile an");
         try {
             FileOutputStream outputStream = new FileOutputStream(PATH_SETTINGS_FILE);
-            OutputStreamWriter streamWriter = new OutputStreamWriter(outputStream);
-
+            BufferedWriter streamWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+            System.out.println("Schreibe Version Controll Nummer");
             streamWriter.write("1.0\n");
+            System.out.println("Schreibe saveFile");
             streamWriter.write(saveFile + "\n");
+            System.out.println("Schreibe pictureFolder");
             streamWriter.write(pictureFolder + "\n");
+            System.out.println("Schreibe bitmapFolder");
             streamWriter.write(bitmapFolder + "\n");
+            streamWriter.flush();
+            outputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -114,23 +127,30 @@ public class FileHandler {
     }
 
     private void parseInitialSettings(File path_settings_file) throws IOException, VersionControllException {
+        System.out.println("FileHandler : lese OrdnerInformationen in PathSettingsFile");
         FileInputStream fileInputStream = new FileInputStream(path_settings_file);
         InputStreamReader streamReader = new InputStreamReader(fileInputStream);
         BufferedReader reader = new BufferedReader(streamReader);
 
         Iterator lineIterator = reader.lines().iterator();
-
-        if(lineIterator.next() == "1.0"){
+        System.out.println("Lese Zeile 1 : " + lineIterator.hasNext());
+        if(lineIterator.next().toString().trim().equals("1.0")){
+            System.out.println("Lese Zeile 2");
             saveFile = ((String) lineIterator.next()).trim();
+            System.out.println("Lese Zeile 3");
             pictureFolder = ((String) lineIterator.next()).trim();
+            System.out.println("Lese Zeile 4");
             bitmapFolder = ((String) lineIterator.next()).trim();
+            System.out.println("Lese Zeile 5");
         } else {
+            System.out.println("Falsche Version");
             throw new VersionControllException();
         }
         fileInputStream.close();
     }
 
     public void save(Model model) throws IOException {
+        System.out.println("FileHandler : speichere");
         Save save = new Save(model);
         FileOutputStream fos = new FileOutputStream(String.valueOf(saveFile));
         ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -138,7 +158,9 @@ public class FileHandler {
         fos.close();
     }
 
-    public Model load() throws IOException, ClassNotFoundException {
+    public synchronized Model load() throws IOException, ClassNotFoundException {
+        System.out.println("FileHandler : lade");
+        waitIfSaveFileisNotyetinitialised();
         FileInputStream fis = new FileInputStream(saveFile);
         ObjectInputStream ois = new ObjectInputStream(fis);
         Save save = (Save) ois.readObject();
@@ -147,7 +169,18 @@ public class FileHandler {
         return createModelFromSave(save);
     }
 
+    private void waitIfSaveFileisNotyetinitialised() {
+        while (saveFile == null) {
+            try {
+                sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     private Model createModelFromSave(Save save) throws IOException {
+        System.out.println("FileHandler : lege neues Model an aus Datei an");
         Model model = new Model(save.adressbook);
         createArtpieceEntries(save, model);
         return model;

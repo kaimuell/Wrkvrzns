@@ -3,6 +3,7 @@ package gui;
 import adressbook.model.ABModel;
 import controller.Controller;
 import controller.ControllerImplementation;
+import controller.FileHandler.FileHandler;
 import model.Model;
 import view.ObjectViewPanel;
 
@@ -16,14 +17,13 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(1000,700));
 
-        ABModel adressbook = new ABModel();
-        Model model = new Model(adressbook);
+        FileHandler fileHAndler = new FileHandler();
 
-        Controller controller = new ControllerImplementation(model, adressbook);
+        Controller controller = new ControllerImplementation(fileHAndler);
 
         this.add(new Toolbar(controller), BorderLayout.NORTH);
 
-        ObjectViewPanel panel = new ObjectViewPanel(model, controller);
+        ObjectViewPanel panel = new ObjectViewPanel(controller);
         this.add (panel, BorderLayout.CENTER);
 
         this.setVisible(true);

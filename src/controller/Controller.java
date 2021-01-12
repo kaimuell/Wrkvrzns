@@ -17,6 +17,10 @@ public interface Controller {
 
     PersonEntry getPersonWithIDFromAddressBook(int buyerID);
 
+    /**Meldet ein View an den Controller an, setzt das Model des Views auf das Model des Controllers
+     *
+     * @param view das View
+     */
     void addView(Views view);
 
     ABModel getAddressbook();

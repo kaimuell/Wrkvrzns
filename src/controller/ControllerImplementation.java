@@ -113,6 +113,7 @@ public class ControllerImplementation implements Controller {
     @Override
     public void addView(Views view) {
             this.views.add(view);
+            view.setModelTo(model);
     }
 
     @Override
