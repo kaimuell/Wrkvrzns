@@ -14,7 +14,7 @@ class Save implements Serializable {
 
 
     Save (Model model){
-        this.adressbook = model.getAdressbook();
+        this.adressbook = model.adressbook;
         this.artpieces = convertArtpieceEntries(model.getPieces());
     }
 

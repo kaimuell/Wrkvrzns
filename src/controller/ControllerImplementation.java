@@ -1,7 +1,5 @@
 package controller;
 
-import adressbook.controller.ABController;
-import adressbook.controller.ABControllerImplementation;
 import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
 import controller.FileHandler.FileHandler;
@@ -10,7 +8,7 @@ import model.Model;
 import model.elements.ArtPieceEntryAndPicturePath;
 import view.Views;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,23 +18,21 @@ import java.util.List;
  */
 
 public class ControllerImplementation implements Controller {
-    private ABController addressbookController;
-    private ABModel addressBook;
     private Model model;
     private FileHandler fileHandler;
     private List<Views> views;
     private List<ArtPieceEntry> selectedElements;
 
-    public ControllerImplementation(Model model, ABModel addressBook) {
-        this.model = model;
-        this.views = new ArrayList<>();
+    public ControllerImplementation(FileHandler fileHandler) {
+        this.fileHandler = fileHandler;
         try {
-            this.fileHandler = new FileHandler();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            this.model = fileHandler.load();
+        } catch (IOException e) {
+            System.out.println("Konnte Datei nicht laden.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Klasse nicht akzeptiert.");
         }
-        this.addressBook = addressBook;
-        this.addressbookController = new ABControllerImplementation(addressBook);
+        this.views = new ArrayList<>();
         this.selectedElements = new ArrayList<>();
     }
 
@@ -66,7 +62,11 @@ public class ControllerImplementation implements Controller {
         ArtPieceEntry entryToChange = model.getEntryWithId(entry.getId());
         entryToChange.setVariablesTo(entry);
         if (picturePath != null) {
-            FileHandler.relinkPictures(entryToChange, picturePath);
+            try {
+                fileHandler.relinkPictures(entryToChange, picturePath);
+            } catch (IOException e) {
+                System.out.println("Speichern der Bilder von" + entryToChange.getName() + "fehlgeschlagen von " + picturePath);
+            }
         }
         refreshViews();
         //TODO ungetestet
@@ -86,7 +86,11 @@ public class ControllerImplementation implements Controller {
         assert (model.getEntryWithId(entry.getId()) != null);
 
         if (picturePath != null) {
-            FileHandler.relinkPictures(entry, picturePath);
+            try {
+                fileHandler.relinkPictures(entry, picturePath);
+            } catch (IOException e) {
+                System.out.println("Speichern der Bilder von" + entry.getName() + "fehlgeschlagen von " + picturePath);
+            }
         }
         model.getPieces().add(entry);
         refreshViews();
@@ -113,6 +117,6 @@ public class ControllerImplementation implements Controller {
 
     @Override
     public ABModel getAddressbook() {
-        return this.addressBook;
+        return model.adressbook;
     }
 }
