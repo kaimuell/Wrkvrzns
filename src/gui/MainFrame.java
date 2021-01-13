@@ -24,6 +24,7 @@ public class MainFrame extends JFrame {
         this.add(new Toolbar(controller), BorderLayout.NORTH);
 
         ObjectViewPanel panel = new ObjectViewPanel(controller);
+        controller.addView(panel);
         this.add (panel, BorderLayout.CENTER);
 
         this.setVisible(true);

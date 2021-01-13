@@ -2,6 +2,7 @@ package controller.FileHandler;
 
 
 import adressbook.model.ABModel;
+import controller.Controller;
 import controller.PictureController;
 import model.Model;
 import model.elements.ArtPieceEntry;
@@ -37,11 +38,12 @@ public class FileHandler {
             createSettingsFileAndEmptySaveFile();
             initialiseNewPathSettingsFile();
         }
+        System.out.println("FilHandler initialisiert");
     }
 
 
 
-    public synchronized void initialise()throws IOException{
+    private synchronized void initialise()throws IOException{
         System.out.println("FileHandler : initialisiere");
         try {
             parseInitialSettings(new File(PATH_SETTINGS_FILE));
@@ -93,15 +95,26 @@ public class FileHandler {
         save(model);
     }
 
-    public void relinkPictures(ArtPieceEntry artPieceEntry, String picturePath) throws IOException {
-        Image picture = PictureController.loadImage(picturePath);
-        Image bitmap = PictureController.createBitmap(picture, 150, 150);
-        System.out.println("FileHandler : schreibe Bild nach : " +  this.pictureFolder + artPieceEntry.getId() + ".jpg");
-        System.out.println("FileHandler : schreibe Bitmap nach : " + this.bitmapFolder + artPieceEntry.getId() + ".jpg");
-        String pictureFilename = this.pictureFolder + artPieceEntry.getId() + ".jpg";
-        String bitmapFilename = this.bitmapFolder + artPieceEntry.getId() + ".jpg";
-        PictureController.saveImage(picture, pictureFilename,  1.0f);
-        PictureController.saveImage(bitmap, bitmapFilename, 1.0f);
+    /**
+     * Speichert das Bild in picturePath in den Dateien der Zugewiesenen id des ArtpieceEntry
+     * @param artPieceEntryID die Id des Eintrags
+     * @param picturePath der Pfad des Bildes
+     * @return
+     */
+    public Image relinkPictures(int artPieceEntryID, String picturePath)  {
+            try {
+                Image picture = PictureController.loadImage(picturePath);
+                Image bitmap = PictureController.createBitmap(picture, 150, 150);
+                System.out.println("FileHandler : schreibe Bild nach : " + this.pictureFolder + artPieceEntryID + ".jpg");
+                System.out.println("FileHandler : schreibe Bitmap nach : " + this.bitmapFolder + artPieceEntryID + ".jpg");
+                String pictureFilename = this.pictureFolder + "/" + artPieceEntryID + ".jpg";
+                String bitmapFilename = this.bitmapFolder + "/" + artPieceEntryID + ".jpg";
+                PictureController.saveImage(picture, pictureFilename, 1.0f);
+                PictureController.saveImage(bitmap, bitmapFilename, 1.0f);
+                return bitmap;
+            }catch (IOException e){
+                return PictureController.defaultEmptyImage();
+            }
     }
 
     private void initialiseNewPathSettingsFile()  {
@@ -194,11 +207,11 @@ public class FileHandler {
     }
 
     private Image loadBitmap(int id) throws IOException {
-        return PictureController.loadImage(this.bitmapFolder + id + ".jpg");
+        return PictureController.loadImage(this.bitmapFolder + "/" + id + ".jpg");
     }
 
     public Image loadHighQualityPicture(int id) throws IOException {
-        return PictureController.loadImage(this.pictureFolder + id + ".jpg");
+        return PictureController.loadImage(this.pictureFolder + "/" + id + ".jpg");
     }
 }
 

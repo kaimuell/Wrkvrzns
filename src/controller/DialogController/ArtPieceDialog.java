@@ -253,9 +253,11 @@ class ArtPieceDialog extends JDialog {
 
         JPanel previewPanel =  new JPanel();
         JPanel inputPanel = new JPanel();
-        imagePreviewIcon = new JLabel();
-        imagePreviewIcon.setIcon(
-                artPiece.getBitmap() == null ? (Icon) PictureController.defaultEmptyImage() : (Icon) artPiece.getBitmap());
+        imagePreviewIcon = new JLabel( );
+        imagePreviewIcon.setSize(60,60);
+        if(artPiece.getBitmap() != null) {
+            imagePreviewIcon.setIcon(new ImageIcon(artPiece.getBitmap().getScaledInstance(60,60,Image.SCALE_SMOOTH)));
+        }
         JButton loadPictureButton = new JButton("Bild laden");
         loadPictureButton.addActionListener(e -> selectPictureFromDialog());
         previewPanel.add(imagePreviewIcon);
@@ -266,23 +268,23 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void selectPictureFromDialog() {
-        JFileChooser openDialog = DialogController.createChooseSingleJPEGDialog();
-        int returnVal = openDialog.showOpenDialog(this);
-        if(returnVal == JFileChooser.APPROVE_OPTION){
-            try {
-                this.picturePath = setTextAndPictureFieldToSelectionOf(openDialog);
-                repaint();
-            } catch (IOException ex) {
-                errorInfoLabel.setText("Bild konnte nicht geladen werden");
-                repaint();
+            JFileChooser openDialog = new ChooseSingleJPEGDialog();
+            int returnVal = openDialog.showOpenDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    this.picturePath = setPictureFieldToSelectionOf(openDialog);
+                    repaint();
+                } catch (IOException ex) {
+                    errorInfoLabel.setText("Bild konnte nicht geladen werden");
+                    repaint();
+                }
             }
-        }
     }
 
-    private String setTextAndPictureFieldToSelectionOf(JFileChooser openDialog) throws IOException {
+    private String setPictureFieldToSelectionOf(JFileChooser openDialog) throws IOException {
         File pictureFile = openDialog.getSelectedFile();
         Image image = PictureController.loadImage(pictureFile.getPath());
-        Image bitmap = PictureController.createBitmap(image, 50, 50);
+        Image bitmap = PictureController.createBitmap(image, 80, 80);
         imagePreviewIcon.setIcon(new ImageIcon(bitmap));
         errorInfoLabel.setText("");
         return pictureFile.getPath();
@@ -304,7 +306,7 @@ class ArtPieceDialog extends JDialog {
         if (person != null) {
             return (person.getFirstName() + " " + person.getFamilyName() + ", " + person.geteMail() + ",  " + person.getTel());
         }else {
-            return "";
+            return "nicht verkauft";
         }
     }
 
@@ -313,7 +315,7 @@ class ArtPieceDialog extends JDialog {
     }
 
     /**
-     * Gibt zurück Ob Eingabe bestätigt wurde, oder Abgebrochen
+     * Gibt zurück Ob Eingabe bestätigt wurde, oder abgebrochen
      * @return wurde ok oder cancel gedrückt?
      */
     public OkCancelOption okCancelOption() {

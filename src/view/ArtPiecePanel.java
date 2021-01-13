@@ -25,7 +25,11 @@ class ArtPiecePanel extends JPanel {
         this.addMouseListener(inputScheme);
         this.addKeyListener(inputScheme);
 
-        JLabel bitmapLabel = new JLabel(new ImageIcon(artPiece.getBitmap()));
+        JLabel bitmapLabel = new JLabel();
+        bitmapLabel.setSize(60, 60);
+        if (artPiece.getBitmap() != null){
+            bitmapLabel.setIcon(new ImageIcon(artPiece.getBitmap().getScaledInstance(60, 60, Image.SCALE_SMOOTH)));
+        }
         bitmapLabel.setBackground(color);
         add(bitmapLabel);
 
@@ -55,6 +59,9 @@ class ArtPiecePanel extends JPanel {
         add(yearLabel);
 
         revalidate();
+    }
 
+    public ArtPieceEntry getArtPiece(){
+        return this.artPiece;
     }
 }

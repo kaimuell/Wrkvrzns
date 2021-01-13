@@ -2,6 +2,7 @@ package controller;
 
 import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
+import model.ModelViewAccess;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtPieceEntryAndPicturePath;
 import view.Views;
@@ -24,4 +25,5 @@ public interface Controller {
     void addView(Views view);
 
     ABModel getAddressbook();
+
 }

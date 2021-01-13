@@ -32,27 +32,34 @@ public class ControllerImplementation implements Controller {
         } catch (ClassNotFoundException e) {
             System.out.println("Klasse nicht akzeptiert.");
         }
+        System.out.println("model übergeben");
         this.views = new ArrayList<>();
         this.selectedElements = new ArrayList<>();
+        System.out.println("ControllerImplementation : SelectedElements nach Konstruktor = " + selectedElements);
     }
 
 
     @Override
     public boolean isASelectedElement(ArtPieceEntry artPiece) {
+        if (artPiece == null || selectedElements == null){
+            return false;
+        }
         return selectedElements.contains(artPiece);
     }
 
     @Override
     public void addSelectedElement(ArtPieceEntry artPieceEntry) {
-        selectedElements.add(artPieceEntry);
-        refreshViews();
+        if (artPieceEntry != null) {
+            selectedElements.add(artPieceEntry);
+        }
+        informViewsSelectedElementsChanged();
     }
 
     @Override
     public void setSelectedElementTo(ArtPieceEntry artPieceEntry) {
         this.selectedElements = new ArrayList<>();
         selectedElements.add(artPieceEntry);
-        refreshViews();
+        informViewsSelectedElementsChanged();
     }
 
     @Override
@@ -62,11 +69,7 @@ public class ControllerImplementation implements Controller {
         ArtPieceEntry entryToChange = model.getEntryWithId(entry.getId());
         entryToChange.setVariablesTo(entry);
         if (picturePath != null) {
-            try {
-                fileHandler.relinkPictures(entryToChange, picturePath);
-            } catch (IOException e) {
-                System.out.println("Speichern der Bilder von" + entryToChange.getName() + "fehlgeschlagen von " + picturePath);
-            }
+            entryToChange.setBitmap(fileHandler.relinkPictures(entryToChange.getId(), picturePath));
         }
         refreshViews();
         //TODO ungetestet
@@ -86,11 +89,7 @@ public class ControllerImplementation implements Controller {
         assert (model.getEntryWithId(entry.getId()) != null);
 
         if (picturePath != null) {
-            try {
-                fileHandler.relinkPictures(entry, picturePath);
-            } catch (IOException e) {
-                System.out.println("Speichern der Bilder von" + entry.getName() + "fehlgeschlagen von " + picturePath);
-            }
+            entry.setBitmap(fileHandler.relinkPictures(entry.getId(), picturePath));
         }
         model.getPieces().add(entry);
         refreshViews();
@@ -114,10 +113,18 @@ public class ControllerImplementation implements Controller {
     public void addView(Views view) {
             this.views.add(view);
             view.setModelTo(model);
+            view.refreshView();
+    }
+
+    public void informViewsSelectedElementsChanged(){
+        for (Views view : views) {
+            view.changeSelectedElements();
+        }
     }
 
     @Override
     public ABModel getAddressbook() {
         return model.adressbook;
     }
+
 }

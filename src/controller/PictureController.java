@@ -35,7 +35,7 @@ public interface PictureController {
 
     static void saveImage(Image imageToSave, File outputFile, float quality) throws IOException {
 
-        BufferedImage image = (BufferedImage) imageToSave;
+        BufferedImage image = imageToBufferedImage(imageToSave);
         ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
         ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
         jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
@@ -56,7 +56,7 @@ public interface PictureController {
      * @throws IOException
      */
     static void saveImage(Image imageToSave, String outputFile, float quality) throws IOException {
-        BufferedImage image = (BufferedImage) imageToSave;
+        BufferedImage image = imageToBufferedImage(imageToSave);
         File jpegFiletoSave = new File(outputFile);
         ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
         ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
@@ -71,6 +71,15 @@ public interface PictureController {
 
     static Image defaultEmptyImage() {
         return null;
+    }
+
+    static BufferedImage imageToBufferedImage(Image im) {
+        BufferedImage bi = new BufferedImage
+                (im.getWidth(null),im.getHeight(null),BufferedImage.TYPE_INT_RGB);
+        Graphics bg = bi.getGraphics();
+        bg.drawImage(im, 0, 0, null);
+        bg.dispose();
+        return bi;
     }
     
     

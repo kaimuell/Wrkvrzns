@@ -8,11 +8,14 @@ import model.ModelViewAccess;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class ObjectViewPanel extends JPanel implements Views {
     private ModelViewAccess model;
     private Controller controller;
+    private List<ArtPiecePanel> panelList;
 
     private static final Color EVEN_ROW_COLOR = new Color(240,240,255);
     private static final Color ODD_ROW_COLOR = new Color(255,255,240);
@@ -21,7 +24,7 @@ public class ObjectViewPanel extends JPanel implements Views {
     public ObjectViewPanel(Controller controller) {
 
         this.controller = controller;
-        refreshView();
+        this.panelList = new ArrayList<>();
     }
 
     @Override
@@ -35,12 +38,24 @@ public class ObjectViewPanel extends JPanel implements Views {
         while (it.hasNext()) {
             ArtPieceEntry artPiece = it.next();
             Color color = selectColor(artPiece,  isEvenRowNumber);
-            panel.add(new ArtPiecePanel (artPiece, controller, color));
+            ArtPiecePanel artPiecePanel = new ArtPiecePanel (artPiece, controller, color);
+            panel.add(artPiecePanel);
+            panelList.add(artPiecePanel);
             isEvenRowNumber = !isEvenRowNumber;
         }
         this.add(panel);
         revalidate();
 
+    }
+
+    @Override
+    public void changeSelectedElements() {
+        boolean iseven = true;
+        for (ArtPiecePanel panel: panelList) {
+            panel.setBackground(selectColor(panel.getArtPiece(), iseven));
+            iseven = !iseven;
+        }
+        repaint();
     }
 
     @Override
@@ -56,7 +71,7 @@ public class ObjectViewPanel extends JPanel implements Views {
                 return EVEN_ROW_COLOR;
             } else {
                 return ODD_ROW_COLOR;
-            }
+           }
         }
     }
 }

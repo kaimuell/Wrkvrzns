@@ -35,7 +35,7 @@ class SelectPersonFromAdressBookDialog extends AdressBookFrame {
         buttonPanel.add(cancelButton);
 
         this.add(buttonPanel, BorderLayout.SOUTH);
-
+        this.revalidate();
 
     }
 
