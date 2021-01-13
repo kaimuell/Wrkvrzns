@@ -23,7 +23,6 @@ class ArtPiecePanel extends JPanel {
         this.setBackground(color);
         PanelInputScheme inputScheme = new PanelInputScheme(controller, artPiece);
         this.addMouseListener(inputScheme);
-        this.addKeyListener(inputScheme);
 
         JLabel bitmapLabel = new JLabel();
         bitmapLabel.setSize(60, 60);
