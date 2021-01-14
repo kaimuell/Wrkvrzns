@@ -1,9 +1,11 @@
 package adressbook.model;
 
+import java.io.Serializable;
+
 /**
  * Klasse zum Speichern von Adressinformationen
  */
-public class Adress {
+public class Adress implements Serializable {
     private String street;
     private String houseNo;
     private String city;

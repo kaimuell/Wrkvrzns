@@ -1,9 +1,11 @@
 package adressbook.model;
 
+import java.io.Serializable;
+
 /**
  * Klasse mit den relevanten Daten einer Person
  */
-public class Person {
+public class Person implements Serializable {
     private String familyName;
     private String firstName;
     private String eMail;

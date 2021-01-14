@@ -1,10 +1,12 @@
 package adressbook.model;
 
+import java.io.Serializable;
+
 /**
  * Der Eintrag einer Person im Adressbuch, enthält zusätzlich eine eindeutige ID, sowie eine Zahl die Angibt wieviele externe Links existieren,
  */
 
-public class PersonEntry extends Person {
+public class PersonEntry extends Person implements Serializable {
     int id;
     int links;
 

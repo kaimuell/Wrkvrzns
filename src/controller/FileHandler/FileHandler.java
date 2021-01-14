@@ -21,6 +21,7 @@ public class FileHandler {
     private String pictureFolder;
     private String bitmapFolder;
     private String saveFile;
+    private boolean isInitialised;
 
 
     /**
@@ -28,16 +29,19 @@ public class FileHandler {
      * Lädt bei Initialisierung Informationen aus dem Sekundärspeicher
      */
     public FileHandler() {
+        isInitialised = false;
         try {
             initialise();
             System.out.println("saveFile = "+ saveFile);
             System.out.println("bitmapFolder = "+ bitmapFolder);
             System.out.println("pictureFolder = "+ pictureFolder);
         } catch (Exception e) {
+            System.out.println("FileHAndler: erzeuge neue init File");
             createSettingsFileAndEmptySaveFile();
             initialiseNewPathSettingsFile();
         }
         System.out.println("FilHandler initialisiert");
+        isInitialised = true;
     }
 
 
@@ -95,12 +99,12 @@ public class FileHandler {
     }
 
     /**
-     * Speichert das Bild  in den Dateien der Zugewiesenen id des ArtpieceEntry
+     * Speichert das Bild und ein Bitmap desselben in den Dateien der Zugewiesenen id des ArtpieceEntry
      * @param artPieceEntryID die Id des Eintrags
      * @param picture das Bild
      * @return
      */
-    public synchronized void saveCopyOfPictureLinkedTorArtpiece(int artPieceEntryID, Image picture)  {
+    public synchronized void saveCopyOfPictureLinkedToArtpiece(int artPieceEntryID, Image picture)  {
             try {
                 Image bitmap = PictureController.createBitmap(picture, 150, 150);
                 System.out.println("FileHandler : schreibe Bild nach : " + this.pictureFolder + artPieceEntryID + ".jpg");
@@ -128,6 +132,7 @@ public class FileHandler {
             System.out.println("Schreibe bitmapFolder");
             streamWriter.write(bitmapFolder + "\n");
             streamWriter.flush();
+            streamWriter.close();
             outputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -156,27 +161,118 @@ public class FileHandler {
             System.out.println("Falsche Version");
             throw new VersionControllException();
         }
+        reader.close();
+        streamReader.close();
         fileInputStream.close();
     }
 
     public void save(Model model) throws IOException {
         System.out.println("FileHandler : speichere");
-        Save save = new Save(model);
-        FileOutputStream fos = new FileOutputStream(String.valueOf(saveFile));
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(save);
+        saveAsString(model);
+    }
+
+    private void saveAsString(Model model) throws IOException {
+        FileOutputStream fos = new FileOutputStream(saveFile);
+        OutputStreamWriter osw = new OutputStreamWriter(fos);
+        BufferedWriter writer = new BufferedWriter(osw);
+        String fileInfo = SaveFileParser.parseFileOutput(model);
+        writer.write(fileInfo);
+        writer.close();
+        osw.close();
         fos.close();
     }
 
-    public synchronized Model load() throws IOException, ClassNotFoundException {
+    private void saveAsBinary(Model model) throws IOException {
+        Save save = new Save(model);
+        FileOutputStream fos = new FileOutputStream(saveFile);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(save);
+        oos.flush();
+        oos.close();
+        fos.close();
+    }
+
+    /*
+    private void SaveAsBinary(Model model) throws IOException {
+        Save save = new Save(model);
+        FileOutputStream fos = new FileOutputStream(saveFile);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        for (ArtpieceSave artPiece : save.artpieces) {
+            oos.writeObject(artPiece);
+        }
+        for (PersonEntry personEntry : save.adressbook.getPersonList()) {
+            oos.writeObject(personEntry);
+        }
+        oos.flush();
+        fos.close();
+    }
+
+     */
+
+    public synchronized Model load() throws IOException, ClassNotFoundException, VersionControllException {
         System.out.println("FileHandler : lade");
-        waitIfSaveFileisNotyetinitialised();
+        Model model = loadAsString();
+
+        return model;
+    }
+
+    private Model loadAsString() throws IOException, ClassNotFoundException, VersionControllException {
+
+        FileReader fr = new FileReader(saveFile);
+        BufferedReader reader = new BufferedReader(fr);
+        Iterator<String> lines = reader.lines().iterator();
+        Model model = SaveFileParser.parseFileInput(lines);
+        reader.close();
+        fr.close();
+        reloadAllPictures(model);
+        return model;
+    }
+
+    public void reloadAllPictures(Model model) {
+        for (ArtPieceEntry entry : model.getPieces()) {
+            try {
+                Image bitmap = loadBitmap(entry.getId());
+                entry.setBitmap(bitmap);
+            } catch (IOException e) {
+                System.out.println("Bild Nr. " + entry.getId() + " konnte nicht geladen werden.");
+            }
+        }
+    }
+
+    /*
+        private Model loadBinary() throws IOException, ClassNotFoundException {
+            FileInputStream fis = new FileInputStream(saveFile);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            boolean unfinished = true;
+            Model model = new Model(new ABModel());
+            ArtpieceSave artpieceReference = new ArtpieceSave(ArtPieceEntry.createEmptyArtPieceEntry());
+            PersonEntry personReference = new PersonEntry(0, new Person("","","","",null));
+            while (unfinished){
+                Object o = ois.readObject();
+                if (o == null){
+                    unfinished = true;
+                }else if (o.getClass().isInstance(artpieceReference)){
+                    ArtpieceSave artpiece = (ArtpieceSave) o;
+                    model.getPieces().add(new ArtPieceEntry(artpiece.getId(), artpiece, null));
+                }else if (o.getClass().isInstance(personReference)){
+                    PersonEntry person = (PersonEntry) o;
+                    model.adressbook.getPersonList().add(person);
+                }
+            }
+            fis.close();
+            return model;
+        }
+
+         */
+    private Model loadBinary() throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(saveFile);
         ObjectInputStream ois = new ObjectInputStream(fis);
         Save save = (Save) ois.readObject();
+        ois.close();
         fis.close();
-
         return createModelFromSave(save);
+
     }
 
     private void waitIfSaveFileisNotyetinitialised() {
@@ -210,6 +306,7 @@ public class FileHandler {
     public Image loadHighQualityPicture(int id) throws IOException {
         return PictureController.loadImage(this.pictureFolder + "/" + id + ".jpg");
     }
+
 }
 
 

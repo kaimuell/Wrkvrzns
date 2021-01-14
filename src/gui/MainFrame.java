@@ -1,10 +1,9 @@
 package gui;
 
-import adressbook.model.ABModel;
 import controller.Controller;
 import controller.ControllerImplementation;
 import controller.FileHandler.FileHandler;
-import model.Model;
+import gui.menu.MainMenu;
 import view.ObjectViewPanel;
 
 import javax.swing.*;
@@ -21,6 +20,7 @@ public class MainFrame extends JFrame {
 
         Controller controller = new ControllerImplementation(fileHAndler);
 
+        this.setJMenuBar(new MainMenu(controller));
         this.add(new Toolbar(controller), BorderLayout.NORTH);
 
         ObjectViewPanel panel = new ObjectViewPanel(controller);

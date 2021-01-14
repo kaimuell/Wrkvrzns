@@ -1,5 +1,6 @@
 package controller.FileHandler;
 
+import adressbook.model.Person;
 import model.elements.ArtPiece;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
@@ -11,8 +12,8 @@ class ArtpieceSave extends ArtPiece implements Serializable {
 
 
     ArtpieceSave( int id,
-            String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, boolean isSold, int buyerID) {
-        super(name, technique, type, height, width, depth, length, year, price, isSold, buyerID);
+            String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, boolean isSold, Person buyer) {
+        super(name, technique, type, height, width, depth, length, year, price, buyer);
 
         this.id = id;
     }

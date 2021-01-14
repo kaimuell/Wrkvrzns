@@ -1,5 +1,6 @@
 package controller.DialogController;
 
+import adressbook.model.Person;
 import adressbook.model.PersonEntry;
 import controller.Controller;
 import controller.PictureController;
@@ -140,8 +141,7 @@ class ArtPieceDialog extends JDialog {
         JLabel isSoldLabel = new JLabel("Verkauft an:");
 
         buyerLabel = new JLabel(
-                createShortDescriptionOfPerson(
-                    controller.getPersonWithIDFromAddressBook(artPiece.getBuyerID())));
+                createShortDescriptionOfPerson(artPiece.getBuyer()));
 
         JButton selectBuyerButton = new JButton("Käufer hinzufügen");
         selectBuyerButton.addActionListener(e -> setBuyerToSelectionFromDialog());
@@ -158,21 +158,18 @@ class ArtPieceDialog extends JDialog {
     private void setBuyerToSelectionFromDialog() {
         PersonEntry buyer = selectPersonFromAddressbook();
         if (buyer != null) {
-            artPiece.setSold(true);
-            artPiece.setBuyerID(buyer.getId());
+            artPiece.setBuyer(buyer);
             buyerLabel.setText(
-                    createShortDescriptionOfPerson(
-                            controller.getPersonWithIDFromAddressBook(artPiece.getBuyerID())));
+                    createShortDescriptionOfPerson(buyer));
             mainPanel.repaint();
         }
     }
 
     private void deleteBuyer() {
-        if (artPiece.getBuyerID() != -1) {
+        if (artPiece.getBuyer() != null) {
             int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?");
             if (returnval == JOptionPane.YES_OPTION) {
-                artPiece.setSold(false);
-                artPiece.setBuyerID(-1);
+                artPiece.setBuyer(null);
             }
         }
     }
@@ -303,7 +300,7 @@ class ArtPieceDialog extends JDialog {
         artPiece.setPrice(ParseIntegerFromTextField(priceField));
     }
 
-    private String createShortDescriptionOfPerson(PersonEntry person){
+    private String createShortDescriptionOfPerson(Person person){
         if (person != null) {
             return (person.getFirstName() + " " + person.getFamilyName() + ", " + person.geteMail() + ",  " + person.getTel());
         }else {

@@ -22,8 +22,6 @@ public class DebugView implements Views {
             System.out.println(entry.getMeatDataRepresentation());
             System.out.println(entry.getYear());
             System.out.println(entry.getPrice());
-            System.out.println(entry.isSold());
-            System.out.println(entry.getBuyerID());
             System.out.println();
         }
         System.out.println();

@@ -1,6 +1,11 @@
 package model.elements;
 
-public class ArtPiece {
+import adressbook.model.Person;
+import adressbook.model.PersonEntry;
+
+import java.io.Serializable;
+
+public class ArtPiece implements Serializable {
     private String name;
     private String technique;
     private ArtworkType type;
@@ -9,11 +14,10 @@ public class ArtPiece {
     private int depth;
     private int length;
     private int year;
-    private boolean isSold;
-    private int buyerID;
+    private Person buyer;
     private int price;
 
-    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, boolean isSold, int buyerID) {
+    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, Person buyer) {
         this.name = name;
         this.technique = technique;
         this.type = type;
@@ -23,8 +27,7 @@ public class ArtPiece {
         this.length = length;
         this.year = year;
         this.price = price;
-        this.isSold = isSold;
-        this.buyerID = buyerID;
+        this.buyer = buyer;
     }
 
     public ArtPiece (ArtPiece piece){
@@ -36,8 +39,7 @@ public class ArtPiece {
         this.depth = piece.getDepth();
         this.year = piece.getYear();
         this.price = piece.getPrice();
-        this.isSold = piece.isSold();
-        this.buyerID = piece.getBuyerID();
+        this.buyer = piece.getBuyer();
     }
 
     public String getMeatDataRepresentation(){
@@ -116,20 +118,12 @@ public class ArtPiece {
         this.year = year;
     }
 
-    public boolean isSold() {
-        return isSold;
+    public Person getBuyer() {
+        return buyer;
     }
 
-    public void setSold(boolean sold) {
-        isSold = sold;
-    }
-
-    public int getBuyerID() {
-        return buyerID;
-    }
-
-    public void setBuyerID(int buyerID) {
-        this.buyerID = buyerID;
+    public void setBuyer(Person buyer) {
+        this.buyer = buyer;
     }
 
     public int getPrice() {

@@ -1,5 +1,6 @@
 package view;
 
+import adressbook.model.ABModel;
 import controller.Controller;
 import model.Model;
 import model.elements.ArtPieceEntry;
@@ -22,7 +23,7 @@ public class ObjectViewPanel extends JPanel implements Views {
     private static final Color SELECTED_ELEMENT_COLOR = new Color(255, 218, 220);
 
     public ObjectViewPanel(Controller controller) {
-
+        this.model = new Model(new ABModel());
         this.controller = controller;
         this.panelList = new ArrayList<>();
     }

@@ -3,6 +3,7 @@ package controller;
 import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
 import controller.FileHandler.FileHandler;
+import controller.FileHandler.VersionControllException;
 import model.elements.ArtPieceEntry;
 import model.Model;
 import view.Views;
@@ -25,17 +26,24 @@ public class ControllerImplementation implements Controller {
 
     public ControllerImplementation(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
+        this.model = new Model(new ABModel());
         try {
             this.model = fileHandler.load();
         } catch (IOException e) {
+            //TODO USER INFORMATION GEBEN?
             System.out.println("Konnte Datei nicht laden.");
         } catch (ClassNotFoundException e) {
             System.out.println("Klasse nicht akzeptiert.");
+        } catch (VersionControllException e) {
+            e.printStackTrace();
         }
         System.out.println("model übergeben");
+        assert(model.getPieces() != null);
+        System.out.println(model.getNumberOfEntries());
         this.views = new ArrayList<>();
         this.selectedElements = new ArrayList<>();
         System.out.println("ControllerImplementation : SelectedElements nach Konstruktor = " + selectedElements);
+        refreshViews();
     }
 
 
@@ -68,7 +76,7 @@ public class ControllerImplementation implements Controller {
         entryToChange.setVariablesTo(entry);
         if (imageToLink != null) {
             entryToChange.setBitmap(imageToLink.getScaledInstance(150,150,Image.SCALE_DEFAULT));
-            new Thread(() -> fileHandler.saveCopyOfPictureLinkedTorArtpiece(entryToChange.getId(), imageToLink)).start();
+            fileHandler.saveCopyOfPictureLinkedToArtpiece(entryToChange.getId(), imageToLink);
         }
         refreshViews();
         //TODO ungetestet
@@ -87,7 +95,8 @@ public class ControllerImplementation implements Controller {
 
         if (imageToLink != null) {
             entry.setBitmap(imageToLink.getScaledInstance(150,150, Image.SCALE_DEFAULT));
-            new Thread ( () -> fileHandler.saveCopyOfPictureLinkedTorArtpiece(entry.getId(), imageToLink));
+            System.out.println("Speichere Bildkopien");
+            fileHandler.saveCopyOfPictureLinkedToArtpiece(entry.getId(), imageToLink);
         } else {
             entry.setBitmap(PictureController.defaultEmptyImage());
         }
@@ -116,7 +125,7 @@ public class ControllerImplementation implements Controller {
             view.refreshView();
     }
 
-    public void informViewsSelectedElementsChanged(){
+    private void informViewsSelectedElementsChanged(){
         for (Views view : views) {
             view.changeSelectedElements();
         }
@@ -125,6 +134,32 @@ public class ControllerImplementation implements Controller {
     @Override
     public ABModel getAddressbook() {
         return model.adressbook;
+    }
+
+    @Override
+    public void save() {
+        try {
+            fileHandler.save(model);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //TODO USER INFORMATIONEN GEBEN
+    }
+
+    @Override
+    public void load() {
+        try {
+            this.model = fileHandler.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (VersionControllException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //TODO USER INFOMATIONEN GEBEN
     }
 
 }

@@ -1,25 +1,30 @@
 package model.elements;
 
-import java.awt.*;
+import adressbook.model.Person;
 
-public class ArtPieceEntry extends ArtPiece {
+import java.awt.*;
+import java.io.Serializable;
+
+public class ArtPieceEntry extends ArtPiece implements Serializable {
     private int id;
     private Image bitmap;
 
 
     public ArtPieceEntry(int id, String name, String technique, ArtworkType type, int height, int width, int depth,
-                         int length, int year, int price, boolean isSold, int buyerID, Image bitmap) {
-        super(name, technique, type, height, width, depth, length, year, price, isSold, buyerID);
+                         int length, int year, int price, Person buyer, Image bitmap) {
+        super(name, technique, type, height, width, depth, length, year, price, buyer);
         this.id = id;
         this.bitmap = bitmap;
 
     }
     public ArtPieceEntry(int id, ArtPiece p, Image bitmap) {
-        super(p.getName(), p.getTechnique(), p.getType(), p.getHeight(), p.getWidth(), p.getDepth(), p.getLength(), p.getYear(), p.getPrice(), p.isSold(), p.getBuyerID());
+        super(p.getName(), p.getTechnique(), p.getType(), p.getHeight(), p.getWidth(), p.getDepth(), p.getLength(), p.getYear(), p.getPrice(), p.getBuyer());
         this.id = id;
         this.bitmap = bitmap;
 
     }
+
+
 
     public void setBitmap(Image bitmap) {
         this.bitmap = bitmap;
@@ -54,15 +59,14 @@ public class ArtPieceEntry extends ArtPiece {
         this.setLength(otherArtPieceEntry.getLength());
         this.setDepth(otherArtPieceEntry.getDepth());
         this.setYear(otherArtPieceEntry.getYear());
-        this.setSold(otherArtPieceEntry.isSold());
-        this.setBuyerID(otherArtPieceEntry.getBuyerID());
+        this.setBuyer(otherArtPieceEntry.getBuyer());
     }
 
 
     public static ArtPieceEntry createEmptyArtPieceEntry(){
         return new ArtPieceEntry(-1,
                 new ArtPiece("","", ArtworkType.PAINTING,
-                        0, 0, 0, 0, 0, 0, false, -1),
+                        0, 0, 0, 0, 0, 0, null),
                 null);
     }
 
