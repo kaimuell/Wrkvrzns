@@ -1,4 +1,4 @@
-package controller;
+package tools;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -13,13 +13,13 @@ import java.io.IOException;
  * Fasst Operationen auf Bildern zusammen
  */
 
-public interface PictureController {
+public class PictureTools {
 
-    static Image createBitmap(Image image, int width, int height){
+    public static Image createBitmap(Image image, int width, int height){
         return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 
-    static Image loadImage(String filepath) throws IOException{
+    public static Image loadImage(String filepath) throws IOException{
         File dat = new File(filepath);
         BufferedImage img = ImageIO.read(dat);
         return (Image) img;
@@ -33,7 +33,7 @@ public interface PictureController {
      * @throws IOException
      */
 
-    static void saveImage(Image imageToSave, File outputFile, float quality) throws IOException {
+    public static void saveImage(Image imageToSave, File outputFile, float quality) throws IOException {
 
         BufferedImage image = imageToBufferedImage(imageToSave);
         ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
@@ -69,8 +69,8 @@ public interface PictureController {
         jpgWriter.dispose();
     }
 
-    static Image defaultEmptyImage() {
-        return null;
+    public static Image defaultEmptyImage() {
+        return createEmptyImage();
     }
 
     static BufferedImage imageToBufferedImage(Image im) {
@@ -81,6 +81,14 @@ public interface PictureController {
         bg.dispose();
         return bi;
     }
-    
+
+    private static Image createEmptyImage(){
+        BufferedImage image = new BufferedImage(150,150, BufferedImage.TYPE_3BYTE_BGR);
+        Graphics2D g2d = image.createGraphics();
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(0,0,150,150);
+
+        return image;
+    }
     
 }

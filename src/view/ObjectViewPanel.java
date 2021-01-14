@@ -39,7 +39,7 @@ public class ObjectViewPanel extends JPanel implements Views {
         while (it.hasNext()) {
             ArtPieceEntry artPiece = it.next();
             Color color = selectColor(artPiece,  isEvenRowNumber);
-            ArtPiecePanel artPiecePanel = new ArtPiecePanel (artPiece, controller, color);
+            ArtPiecePanel artPiecePanel = new ArtPiecePanel (artPiece, controller, color, this);
             panel.add(artPiecePanel);
             panelList.add(artPiecePanel);
             isEvenRowNumber = !isEvenRowNumber;

@@ -1,9 +1,11 @@
 package view;
 
+import adressbook.model.Person;
 import controller.Controller;
 import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
 /**
@@ -14,8 +16,13 @@ class ArtPiecePanel extends JPanel {
     private Controller controller;
 
 
-    ArtPiecePanel(ArtPieceEntry artPiece, Controller controller, Color color) {
-        setLayout(new GridLayout(0,6));
+    ArtPiecePanel(ArtPieceEntry artPiece, Controller controller, Color color, JComponent parent) {
+        GridLayout layout = new GridLayout(0, 8);
+        layout.setHgap(12);
+        layout.minimumLayoutSize(parent);
+
+        setLayout(layout);
+
 
         this.controller = controller;
         this.artPiece = artPiece;
@@ -53,11 +60,33 @@ class ArtPiecePanel extends JPanel {
         add(sizeLabel);
 
         JLabel yearLabel = new JLabel(String.valueOf(artPiece.getYear()));
-        yearLabel.setHorizontalTextPosition(Label.LEFT);
+        yearLabel.setHorizontalTextPosition(Label.RIGHT);
         yearLabel.setBackground(color);
         add(yearLabel);
 
+        JLabel priceLabel = new JLabel(artPiece.getPrice() + " €");
+        priceLabel.setHorizontalTextPosition(Label.RIGHT);
+        priceLabel.setBackground(color);
+        add(priceLabel);
+
+        JLabel buyerLabel = new JLabel(artPiece.getBuyer() == null ?
+                "nicht verkauft" : createBuyerRepresentation(artPiece.getBuyer()));
+        priceLabel.setHorizontalTextPosition(Label.LEFT);
+        priceLabel.setBackground(color);
+        add(buyerLabel);
+
         revalidate();
+    }
+
+    private String createBuyerRepresentation(Person buyer) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(buyer.getFirstName());
+        builder.append(", ");
+        builder.append(buyer.getFamilyName());
+        builder.append(" : ");
+        builder.append(buyer.geteMail());
+
+        return builder.toString();
     }
 
     public ArtPieceEntry getArtPiece(){

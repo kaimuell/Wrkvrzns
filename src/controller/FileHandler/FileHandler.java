@@ -2,7 +2,7 @@ package controller.FileHandler;
 
 
 import adressbook.model.ABModel;
-import controller.PictureController;
+import tools.PictureTools;
 import model.Model;
 import model.elements.ArtPieceEntry;
 
@@ -106,13 +106,13 @@ public class FileHandler {
      */
     public synchronized void saveCopyOfPictureLinkedToArtpiece(int artPieceEntryID, Image picture)  {
             try {
-                Image bitmap = PictureController.createBitmap(picture, 150, 150);
+                Image bitmap = PictureTools.createBitmap(picture, 150, 150);
                 System.out.println("FileHandler : schreibe Bild nach : " + this.pictureFolder + artPieceEntryID + ".jpg");
                 System.out.println("FileHandler : schreibe Bitmap nach : " + this.bitmapFolder + artPieceEntryID + ".jpg");
                 String pictureFilename = this.pictureFolder + "/" + artPieceEntryID + ".jpg";
                 String bitmapFilename = this.bitmapFolder + "/" + artPieceEntryID + ".jpg";
-                PictureController.saveImage(picture, pictureFilename, 1.0f);
-                PictureController.saveImage(bitmap, bitmapFilename, 1.0f);
+                PictureTools.saveImage(picture, new File(pictureFilename), 1.0f);
+                PictureTools.saveImage(bitmap, new File(bitmapFilename), 1.0f);
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -234,6 +234,7 @@ public class FileHandler {
                 Image bitmap = loadBitmap(entry.getId());
                 entry.setBitmap(bitmap);
             } catch (IOException e) {
+                entry.setBitmap(PictureTools.defaultEmptyImage());
                 System.out.println("Bild Nr. " + entry.getId() + " konnte nicht geladen werden.");
             }
         }
@@ -300,11 +301,11 @@ public class FileHandler {
     }
 
     private Image loadBitmap(int id) throws IOException {
-        return PictureController.loadImage(this.bitmapFolder + "/" + id + ".jpg");
+        return PictureTools.loadImage(this.bitmapFolder + "/" + id + ".jpg");
     }
 
     public Image loadHighQualityPicture(int id) throws IOException {
-        return PictureController.loadImage(this.pictureFolder + "/" + id + ".jpg");
+        return PictureTools.loadImage(this.pictureFolder + "/" + id + ".jpg");
     }
 
 }

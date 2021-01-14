@@ -3,7 +3,7 @@ package controller.DialogController;
 import adressbook.model.Person;
 import adressbook.model.PersonEntry;
 import controller.Controller;
-import controller.PictureController;
+import tools.PictureTools;
 import gui.elements.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
 
@@ -252,10 +252,9 @@ class ArtPieceDialog extends JDialog {
         JPanel previewPanel =  new JPanel();
         JPanel inputPanel = new JPanel();
         imagePreviewIcon = new JLabel( );
-        imagePreviewIcon.setSize(60,60);
-        if(artPiece.getBitmap() != null) {
-            imagePreviewIcon.setIcon(new ImageIcon(artPiece.getBitmap().getScaledInstance(60,60,Image.SCALE_SMOOTH)));
-        }
+        imagePreviewIcon.setSize(80,80);
+        imagePreviewIcon.setIcon(new ImageIcon(artPiece.getBitmap() == null?
+                PictureTools.defaultEmptyImage() : artPiece.getBitmap().getScaledInstance(80,80,Image.SCALE_SMOOTH)));
         JButton loadPictureButton = new JButton("Bild laden");
         loadPictureButton.addActionListener(e -> selectPictureFromDialog());
         previewPanel.add(imagePreviewIcon);
@@ -281,8 +280,8 @@ class ArtPieceDialog extends JDialog {
 
     private String setPictureFieldToSelectionOf(JFileChooser openDialog) throws IOException {
         File pictureFile = openDialog.getSelectedFile();
-        this.imageForEntry = PictureController.loadImage(pictureFile.getPath());
-        Image bitmap = PictureController.createBitmap(imageForEntry, 80, 80);
+        this.imageForEntry = PictureTools.loadImage(pictureFile.getPath());
+        Image bitmap = PictureTools.createBitmap(imageForEntry, 80, 80);
         imagePreviewIcon.setIcon(new ImageIcon(bitmap));
         errorInfoLabel.setText("");
         return pictureFile.getPath();
@@ -313,7 +312,7 @@ class ArtPieceDialog extends JDialog {
     }
 
     /**
-     * Gibt zurück Ob Eingabe bestätigt wurde, oder abgebrochen
+     * Gibt zurück ob Eingabe bestätigt wurde, oder abgebrochen
      * @return wurde ok oder cancel gedrückt?
      */
     public OkCancelOption okCancelOption() {

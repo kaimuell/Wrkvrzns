@@ -6,6 +6,7 @@ import controller.FileHandler.FileHandler;
 import controller.FileHandler.VersionControllException;
 import model.elements.ArtPieceEntry;
 import model.Model;
+import tools.PictureTools;
 import view.Views;
 
 import java.awt.*;
@@ -98,7 +99,7 @@ public class ControllerImplementation implements Controller {
             System.out.println("Speichere Bildkopien");
             fileHandler.saveCopyOfPictureLinkedToArtpiece(entry.getId(), imageToLink);
         } else {
-            entry.setBitmap(PictureController.defaultEmptyImage());
+            entry.setBitmap(PictureTools.defaultEmptyImage());
         }
         model.getPieces().add(entry);
         refreshViews();
@@ -151,6 +152,7 @@ public class ControllerImplementation implements Controller {
     public void load() {
         try {
             this.model = fileHandler.load();
+            refreshViews();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (VersionControllException e) {
