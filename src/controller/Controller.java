@@ -2,19 +2,19 @@ package controller;
 
 import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
-import model.ModelViewAccess;
 import model.elements.ArtPieceEntry;
-import model.elements.ArtPieceEntryAndPicturePath;
 import view.Views;
+
+import java.awt.*;
 
 public interface Controller {
     boolean isASelectedElement(ArtPieceEntry artPiece);
     void addSelectedElement(ArtPieceEntry artPieceEntry);
     void setSelectedElementTo(ArtPieceEntry artPieceEntry);
 
-    void modifyEntry(ArtPieceEntryAndPicturePath entryWithPicturePath);
+    void modifyEntry(ArtPieceEntry entry, Image imageToLink);
 
-    void addEntry(ArtPieceEntryAndPicturePath entryWithPicturePath);
+    void addEntry(ArtPieceEntry entry, Image imageToLink);
 
     PersonEntry getPersonWithIDFromAddressBook(int buyerID);
 

@@ -2,7 +2,6 @@ package controller.FileHandler;
 
 
 import adressbook.model.ABModel;
-import controller.Controller;
 import controller.PictureController;
 import model.Model;
 import model.elements.ArtPieceEntry;
@@ -96,14 +95,13 @@ public class FileHandler {
     }
 
     /**
-     * Speichert das Bild in picturePath in den Dateien der Zugewiesenen id des ArtpieceEntry
+     * Speichert das Bild  in den Dateien der Zugewiesenen id des ArtpieceEntry
      * @param artPieceEntryID die Id des Eintrags
-     * @param picturePath der Pfad des Bildes
+     * @param picture das Bild
      * @return
      */
-    public Image relinkPictures(int artPieceEntryID, String picturePath)  {
+    public synchronized void saveCopyOfPictureLinkedTorArtpiece(int artPieceEntryID, Image picture)  {
             try {
-                Image picture = PictureController.loadImage(picturePath);
                 Image bitmap = PictureController.createBitmap(picture, 150, 150);
                 System.out.println("FileHandler : schreibe Bild nach : " + this.pictureFolder + artPieceEntryID + ".jpg");
                 System.out.println("FileHandler : schreibe Bitmap nach : " + this.bitmapFolder + artPieceEntryID + ".jpg");
@@ -111,9 +109,8 @@ public class FileHandler {
                 String bitmapFilename = this.bitmapFolder + "/" + artPieceEntryID + ".jpg";
                 PictureController.saveImage(picture, pictureFilename, 1.0f);
                 PictureController.saveImage(bitmap, bitmapFilename, 1.0f);
-                return bitmap;
             }catch (IOException e){
-                return PictureController.defaultEmptyImage();
+                e.printStackTrace();
             }
     }
 

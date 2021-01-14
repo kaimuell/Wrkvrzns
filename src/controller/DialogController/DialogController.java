@@ -28,7 +28,7 @@ public class DialogController {
             while (dialog.okCancelOption() == UNDECIDED) {
                 waitFor50Milis();
             }
-            if (dialog.okCancelOption() == OK) { controller.modifyEntry(dialog.getArtPieceInfo()); }
+            if (dialog.okCancelOption() == OK) { controller.modifyEntry(dialog.getEntryInfo(), dialog.getUpdatedImage()); }
             dialog.dispose();
         });
     }
@@ -39,7 +39,7 @@ public class DialogController {
             while (dialog.okCancelOption() == UNDECIDED) {
                 waitFor50Milis();
             }
-            if (dialog.okCancelOption() == OK) { controller.addEntry(dialog.getArtPieceInfo()); }
+            if (dialog.okCancelOption() == OK) { controller.addEntry(dialog.getEntryInfo(), dialog.getUpdatedImage()); }
             dialog.dispose();
         });
     }

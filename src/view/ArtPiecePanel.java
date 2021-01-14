@@ -21,7 +21,7 @@ class ArtPiecePanel extends JPanel {
         this.artPiece = artPiece;
 
         this.setBackground(color);
-        PanelInputScheme inputScheme = new PanelInputScheme(controller, artPiece);
+        PanelMouseInputScheme inputScheme = new PanelMouseInputScheme(controller, artPiece);
         this.addMouseListener(inputScheme);
 
         JLabel bitmapLabel = new JLabel();

@@ -4,7 +4,7 @@ import controller.Controller;
 import controller.ControllerImplementation;
 import controller.FileHandler.FileHandler;
 import model.elements.ArtPieceEntry;
-import model.elements.ArtPieceEntryAndPicturePath;
+
 import view.DebugView;
 
 public class controllerTest {
@@ -13,7 +13,7 @@ public class controllerTest {
         Controller controller = new ControllerImplementation(fileHandler);
         controller.addView(new DebugView());
         ArtPieceEntry entry = ArtPieceEntry.createEmptyArtPieceEntry();
-        controller.addEntry(new ArtPieceEntryAndPicturePath(entry, ""));
+        controller.addEntry(entry, null);
         controller.setSelectedElementTo(entry);
         controller.addSelectedElement(entry);
 

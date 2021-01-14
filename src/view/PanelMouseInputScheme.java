@@ -9,12 +9,12 @@ import java.awt.event.MouseListener;
 
 
 
-public class PanelInputScheme implements MouseListener {
+public class PanelMouseInputScheme implements MouseListener {
 
     private ArtPieceEntry artPieceEntry;
     private Controller controller;
 
-    public PanelInputScheme(Controller controller, ArtPieceEntry artPiece) {
+    public PanelMouseInputScheme(Controller controller, ArtPieceEntry artPiece) {
         this.controller = controller;
         this.artPieceEntry = artPiece;
 

@@ -5,9 +5,9 @@ import adressbook.model.PersonEntry;
 import controller.FileHandler.FileHandler;
 import model.elements.ArtPieceEntry;
 import model.Model;
-import model.elements.ArtPieceEntryAndPicturePath;
 import view.Views;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +63,12 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public void modifyEntry(ArtPieceEntryAndPicturePath entryWithPicturePath) {
-        ArtPieceEntry entry = entryWithPicturePath.artPieceEntry;
-        String picturePath = entryWithPicturePath.picturePath;
+    public void modifyEntry(ArtPieceEntry entry, Image imageToLink) {
         ArtPieceEntry entryToChange = model.getEntryWithId(entry.getId());
         entryToChange.setVariablesTo(entry);
-        if (picturePath != null) {
-            entryToChange.setBitmap(fileHandler.relinkPictures(entryToChange.getId(), picturePath));
+        if (imageToLink != null) {
+            entryToChange.setBitmap(imageToLink.getScaledInstance(150,150,Image.SCALE_DEFAULT));
+            new Thread(() -> fileHandler.saveCopyOfPictureLinkedTorArtpiece(entryToChange.getId(), imageToLink)).start();
         }
         refreshViews();
         //TODO ungetestet
@@ -80,16 +79,17 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public void addEntry(ArtPieceEntryAndPicturePath entryWithPicturePath) {
-        ArtPieceEntry entry = entryWithPicturePath.artPieceEntry;
-        String picturePath = entryWithPicturePath.picturePath;
+    public void addEntry(ArtPieceEntry entry, Image imageToLink) {
         if (entry.getId() == -1) { entry.setId(createUnusedID());}
 
         //TODO TEST LÖSCHEN WENN LANGE GENUG GETESTET
         assert (model.getEntryWithId(entry.getId()) != null);
 
-        if (picturePath != null) {
-            entry.setBitmap(fileHandler.relinkPictures(entry.getId(), picturePath));
+        if (imageToLink != null) {
+            entry.setBitmap(imageToLink.getScaledInstance(150,150, Image.SCALE_DEFAULT));
+            new Thread ( () -> fileHandler.saveCopyOfPictureLinkedTorArtpiece(entry.getId(), imageToLink));
+        } else {
+            entry.setBitmap(PictureController.defaultEmptyImage());
         }
         model.getPieces().add(entry);
         refreshViews();

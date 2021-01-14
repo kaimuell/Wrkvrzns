@@ -5,7 +5,7 @@ import controller.Controller;
 import controller.PictureController;
 import gui.elements.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
-import model.elements.ArtPieceEntryAndPicturePath;
+
 
 
 import javax.swing.*;
@@ -38,9 +38,10 @@ class ArtPieceDialog extends JDialog {
     private JLabel imagePreviewIcon;
     private JLabel buyerLabel;
 
-    private String picturePath;
+    private Image imageForEntry;
 
     private OkCancelOption okCancelOption;
+    private String picturePath;
 
 
     ArtPieceDialog(ArtPieceEntry artPiece, Controller controller) {
@@ -283,8 +284,8 @@ class ArtPieceDialog extends JDialog {
 
     private String setPictureFieldToSelectionOf(JFileChooser openDialog) throws IOException {
         File pictureFile = openDialog.getSelectedFile();
-        Image image = PictureController.loadImage(pictureFile.getPath());
-        Image bitmap = PictureController.createBitmap(image, 80, 80);
+        this.imageForEntry = PictureController.loadImage(pictureFile.getPath());
+        Image bitmap = PictureController.createBitmap(imageForEntry, 80, 80);
         imagePreviewIcon.setIcon(new ImageIcon(bitmap));
         errorInfoLabel.setText("");
         return pictureFile.getPath();
@@ -322,8 +323,12 @@ class ArtPieceDialog extends JDialog {
         return okCancelOption;
     }
 
-    public ArtPieceEntryAndPicturePath getArtPieceInfo() {
-        return new ArtPieceEntryAndPicturePath(artPiece, picturePath);
+
+    public ArtPieceEntry getEntryInfo() {
+        return artPiece;
     }
 
+    public Image getUpdatedImage() {
+        return imageForEntry;
+    }
 }
