@@ -11,14 +11,14 @@ import java.io.File;
 
 class ChooseSingleJPEGDialog extends JFileChooser{
 
-    ChooseSingleJPEGDialog()
+    ChooseSingleJPEGDialog(File homeDirectory)
 
     {
-        setFileSelectionMode(FILES_AND_DIRECTORIES);
+        super(homeDirectory);
+        setFileSelectionMode(FILES_ONLY);
         addChoosableFileFilter(new FileNameExtensionFilter("JPEG", "jpg"));
         setAcceptAllFileFilterUsed(false);
         setMultiSelectionEnabled(false);
-        setCurrentDirectory(new File (System.getProperty("user.home")));
         setVisible(true);
     }
 }

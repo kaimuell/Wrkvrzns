@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public interface ModelViewAccess {
     int getNumberOfEntries();
-    Iterator<ArtPieceEntry> artPieceIterator();
+    Iterator<ArtPieceEntry> artPiecesToView();
 
     PersonEntry getPersonWithIDFromAdressBook(int buyerID);
 }

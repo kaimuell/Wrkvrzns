@@ -6,6 +6,8 @@ import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
 
+import java.io.File;
+
 import static controller.DialogController.OkCancelOption.*;
 import static java.lang.Thread.sleep;
 
@@ -74,6 +76,8 @@ public class DialogController {
         }
     }
 
-    public static JFileChooser createChooseSingleJPEGDialog () { return new ChooseSingleJPEGDialog(); }
+    public static JFileChooser createChooseSingleJPEGDialog () {
+        return new ChooseSingleJPEGDialog(new File(System.getProperty("user.home")));
+    }
 
 }

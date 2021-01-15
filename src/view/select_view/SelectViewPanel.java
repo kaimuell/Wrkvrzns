@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Panel mit der Standard Darstellung des Werkverzeichnisses
+ */
 public class SelectViewPanel extends JPanel implements Views {
     private ModelViewAccess model;
     private Controller controller;
@@ -35,7 +38,7 @@ public class SelectViewPanel extends JPanel implements Views {
         JPanel panel = new JPanel(new GridLayout(model.getNumberOfEntries(), 1));
 
         panel.setBackground(Color.lightGray);
-        Iterator<ArtPieceEntry> it = model.artPieceIterator();
+        Iterator<ArtPieceEntry> it = model.artPiecesToView();
         boolean isEvenRowNumber = true;
         while (it.hasNext()) {
             ArtPieceEntry artPiece = it.next();

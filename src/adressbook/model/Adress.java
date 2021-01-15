@@ -24,7 +24,6 @@ public class Adress implements Serializable {
         return street;
     }
 
-
     public String getHouseNo() {
         return houseNo;
     }

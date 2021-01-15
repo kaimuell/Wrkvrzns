@@ -20,30 +20,44 @@ import java.util.List;
 
 public class FileHandler {
     private final String PATH_SETTINGS_FILE  = "./settings.wvs";
+    private static String PROFILE_DIRECTORY = ":/profiles/";
     private String pictureFolder;
     private String bitmapFolder;
     private String saveFile;
-
 
     /**
      * Konstruktor
      * Lädt bei Initialisierung Informationen aus dem Sekundärspeicher
      */
     public FileHandler() {
+        initialiseFileHandler();
+        checkIfdefaultProfileExists();
+        System.out.println("FileHandler initialisiert");
+
+    }
+
+    private void checkIfdefaultProfileExists() {
+        try{
+            load();
+        } catch (Exception e) {
+            createNewProfileFile(PROFILE_DIRECTORY + "default/");
+        }
+    }
+
+    private void initialiseFileHandler() {
         try {
-            initialise();
+            loadInitialSettings();
             System.out.println("saveFile = "+ saveFile);
             System.out.println("bitmapFolder = "+ bitmapFolder);
             System.out.println("pictureFolder = "+ pictureFolder);
         } catch (Exception e) {
             System.out.println("FileHandler: erzeuge neue init File");
             createSettingsFileAndEmptySaveFile();
-            initialiseNewPathSettingsFile();
+            writeNewPathSettingsToFile();
         }
-        System.out.println("FilHandler initialisiert");
     }
 
-    private synchronized void initialise()throws IOException{
+    private synchronized void loadInitialSettings()throws IOException{
         System.out.println("FileHandler : initialisiere");
         try {
             parseInitialSettings(new File(PATH_SETTINGS_FILE));
@@ -58,11 +72,10 @@ public class FileHandler {
             File file = new File(PATH_SETTINGS_FILE);
             file.createNewFile();
             createInitialSaveFile();
-            initialiseNewPathSettingsFile();
+            writeNewPathSettingsToFile();
         }catch (IOException e){
             e.printStackTrace();
         }
-
     }
 
     private void createInitialSaveFile() throws IOException {
@@ -82,9 +95,22 @@ public class FileHandler {
 
     private File initialiseFolders() {
         System.out.println("FileHandler : lege Ordner an");
-        String folderPath = "./profiles";
-        File folder = new File(folderPath);
-        folder.mkdir();
+        String folderPath = createDefaultProfileDirectories();
+        File saveFile = createNewProfileFile(folderPath);
+        return saveFile;
+    }
+
+    private String createDefaultProfileDirectories() {
+        String rootFolderPath = "./profiles/";
+        File profilesFolder = new File(rootFolderPath);
+        profilesFolder.mkdir();
+        String folderPath = rootFolderPath + "default/";
+        File defaultProfileFolder = new File(folderPath);
+        defaultProfileFolder.mkdir();
+        return folderPath;
+    }
+
+    private File createNewProfileFile(String folderPath) {
         File bitmapFolder = new File(folderPath + File.separator +"bitmaps");
         bitmapFolder.mkdir();
         this.bitmapFolder = bitmapFolder.getPath();
@@ -122,7 +148,7 @@ public class FileHandler {
             }
     }
 
-    private void initialiseNewPathSettingsFile()  {
+    private void writeNewPathSettingsToFile()  {
         System.out.println("FileHandler : lege neues PathSettingsFile an");
         try {
             FileOutputStream outputStream = new FileOutputStream(PATH_SETTINGS_FILE);
@@ -160,6 +186,11 @@ public class FileHandler {
         fileInputStream.close();
     }
 
+    /**
+     * Speichert das übergebene Model in das geladene Profil
+     * @param model das Model
+     * @throws IOException
+     */
     public void save(Model model) throws IOException {
         System.out.println("FileHandler : speichere");
         saveAsString(model);
@@ -176,6 +207,13 @@ public class FileHandler {
         fos.close();
     }
 
+    /**
+     * Lädt das Model in die geladene Profil Datei
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws VersionControllException
+     */
     public synchronized Model load() throws IOException, ClassNotFoundException, VersionControllException {
         System.out.println("FileHandler : lade");
         Model model = loadAsString();
@@ -194,6 +232,7 @@ public class FileHandler {
         reloadAllBitmaps(model);
         return model;
     }
+
 
     public void reloadAllBitmaps(Model model) {
         for (ArtPieceEntry entry : model.getPieces()) {
@@ -215,6 +254,10 @@ public class FileHandler {
         return PictureTools.loadImage(pathOfHighQualityPictureWithID(id));
     }
 
+    /**
+     * lösche die Bilder und Bitmaps welche den Ids zugeordnet sind aus dem Profilordner
+     * @param deletedIDs die IDs
+     */
     public void deletePicturesAndBitmapsWithIds(List<Integer> deletedIDs) {
         for (Integer id : deletedIDs) {
             try {

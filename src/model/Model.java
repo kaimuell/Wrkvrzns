@@ -12,10 +12,12 @@ import java.util.List;
 public class Model implements Serializable, ModelViewAccess {
     public ABModel adressbook;
     private List<ArtPieceEntry> pieces;
+    private List<ArtPieceEntry> filtertPieces;
 
     public Model(ABModel adressbuch) {
         this.adressbook = adressbuch;
         this.pieces = new ArrayList<>();
+        this.filtertPieces = new ArrayList<>();
     }
 
     public List<ArtPieceEntry> getPieces() {
@@ -28,8 +30,13 @@ public class Model implements Serializable, ModelViewAccess {
     }
 
     @Override
-    public Iterator<ArtPieceEntry> artPieceIterator() {
-        return pieces.iterator();
+    public Iterator<ArtPieceEntry> artPiecesToView() {
+        if(filtertPieces.size() == 0) {
+            return pieces.iterator();
+        }else{
+            return filtertPieces.iterator();
+        }
+
     }
 
     @Override

@@ -7,9 +7,8 @@ import tools.PictureTools;
 import gui.elements.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
 
-
-
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -98,6 +97,7 @@ class ArtPieceDialog extends JDialog {
         mainPanel.add(errorAndButtonPanel, BorderLayout.SOUTH);
 
         this.add(mainPanel);
+        revalidate();
     }
 
     private void initTypeChoice() {
@@ -254,7 +254,8 @@ class ArtPieceDialog extends JDialog {
         imagePreviewIcon = new JLabel( );
         imagePreviewIcon.setSize(80,80);
         imagePreviewIcon.setIcon(new ImageIcon(artPiece.getBitmap() == null?
-                PictureTools.defaultEmptyImage() : artPiece.getBitmap().getScaledInstance(80,80,Image.SCALE_SMOOTH)));
+                PictureTools.defaultEmptyImage().getScaledInstance(80,80, Image.SCALE_FAST)
+                : artPiece.getBitmap().getScaledInstance(80,80,Image.SCALE_SMOOTH)));
         JButton loadPictureButton = new JButton("Bild laden");
         loadPictureButton.addActionListener(e -> selectPictureFromDialog());
         previewPanel.add(imagePreviewIcon);
@@ -265,7 +266,7 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void selectPictureFromDialog() {
-            JFileChooser openDialog = new ChooseSingleJPEGDialog();
+            JFileChooser openDialog = new ChooseSingleJPEGDialog(FileSystemView.getFileSystemView().getHomeDirectory());
             int returnVal = openDialog.showOpenDialog(this);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 try {

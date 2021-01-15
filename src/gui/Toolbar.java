@@ -4,8 +4,7 @@ import controller.Controller;
 import controller.DialogController.DialogController;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class Toolbar extends JToolBar{
 
@@ -28,7 +27,8 @@ public class Toolbar extends JToolBar{
 
     private void initAddArtPieceButton(Controller controller) {
         JButton addArtPieceButton = new JButton("Werk hinzufügen");
-        addArtPieceButton.addActionListener(action -> new DialogController(controller).createNewArtPieceDialogThread().start());
+        addArtPieceButton.addActionListener(action ->
+                new DialogController(controller).createNewArtPieceDialogThread().start());
         this.add(addArtPieceButton);
     }
 }

@@ -7,8 +7,9 @@ import model.elements.ArtPieceEntry;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
-
+/**
+ * Standard MousseInputs auf einem ViewPanel
+ */
 public class PanelMouseInputScheme implements MouseListener {
 
     private ArtPieceEntry artPieceEntry;
