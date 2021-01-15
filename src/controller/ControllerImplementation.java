@@ -28,23 +28,8 @@ public class ControllerImplementation implements Controller {
     public ControllerImplementation(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
         this.model = new Model(new ABModel());
-        try {
-            this.model = fileHandler.load();
-        } catch (IOException e) {
-            //TODO USER INFORMATION GEBEN?
-            System.out.println("Konnte Datei nicht laden.");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Klasse nicht akzeptiert.");
-        } catch (VersionControllException e) {
-            e.printStackTrace();
-        }
-        System.out.println("model übergeben");
-        assert(model.getPieces() != null);
-        System.out.println(model.getNumberOfEntries());
         this.views = new ArrayList<>();
         this.selectedElements = new ArrayList<>();
-        System.out.println("ControllerImplementation : SelectedElements nach Konstruktor = " + selectedElements);
-        refreshViews();
     }
 
 
@@ -152,6 +137,7 @@ public class ControllerImplementation implements Controller {
     public void load() {
         try {
             this.model = fileHandler.load();
+            updateModelOfViews();
             refreshViews();
         } catch (IOException e) {
             e.printStackTrace();
@@ -162,6 +148,24 @@ public class ControllerImplementation implements Controller {
         }
 
         //TODO USER INFOMATIONEN GEBEN
+    }
+
+    private void updateModelOfViews() {
+        for (Views view: views) {
+            view.setModelTo(this.model);
+        }
+    }
+
+    @Override
+    public void deleteSelectedElements() {
+        //TODO Dialogfenster das fragt ob selectedElements.size() Elemente gelöscht werden sollen
+        List<Integer>  deletedIDs = new ArrayList<>();
+        for (ArtPieceEntry entry : selectedElements) {
+                 model.getPieces().remove(entry);
+                 deletedIDs.add(entry.getId());
+            }
+        fileHandler.deletePicturesAndBitmapsWithIds(deletedIDs);
+        refreshViews();
     }
 
 }

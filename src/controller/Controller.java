@@ -29,4 +29,6 @@ public interface Controller {
     void save();
 
     void load();
+
+    void deleteSelectedElements();
 }

@@ -1,10 +1,11 @@
-package view;
+package view.select_view;
 
 import adressbook.model.ABModel;
 import controller.Controller;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.ModelViewAccess;
+import view.Views;
 
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ObjectViewPanel extends JPanel implements Views {
+public class SelectViewPanel extends JPanel implements Views {
     private ModelViewAccess model;
     private Controller controller;
     private List<ArtPiecePanel> panelList;
@@ -22,7 +23,7 @@ public class ObjectViewPanel extends JPanel implements Views {
     private static final Color ODD_ROW_COLOR = new Color(255,255,240);
     private static final Color SELECTED_ELEMENT_COLOR = new Color(255, 218, 220);
 
-    public ObjectViewPanel(Controller controller) {
+    public SelectViewPanel(Controller controller) {
         this.model = new Model(new ABModel());
         this.controller = controller;
         this.panelList = new ArrayList<>();
@@ -46,7 +47,7 @@ public class ObjectViewPanel extends JPanel implements Views {
         }
         this.add(panel);
         revalidate();
-
+        repaint();
     }
 
     @Override

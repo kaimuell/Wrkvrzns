@@ -103,9 +103,7 @@ public class SaveFileParser {
                         lines.next(),
                         lines.next()
                 )
-
         );
-
         return p;
     }
 

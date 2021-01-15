@@ -1,15 +1,15 @@
-package view;
+package view.select_view;
 
 import adressbook.model.Person;
 import controller.Controller;
 import model.elements.ArtPieceEntry;
+import view.PanelMouseInputScheme;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
 /**
- * Implementiert eine Zeile im {@link ObjectViewPanel}
+ * Implementiert eine Zeile im {@link SelectViewPanel}
  */
 class ArtPiecePanel extends JPanel {
     private ArtPieceEntry artPiece;

@@ -15,16 +15,20 @@ public class Toolbar extends JToolBar{
         this.controller = controller;
 
         initAddArtPieceButton(controller);
+        iniDeleteEntriesButton(controller);
+    }
+
+    private void iniDeleteEntriesButton(Controller controller) {
+        JButton deleteEntryButton = new JButton("Markierte Einträge löschen");
+        deleteEntryButton.addActionListener(action -> {
+            controller.deleteSelectedElements();
+        });
+        this.add(deleteEntryButton);
     }
 
     private void initAddArtPieceButton(Controller controller) {
         JButton addArtPieceButton = new JButton("Werk hinzufügen");
-        addArtPieceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new DialogController(controller).createNewArtPieceDialogThread().start();
-            }
-        });
+        addArtPieceButton.addActionListener(action -> new DialogController(controller).createNewArtPieceDialogThread().start());
         this.add(addArtPieceButton);
     }
 }

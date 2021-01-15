@@ -8,9 +8,11 @@ import model.elements.ArtPieceEntry;
 
 import java.awt.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 
-import static java.lang.Thread.sleep;
 
 /**
  * Klasse die die Operationen auf Datein realisiert
@@ -21,7 +23,6 @@ public class FileHandler {
     private String pictureFolder;
     private String bitmapFolder;
     private String saveFile;
-    private boolean isInitialised;
 
 
     /**
@@ -29,22 +30,18 @@ public class FileHandler {
      * Lädt bei Initialisierung Informationen aus dem Sekundärspeicher
      */
     public FileHandler() {
-        isInitialised = false;
         try {
             initialise();
             System.out.println("saveFile = "+ saveFile);
             System.out.println("bitmapFolder = "+ bitmapFolder);
             System.out.println("pictureFolder = "+ pictureFolder);
         } catch (Exception e) {
-            System.out.println("FileHAndler: erzeuge neue init File");
+            System.out.println("FileHandler: erzeuge neue init File");
             createSettingsFileAndEmptySaveFile();
             initialiseNewPathSettingsFile();
         }
         System.out.println("FilHandler initialisiert");
-        isInitialised = true;
     }
-
-
 
     private synchronized void initialise()throws IOException{
         System.out.println("FileHandler : initialisiere");
@@ -75,19 +72,26 @@ public class FileHandler {
         writeEmptyModelToSaveFile();
 
     }
+    private String pathOfHighQualityPictureWithID(int id){
+       return pictureFolder + File.separatorChar + id + ".jpg";
+    }
+
+    private String pathOfBitmapWithId (int id){
+        return bitmapFolder + File.separatorChar + id + ".jpg";
+    }
 
     private File initialiseFolders() {
         System.out.println("FileHandler : lege Ordner an");
         String folderPath = "./profiles";
         File folder = new File(folderPath);
         folder.mkdir();
-        File bitmapFolder = new File(folderPath + "/bitmaps");
+        File bitmapFolder = new File(folderPath + File.separator +"bitmaps");
         bitmapFolder.mkdir();
         this.bitmapFolder = bitmapFolder.getPath();
-        File pictureFolder = new File(folderPath + "/pictures");
+        File pictureFolder = new File(folderPath + File.separator + "pictures");
         pictureFolder.mkdir();
         this.pictureFolder = pictureFolder.getPath();
-        File saveFile = new File(folderPath + "/profile.wz");
+        File saveFile = new File(folderPath + File.separator +"profile.wz");
         this.saveFile = saveFile.getPath();
         return saveFile;
     }
@@ -107,10 +111,10 @@ public class FileHandler {
     public synchronized void saveCopyOfPictureLinkedToArtpiece(int artPieceEntryID, Image picture)  {
             try {
                 Image bitmap = PictureTools.createBitmap(picture, 150, 150);
-                System.out.println("FileHandler : schreibe Bild nach : " + this.pictureFolder + artPieceEntryID + ".jpg");
-                System.out.println("FileHandler : schreibe Bitmap nach : " + this.bitmapFolder + artPieceEntryID + ".jpg");
-                String pictureFilename = this.pictureFolder + "/" + artPieceEntryID + ".jpg";
-                String bitmapFilename = this.bitmapFolder + "/" + artPieceEntryID + ".jpg";
+                System.out.println("FileHandler : schreibe Bild nach : " + pathOfHighQualityPictureWithID(artPieceEntryID));
+                System.out.println("FileHandler : schreibe Bitmap nach : " + pathOfBitmapWithId(artPieceEntryID));
+                String pictureFilename = pathOfHighQualityPictureWithID(artPieceEntryID);
+                String bitmapFilename = pathOfBitmapWithId(artPieceEntryID);
                 PictureTools.saveImage(picture, new File(pictureFilename), 1.0f);
                 PictureTools.saveImage(bitmap, new File(bitmapFilename), 1.0f);
             }catch (IOException e){
@@ -123,13 +127,9 @@ public class FileHandler {
         try {
             FileOutputStream outputStream = new FileOutputStream(PATH_SETTINGS_FILE);
             BufferedWriter streamWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
-            System.out.println("Schreibe Version Controll Nummer");
             streamWriter.write("1.0\n");
-            System.out.println("Schreibe saveFile");
             streamWriter.write(saveFile + "\n");
-            System.out.println("Schreibe pictureFolder");
             streamWriter.write(pictureFolder + "\n");
-            System.out.println("Schreibe bitmapFolder");
             streamWriter.write(bitmapFolder + "\n");
             streamWriter.flush();
             streamWriter.close();
@@ -142,21 +142,15 @@ public class FileHandler {
     }
 
     private void parseInitialSettings(File path_settings_file) throws IOException, VersionControllException {
-        System.out.println("FileHandler : lese OrdnerInformationen in PathSettingsFile");
         FileInputStream fileInputStream = new FileInputStream(path_settings_file);
         InputStreamReader streamReader = new InputStreamReader(fileInputStream);
         BufferedReader reader = new BufferedReader(streamReader);
 
         Iterator lineIterator = reader.lines().iterator();
-        System.out.println("Lese Zeile 1 : " + lineIterator.hasNext());
         if(lineIterator.next().toString().trim().equals("1.0")){
-            System.out.println("Lese Zeile 2");
             saveFile = ((String) lineIterator.next()).trim();
-            System.out.println("Lese Zeile 3");
             pictureFolder = ((String) lineIterator.next()).trim();
-            System.out.println("Lese Zeile 4");
             bitmapFolder = ((String) lineIterator.next()).trim();
-            System.out.println("Lese Zeile 5");
         } else {
             System.out.println("Falsche Version");
             throw new VersionControllException();
@@ -182,33 +176,6 @@ public class FileHandler {
         fos.close();
     }
 
-    private void saveAsBinary(Model model) throws IOException {
-        Save save = new Save(model);
-        FileOutputStream fos = new FileOutputStream(saveFile);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(save);
-        oos.flush();
-        oos.close();
-        fos.close();
-    }
-
-    /*
-    private void SaveAsBinary(Model model) throws IOException {
-        Save save = new Save(model);
-        FileOutputStream fos = new FileOutputStream(saveFile);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        for (ArtpieceSave artPiece : save.artpieces) {
-            oos.writeObject(artPiece);
-        }
-        for (PersonEntry personEntry : save.adressbook.getPersonList()) {
-            oos.writeObject(personEntry);
-        }
-        oos.flush();
-        fos.close();
-    }
-
-     */
-
     public synchronized Model load() throws IOException, ClassNotFoundException, VersionControllException {
         System.out.println("FileHandler : lade");
         Model model = loadAsString();
@@ -216,7 +183,7 @@ public class FileHandler {
         return model;
     }
 
-    private Model loadAsString() throws IOException, ClassNotFoundException, VersionControllException {
+    private Model loadAsString() throws IOException, VersionControllException {
 
         FileReader fr = new FileReader(saveFile);
         BufferedReader reader = new BufferedReader(fr);
@@ -224,11 +191,11 @@ public class FileHandler {
         Model model = SaveFileParser.parseFileInput(lines);
         reader.close();
         fr.close();
-        reloadAllPictures(model);
+        reloadAllBitmaps(model);
         return model;
     }
 
-    public void reloadAllPictures(Model model) {
+    public void reloadAllBitmaps(Model model) {
         for (ArtPieceEntry entry : model.getPieces()) {
             try {
                 Image bitmap = loadBitmap(entry.getId());
@@ -240,74 +207,24 @@ public class FileHandler {
         }
     }
 
-    /*
-        private Model loadBinary() throws IOException, ClassNotFoundException {
-            FileInputStream fis = new FileInputStream(saveFile);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            boolean unfinished = true;
-            Model model = new Model(new ABModel());
-            ArtpieceSave artpieceReference = new ArtpieceSave(ArtPieceEntry.createEmptyArtPieceEntry());
-            PersonEntry personReference = new PersonEntry(0, new Person("","","","",null));
-            while (unfinished){
-                Object o = ois.readObject();
-                if (o == null){
-                    unfinished = true;
-                }else if (o.getClass().isInstance(artpieceReference)){
-                    ArtpieceSave artpiece = (ArtpieceSave) o;
-                    model.getPieces().add(new ArtPieceEntry(artpiece.getId(), artpiece, null));
-                }else if (o.getClass().isInstance(personReference)){
-                    PersonEntry person = (PersonEntry) o;
-                    model.adressbook.getPersonList().add(person);
-                }
-            }
-            fis.close();
-            return model;
-        }
-
-         */
-    private Model loadBinary() throws IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream(saveFile);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        Save save = (Save) ois.readObject();
-        ois.close();
-        fis.close();
-        return createModelFromSave(save);
-
-    }
-
-    private void waitIfSaveFileisNotyetinitialised() {
-        while (saveFile == null) {
-            try {
-                sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
-    private Model createModelFromSave(Save save) throws IOException {
-        System.out.println("FileHandler : lege neues Model an aus Datei an");
-        Model model = new Model(save.adressbook);
-        createArtpieceEntries(save, model);
-        return model;
-        }
-
-    private void createArtpieceEntries(Save save, Model model) throws IOException {
-        for (ArtpieceSave artpiece : save.artpieces) {
-            model.getPieces().add(
-                    new ArtPieceEntry(artpiece.getId(), artpiece, loadBitmap(artpiece.getId())));
-        }
-    }
-
     private Image loadBitmap(int id) throws IOException {
-        return PictureTools.loadImage(this.bitmapFolder + "/" + id + ".jpg");
+        return PictureTools.loadImage(pathOfBitmapWithId(id));
     }
 
     public Image loadHighQualityPicture(int id) throws IOException {
-        return PictureTools.loadImage(this.pictureFolder + "/" + id + ".jpg");
+        return PictureTools.loadImage(pathOfHighQualityPictureWithID(id));
     }
 
+    public void deletePicturesAndBitmapsWithIds(List<Integer> deletedIDs) {
+        for (Integer id : deletedIDs) {
+            try {
+                Files.delete(Paths.get(pathOfHighQualityPictureWithID(id)));
+                Files.delete(Paths.get(pathOfBitmapWithId(id)));
+            } catch (IOException e) {
+                //Kein Catch da nicht jedes Bild zwangsläufig ein Bild gespeichert hat.
+            }
+        }
+    }
 }
 
 
