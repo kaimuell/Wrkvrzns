@@ -1,5 +1,6 @@
 package view;
 
+import adressbook.model.PersonEntry;
 import model.Model;
 import model.elements.ArtPieceEntry;
 
@@ -25,6 +26,13 @@ public class DebugView implements Views {
             System.out.println();
         }
         System.out.println();
+        for (PersonEntry person: model.adressbook.getPersonList()) {
+            System.out.println(person.getFirstName());
+            System.out.println(person.getFamilyName());
+            System.out.println(person.geteMail());
+            System.out.println(person.getTel());
+            System.out.println(person.getAdress().getStreet() + person.getAdress().getHouseNo());
+        }
     }
 
     @Override

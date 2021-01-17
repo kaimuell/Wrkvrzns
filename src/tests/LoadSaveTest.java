@@ -52,9 +52,6 @@ public class LoadSaveTest {
                 System.out.println(entry.getYear());
                 System.out.println(entry.getPrice());
                 System.out.println(entry.getBuyer() == null);
-
-
-
             }
         } catch (VersionControllException e) {
             System.out.println("Falsche Version");

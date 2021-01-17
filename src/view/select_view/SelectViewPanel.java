@@ -29,15 +29,16 @@ public class SelectViewPanel extends JPanel implements Views {
     public SelectViewPanel(Controller controller) {
         this.model = new Model(new ABModel());
         this.controller = controller;
-        this.panelList = new ArrayList<>();
+
     }
 
     @Override
     public void refreshView() {
         this.removeAll();
+        this.panelList= new ArrayList<>(model.getNumberOfEntries());
         JPanel panel = new JPanel(new GridLayout(model.getNumberOfEntries(), 1));
 
-        panel.setBackground(Color.lightGray);
+        panel.setBackground(Color.darkGray);
         Iterator<ArtPieceEntry> it = model.artPiecesToView();
         boolean isEvenRowNumber = true;
         while (it.hasNext()) {

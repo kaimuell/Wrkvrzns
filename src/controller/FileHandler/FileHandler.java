@@ -20,7 +20,7 @@ import java.util.List;
 
 public class FileHandler {
     private final String PATH_SETTINGS_FILE  = "./settings.wvs";
-    private static String PROFILE_DIRECTORY = ":/profiles/";
+    private static String PROFILE_DIRECTORY = "./profiles/";
     private String pictureFolder;
     private String bitmapFolder;
     private String saveFile;

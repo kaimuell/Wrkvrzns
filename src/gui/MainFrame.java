@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
         SelectViewPanel panel = new SelectViewPanel(controller);
         controller.addView(panel);
 
-        this.add (panel, BorderLayout.CENTER);
+        this.add (new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
         controller.load();
         this.setVisible(true);

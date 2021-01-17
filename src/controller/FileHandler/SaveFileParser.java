@@ -19,16 +19,16 @@ public class SaveFileParser {
         builder.append("1.0\n");
         for (ArtPieceEntry entry : model.getPieces()) {
             builder.append("#artpiece\n");
-            builder.append(entry.getId() + "\n");
-            builder.append(entry.getName() + "\n");
-            builder.append(entry.getTechnique() + "\n");
-            builder.append(entry.getType().ordinal() + "\n");
-            builder.append(entry.getHeight() + "\n");
-            builder.append(entry.getWidth() + "\n");
-            builder.append(entry.getDepth() + "\n");
-            builder.append(entry.getLength() + "\n");
-            builder.append(entry.getYear() + "\n");
-            builder.append(entry.getPrice() + "\n");
+            builder.append(entry.getId()).append("\n");
+            builder.append(entry.getName()).append("\n");
+            builder.append(entry.getTechnique()).append("\n");
+            builder.append(entry.getType().ordinal()).append("\n");
+            builder.append(entry.getHeight()).append("\n");
+            builder.append(entry.getWidth()).append("\n");
+            builder.append(entry.getDepth()).append("\n");
+            builder.append(entry.getLength()).append("\n");
+            builder.append(entry.getYear()).append("\n");
+            builder.append(entry.getPrice()).append("\n");
             if (entry.getBuyer() == null) {
                 builder.append("0\n");
             } else {
@@ -38,22 +38,22 @@ public class SaveFileParser {
         }
         for (PersonEntry personEntry: model.adressbook.getPersonList()) {
             builder.append("#contact\n");
-            builder.append(personEntry.getId());
+            builder.append(personEntry.getId()).append("\n");
             parsePerson(builder, personEntry);
         }
         return builder.toString();
     }
 
     private static void parsePerson(StringBuilder builder, Person person){
-        builder.append(person.getFirstName() + "\n");
-        builder.append(person.getFamilyName() + "\n");
-        builder.append(person.geteMail() + "\n");
-        builder.append(person.getTel() + "\n");
-        builder.append(person.getAdress().getStreet() + "\n");
-        builder.append(person.getAdress().getHouseNo() + "\n");
-        builder.append(person.getAdress().getPostal() + "\n");
-        builder.append(person.getAdress().getCity() + "\n");
-        builder.append(person.getAdress().getCountry() + "\n");
+        builder.append(person.getFirstName()).append("\n");
+        builder.append(person.getFamilyName()).append("\n");
+        builder.append(person.geteMail()).append("\n");
+        builder.append(person.getTel()).append("\n");
+        builder.append(person.getAdress().getStreet()).append("\n");
+        builder.append(person.getAdress().getHouseNo()).append("\n");
+        builder.append(person.getAdress().getPostal()).append("\n");
+        builder.append(person.getAdress().getCity()).append("\n");
+        builder.append(person.getAdress().getCountry()).append("\n");
     }
 
     public static Model parseFileInput(Iterator<String> lines) throws VersionControllException{
@@ -61,7 +61,8 @@ public class SaveFileParser {
         String s = lines.next();
         if(s.equals("1.0")){
             while (lines.hasNext()){
-                if(lines.next().equals("#artpiece")){
+                String controllWord = lines.next();
+                if(controllWord.equals("#artpiece")){
                     model.getPieces().add(
                             new ArtPieceEntry(
                                     parseInt(lines.next()), //Id
@@ -77,7 +78,7 @@ public class SaveFileParser {
                                     lines.next().equals("1") ? createNewPerson (lines) : null,
                                     null
                             ));
-                }else if (lines.next().equals("\"#contact")){
+                }else if (controllWord.equals("#contact")){
                     model.adressbook.getPersonList().add(new PersonEntry(
                             parseInt(lines.next()),
                            createNewPerson(lines)
@@ -91,20 +92,19 @@ public class SaveFileParser {
     }
 
     private static Person createNewPerson(Iterator<String> lines) {
-        Person p = new Person(
-                lines.next(),
-                lines.next(),
-                lines.next(),
-                lines.next(),
+        return new Person(
+                lines.next(),           //First name
+                lines.next(),           //Family name
+                lines.next(),           //eMail
+                lines.next(),           //tel
                 new Adress(
-                        lines.next(),
-                        lines.next(),
-                        lines.next(),
-                        lines.next(),
-                        lines.next()
+                        lines.next(),   //Street
+                        lines.next(),   //House No
+                        lines.next(),   //Postal
+                        lines.next(),   //City
+                        lines.next()    //Country
                 )
         );
-        return p;
     }
 
 }
