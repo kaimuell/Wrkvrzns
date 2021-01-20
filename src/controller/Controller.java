@@ -2,7 +2,7 @@ package controller;
 
 import adressbook.model.ABModel;
 import model.elements.ArtPieceEntry;
-import view.Views;
+import view.Viewer;
 
 import java.awt.*;
 
@@ -47,7 +47,7 @@ public interface Controller {
      *
      * @param view das View
      */
-    void addView(Views view);
+    void addView(Viewer view);
 
     /**
      * Gibt das Adressbuch des betrachteten {@link model.Model} zurück

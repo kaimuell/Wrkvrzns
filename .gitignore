@@ -1,2 +1,12 @@
 #ignore builds
 **/out
+
+#ignore profiles
+**/profiles
+
+#ignore save files
+*.wvs
+*.wv
+
+#ignore pictures
+*.jpg

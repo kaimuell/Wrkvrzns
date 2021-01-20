@@ -2,7 +2,7 @@ package view;
 
 import model.Model;
 
-public interface Views {
+public interface Viewer {
 
     /**
      * veranlasst ein vollständiges Neuzeichnen

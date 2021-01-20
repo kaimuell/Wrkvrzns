@@ -5,7 +5,7 @@ import controller.Controller;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.ModelViewAccess;
-import view.Views;
+import view.Viewer;
 
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Panel mit der Standard Darstellung des Werkverzeichnisses
  */
-public class SelectViewPanel extends JPanel implements Views {
+public class SelectViewPanel extends JPanel implements Viewer {
     private ModelViewAccess model;
     private Controller controller;
     private List<ArtPiecePanel> panelList;

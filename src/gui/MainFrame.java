@@ -3,7 +3,10 @@ package gui;
 import controller.Controller;
 import controller.ControllerImplementation;
 import controller.fileHandler.FileHandler;
-import gui.menu.MainMenu;
+import gui.menu.MainMenuBar;
+import view.ViewHub;
+import view.ViewOption;
+import view.pictureView.PictureView;
 import view.select_view.SelectViewPanel;
 
 import javax.swing.*;
@@ -20,13 +23,17 @@ public class MainFrame extends JFrame {
         FileHandler fileHandler = new FileHandler();
         Controller controller = new ControllerImplementation(fileHandler);
 
-        this.setJMenuBar(new MainMenu(controller));
+
+
+        SelectViewPanel selectVIew = new SelectViewPanel(controller);
+        PictureView pictureView = new PictureView(controller);
+        ViewHub viewHub = new ViewHub(pictureView,selectVIew, ViewOption.SELECT_VIEW, controller);
+        controller.addView(viewHub);
+
+        this.add (new JScrollPane(viewHub, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+
+        this.setJMenuBar(new MainMenuBar(controller, viewHub));
         this.add(new Toolbar(controller, this), BorderLayout.NORTH);
-
-        SelectViewPanel panel = new SelectViewPanel(controller);
-        controller.addView(panel);
-
-        this.add (new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
         controller.load();
 

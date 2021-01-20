@@ -6,7 +6,7 @@ import controller.fileHandler.VersionControllException;
 import model.elements.ArtPieceEntry;
 import model.Model;
 import tools.PictureTools;
-import view.Views;
+import view.Viewer;
 
 import java.awt.*;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.util.List;
 public class ControllerImplementation implements Controller {
     private Model model;
     private final FileHandler fileHandler;
-    private List<Views> views;
+    private List<Viewer> views;
     private List<ArtPieceEntry> selectedElements;
     private final SortAndFilterHandler sortAndFilterHandler;
 
@@ -70,7 +70,7 @@ public class ControllerImplementation implements Controller {
     }
 
     private void refreshViews() {
-        for (Views view : views) {view.refreshView(); }
+        for (Viewer view : views) {view.refreshView(); }
     }
 
     @Override
@@ -98,14 +98,14 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public void addView(Views view) {
+    public void addView(Viewer view) {
             this.views.add(view);
             view.setModelTo(model);
             view.refreshView();
     }
 
     private void informViewsSelectedElementsChanged(){
-        for (Views view : views) {
+        for (Viewer view : views) {
             view.changeBackgroundOfSelectedElements();
         }
     }
@@ -144,7 +144,7 @@ public class ControllerImplementation implements Controller {
     }
 
     private void updateModelOfViews() {
-        for (Views view: views) {
+        for (Viewer view: views) {
             view.setModelTo(this.model);
         }
     }

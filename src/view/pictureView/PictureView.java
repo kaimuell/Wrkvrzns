@@ -1,9 +1,10 @@
 package view.pictureView;
 
+import adressbook.model.ABModel;
 import controller.Controller;
 import model.Model;
 import model.elements.ArtPieceEntry;
-import view.Views;
+import view.Viewer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Die Klasse {@link PictureView} realisiert ein Panel als {@link Views} zur Anzeige der Einträge als Icons ihrer Bitmaps.
+ * Die Klasse {@link PictureView} realisiert ein Panel als {@link Viewer} zur Anzeige der Einträge als Icons ihrer Bitmaps.
  */
-public class PictureView extends JPanel implements Views {
+public class PictureView extends JPanel implements Viewer {
 
     private static final Color STANDARD_BACKGROUND = new Color(144, 143, 143);
     private static final Color SELECTED_ELEMENT_BACKGROUND = new Color(160, 71, 71);
@@ -23,10 +24,12 @@ public class PictureView extends JPanel implements Views {
     private Controller controller;
     private List<PictureViewPanel> picturePanels;
 
-    public PictureView(Controller controller, Model model){
+    //TODO Bilder in mehreren Zeilen anzeigen.
+    public PictureView(Controller controller){
         this.panelHeight = 150;
         this.panelWidth = 150;
-        this.removeAll();
+        this.model = new Model(new ABModel());
+        this.controller = controller;
         this.picturePanels = new ArrayList<>();
         refreshView();
     }

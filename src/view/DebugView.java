@@ -4,7 +4,7 @@ import adressbook.model.PersonEntry;
 import model.Model;
 import model.elements.ArtPieceEntry;
 
-public class DebugView implements Views {
+public class DebugView implements Viewer {
 
 
     private Model model;
