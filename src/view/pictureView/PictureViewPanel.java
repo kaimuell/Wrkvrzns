@@ -5,6 +5,8 @@ import model.elements.ArtPieceEntry;
 import view.PanelMouseInputScheme;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
 /**
@@ -18,14 +20,17 @@ class PictureViewPanel extends JPanel {
     private final int width;
     private final Image bitmap;
     public final ArtPieceEntry entry;
+    private Color color;
 
     PictureViewPanel(Controller controller, int panelHeight, int panelWidth, ArtPieceEntry entry, Color color ) {
         this.height = panelHeight;
         this.width = panelWidth;
         this.bitmap = entry.getBitmap();
         this.entry = entry;
+        this.color = color;
         this.setSize(new Dimension(width, height));
         this.setLayout(new BorderLayout());
+        this.setBorder(new BasicBorders.MarginBorder());
         this.setBackground(color);
         this.addMouseListener(new PanelMouseInputScheme(controller, entry));
         createFittingLabel();
@@ -35,9 +40,25 @@ class PictureViewPanel extends JPanel {
     private void createFittingLabel(){
         JLabel imageLabel = new JLabel();
         imageLabel.setIcon(new ImageIcon(
-                bitmap.getScaledInstance(((int)(width*0.8)), ((int)(height*0.8)), Image.SCALE_DEFAULT)));
+                bitmap.getScaledInstance(width, height, Image.SCALE_DEFAULT)));
+        imageLabel.setBorder(new Border() {
+            @Override
+            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+                g.setColor(color);
+                g.drawRect(x, y, width, height);
+            }
+
+            @Override
+            public Insets getBorderInsets(Component c) {
+                return new Insets(3,3,3,3);
+            }
+
+            @Override
+            public boolean isBorderOpaque() {
+                return false;
+            }
+        });
         this.add(imageLabel, BorderLayout.CENTER);
     }
-
 }
 

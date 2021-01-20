@@ -49,7 +49,7 @@ public class PictureView extends JPanel implements Viewer {
     }
 
     private Color selectColor(ArtPieceEntry entry) {
-        Color color = controller.isASelectedElement(entry) ? STANDARD_BACKGROUND : SELECTED_ELEMENT_BACKGROUND;
+        Color color = controller.isASelectedElement(entry) ? SELECTED_ELEMENT_BACKGROUND : STANDARD_BACKGROUND;
         return color;
     }
 
