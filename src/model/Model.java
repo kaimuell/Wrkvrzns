@@ -3,7 +3,6 @@ package model;
 import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
 import model.elements.ArtPieceEntry;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,12 +11,17 @@ import java.util.List;
 public class Model implements Serializable, ModelViewAccess {
     public ABModel adressbook;
     private List<ArtPieceEntry> pieces;
+
     private List<ArtPieceEntry> filtertPieces;
 
     public Model(ABModel adressbuch) {
         this.adressbook = adressbuch;
         this.pieces = new ArrayList<>();
         this.filtertPieces = new ArrayList<>();
+    }
+
+    public List<ArtPieceEntry> getFiltertPieces() {
+        return filtertPieces;
     }
 
     public List<ArtPieceEntry> getPieces() {
@@ -36,7 +40,6 @@ public class Model implements Serializable, ModelViewAccess {
         }else{
             return filtertPieces.iterator();
         }
-
     }
 
     @Override
@@ -53,4 +56,7 @@ public class Model implements Serializable, ModelViewAccess {
         return null;
     }
 
+    public void resetFilteredPieces() {
+        this.filtertPieces = new ArrayList<>();
+    }
 }

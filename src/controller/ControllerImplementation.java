@@ -24,12 +24,14 @@ public class ControllerImplementation implements Controller {
     private FileHandler fileHandler;
     private List<Views> views;
     private List<ArtPieceEntry> selectedElements;
+    private SortAndFilterHandler sortAndFilterHandler;
 
     public ControllerImplementation(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
         this.model = new Model(new ABModel());
         this.views = new ArrayList<>();
         this.selectedElements = new ArrayList<>();
+        this.sortAndFilterHandler = new SortAndFilterHandler(model);
     }
 
 
@@ -166,6 +168,11 @@ public class ControllerImplementation implements Controller {
             }
         fileHandler.deletePicturesAndBitmapsWithIds(deletedIDs);
         refreshViews();
+    }
+
+    @Override
+    public SortAndFilterHandler SortOrFilter() {
+        return this.sortAndFilterHandler;
     }
 
 }

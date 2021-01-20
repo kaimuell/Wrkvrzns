@@ -8,6 +8,7 @@ import view.Views;
 import java.awt.*;
 
 public interface Controller {
+
     boolean isASelectedElement(ArtPieceEntry artPiece);
     void addSelectedElement(ArtPieceEntry artPieceEntry);
     void setSelectedElementTo(ArtPieceEntry artPieceEntry);
@@ -26,9 +27,24 @@ public interface Controller {
 
     ABModel getAddressbook();
 
+    /**
+     * Speichert das gerade betrachtete {@link model.Model} in dem aktuell geladenen Profil
+     */
     void save();
 
+    /**
+     * Lädt das im {@link controller.FileHandler.FileHandler} spezifizierte {@link model.Model}
+     */
     void load();
 
+    /**
+     * löscht die ausgewählten Elemente aus dem {@link model.Model}
+     */
     void deleteSelectedElements();
+
+    /**
+     * Getter für die Sortier und Filter Operationen durch den {@link SortAndFilterHandler}
+     * @return die Sortier und Filter Operationen
+     */
+    SortAndFilterHandler SortOrFilter();
 }
