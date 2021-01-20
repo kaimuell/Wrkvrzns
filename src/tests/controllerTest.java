@@ -2,7 +2,7 @@ package tests;
 
 import controller.Controller;
 import controller.ControllerImplementation;
-import controller.FileHandler.FileHandler;
+import controller.fileHandler.FileHandler;
 import model.elements.ArtPieceEntry;
 
 import view.DebugView;
@@ -14,8 +14,8 @@ public class controllerTest {
         controller.addView(new DebugView());
         ArtPieceEntry entry = ArtPieceEntry.createEmptyArtPieceEntry();
         controller.addEntry(entry, null);
-        controller.setSelectedElementTo(entry);
-        controller.addSelectedElement(entry);
+        controller.selectElement(entry);
+        controller.selectAdditionalElement(entry);
 
     }
 }

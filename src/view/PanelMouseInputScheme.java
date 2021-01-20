@@ -1,7 +1,7 @@
 package view;
 
 import controller.Controller;
-import controller.DialogController.DialogController;
+import controller.dialogController.DialogController;
 import model.elements.ArtPieceEntry;
 
 import java.awt.event.MouseEvent;
@@ -27,9 +27,9 @@ public class PanelMouseInputScheme implements MouseListener {
             new DialogController(controller).createModifyEntryDialogThread(artPieceEntry).start();
         }
         if(e.isControlDown()){
-            controller.addSelectedElement(artPieceEntry);
+            controller.selectAdditionalElement(artPieceEntry);
         }else{
-            controller.setSelectedElementTo(artPieceEntry);
+            controller.selectElement(artPieceEntry);
         }
 
     }

@@ -1,4 +1,4 @@
-package controller.DialogController;
+package controller.dialogController;
 
 import adressbook.model.Person;
 import adressbook.model.PersonEntry;
@@ -13,7 +13,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-import static controller.DialogController.OkCancelOption.*;
+import static controller.dialogController.OkCancelOption.*;
 
 /**
  * Eingabe Dialog für die Informationen eines {@link ArtPieceEntry}
@@ -21,8 +21,8 @@ import static controller.DialogController.OkCancelOption.*;
 
 class ArtPieceDialog extends JDialog {
 
-    private Controller controller;
-    private ArtPieceEntry artPiece;
+    private final Controller controller;
+    private final ArtPieceEntry artPiece;
 
     private JTextField priceField;
     private JTextField yearField;
@@ -42,6 +42,7 @@ class ArtPieceDialog extends JDialog {
 
     private OkCancelOption okCancelOption;
     private String picturePath;
+    private JTextField editionField;
 
 
     ArtPieceDialog(ArtPieceEntry artPiece, Controller controller) {
@@ -82,7 +83,7 @@ class ArtPieceDialog extends JDialog {
         addPictureSelectionTo(pictureSelectionPanel);
         centralPanel.add(pictureSelectionPanel, BorderLayout.NORTH);
 
-        JPanel entryPanel = new JPanel(new GridLayout(5,4));
+        JPanel entryPanel = new JPanel(new GridLayout(6,4));
 
         initTextFields(entryPanel);
         initBuyerSelection(entryPanel);
@@ -167,7 +168,8 @@ class ArtPieceDialog extends JDialog {
 
     private void deleteBuyer() {
         if (artPiece.getBuyer() != null) {
-            int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?");
+            int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?",
+                    "Bestätigen", JOptionPane.YES_NO_OPTION);
             if (returnval == JOptionPane.YES_OPTION) {
                 artPiece.setBuyer(null);
             }
@@ -188,6 +190,14 @@ class ArtPieceDialog extends JDialog {
         addLengthTextFieldTo(entryPanel);
         addYearTextFieldTo(entryPanel);
         addPriceTextFieldTo(entryPanel);
+        insertEmptyLabel(entryPanel);
+        insertEmptyLabel(entryPanel);
+        addEditionTextFieldTo(entryPanel);
+    }
+
+    private void insertEmptyLabel(JPanel entryPanel) {
+        JLabel emptyLabel = new JLabel();
+        entryPanel.add(emptyLabel);
     }
 
     private void addNameTextFieldTo(JPanel entryPanel) {
@@ -246,6 +256,13 @@ class ArtPieceDialog extends JDialog {
         entryPanel.add(priceField);
     }
 
+    private void addEditionTextFieldTo(JPanel entryPanel) {
+        JLabel editionLabel = new JLabel("Auflage");
+        editionField =  new JTextField(((Integer)artPiece.getEdition()).toString(), 6);
+        entryPanel.add(editionLabel);
+        entryPanel.add(editionField);
+    }
+
     private void addPictureSelectionTo(JPanel panel) {
         JPanel picturePanel = new JPanel(new BorderLayout());
 
@@ -298,6 +315,7 @@ class ArtPieceDialog extends JDialog {
         artPiece.setLength(ParseIntegerFromTextField(lengthField));
         artPiece.setYear(ParseIntegerFromTextField(yearField));
         artPiece.setPrice(ParseIntegerFromTextField(priceField));
+        artPiece.setEdition(ParseIntegerFromTextField(editionField));
     }
 
     private String createShortDescriptionOfPerson(Person person){

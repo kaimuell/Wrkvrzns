@@ -12,7 +12,7 @@ public interface Views {
     /**
      * Ändere die Anzeige der ausgewählten Einträge
      */
-    void changeSelectedElements();
+    void changeBackgroundOfSelectedElements();
 
     /**
      * Setzt das betrachtete Model auf das übergebene Model

@@ -55,7 +55,7 @@ public class SelectViewPanel extends JPanel implements Views {
     }
 
     @Override
-    public void changeSelectedElements() {
+    public void changeBackgroundOfSelectedElements() {
         boolean iseven = true;
         for (ArtPiecePanel panel: panelList) {
             panel.setBackground(selectColor(panel.getArtPiece(), iseven));

@@ -1,4 +1,4 @@
-package controller.DialogController;
+package controller.dialogController;
 
 import adressbook.model.PersonEntry;
 import controller.Controller;
@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import java.io.File;
 
-import static controller.DialogController.OkCancelOption.*;
+import static controller.dialogController.OkCancelOption.*;
 import static java.lang.Thread.sleep;
 
 /**
@@ -16,7 +16,7 @@ import static java.lang.Thread.sleep;
  */
 
 public class DialogController {
-    private Controller controller;
+    private final Controller controller;
 
     public DialogController(Controller controller) {
 

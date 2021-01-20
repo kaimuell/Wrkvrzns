@@ -15,8 +15,16 @@ import java.io.IOException;
 
 public class PictureTools {
 
+    /**
+     * erschafft ein Bitmap aus den übergebenen Parametern
+     * @param image das QuellBild
+     * @param width die gewünschte Breite
+     * @param height die gewünschte Höhe
+     * @return das Bitmap
+     */
     public static Image createBitmap(Image image, int width, int height){
         return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        //TODO Abändern, so dass die Proportionen des übergebenen Bildes eingehalten werden
     }
 
     public static Image loadImage(String filepath) throws IOException{
@@ -26,11 +34,11 @@ public class PictureTools {
     }
 
     /**
-     *
-     * @param imageToSave
-     * @param outputFile
-     * @param quality 1f = 100% 0.7f = 70%
-     * @throws IOException
+     *  Speichert ein Bild als JPG in der angegebenen Datei mit der entsprechenden Qualität
+     * @param imageToSave das Bild
+     * @param outputFile der Dateipfad
+     * @param quality die Qualität. Bsp : 1f = 100% 0.7f = 70%
+     * @throws IOException speichern fehlgeschlagen
      */
 
     public static void saveImage(Image imageToSave, File outputFile, float quality) throws IOException {
@@ -48,27 +56,11 @@ public class PictureTools {
 
     }
 
+
     /**
-     *
-     * @param imageToSave
-     * @param outputFile
-     * @param quality 1f = 100% 0.7f = 70%
-     * @throws IOException
+     * Gibt das Standardbild zurück, welches genutzt wird, falls noch kein Bild zugewiesen wurde
+     * @return das STandardbild
      */
-    static void saveImage(Image imageToSave, String outputFile, float quality) throws IOException {
-        BufferedImage image = imageToBufferedImage(imageToSave);
-        File jpegFiletoSave = new File(outputFile);
-        ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
-        ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
-        jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-        jpgWriteParam.setCompressionQuality(quality);
-
-        jpgWriter.setOutput(ImageIO.createImageOutputStream(jpegFiletoSave));
-        IIOImage outputImage = new IIOImage(image, null, null);
-        jpgWriter.write(null, outputImage, jpgWriteParam);
-        jpgWriter.dispose();
-    }
-
     public static Image defaultEmptyImage() {
         return createEmptyImage();
     }

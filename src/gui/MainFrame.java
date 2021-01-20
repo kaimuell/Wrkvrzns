@@ -2,7 +2,7 @@ package gui;
 
 import controller.Controller;
 import controller.ControllerImplementation;
-import controller.FileHandler.FileHandler;
+import controller.fileHandler.FileHandler;
 import gui.menu.MainMenu;
 import view.select_view.SelectViewPanel;
 
@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
         Controller controller = new ControllerImplementation(fileHandler);
 
         this.setJMenuBar(new MainMenu(controller));
-        this.add(new Toolbar(controller), BorderLayout.NORTH);
+        this.add(new Toolbar(controller, this), BorderLayout.NORTH);
 
         SelectViewPanel panel = new SelectViewPanel(controller);
         controller.addView(panel);

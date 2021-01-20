@@ -1,10 +1,9 @@
 package tests;
 
-import adressbook.model.ABModel;
 import controller.Controller;
 import controller.ControllerImplementation;
-import controller.DialogController.DialogController;
-import controller.FileHandler.FileHandler;
+import controller.dialogController.DialogController;
+import controller.fileHandler.FileHandler;
 
 import static java.lang.Thread.sleep;
 

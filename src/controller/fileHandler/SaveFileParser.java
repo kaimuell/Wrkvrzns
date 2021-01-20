@@ -1,4 +1,4 @@
-package controller.FileHandler;
+package controller.fileHandler;
 
 import adressbook.model.ABModel;
 import adressbook.model.Adress;
@@ -29,6 +29,7 @@ public class SaveFileParser {
             builder.append(entry.getLength()).append("\n");
             builder.append(entry.getYear()).append("\n");
             builder.append(entry.getPrice()).append("\n");
+            builder.append(entry.getEdition()).append("\n");
             if (entry.getBuyer() == null) {
                 builder.append("0\n");
             } else {
@@ -75,6 +76,7 @@ public class SaveFileParser {
                                     parseInt(lines.next()), //Length
                                     parseInt(lines.next()), //Year
                                     parseInt(lines.next()), //Price
+                                    parseInt(lines.next()), //Edition
                                     lines.next().equals("1") ? createNewPerson (lines) : null,
                                     null
                             ));

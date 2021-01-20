@@ -1,9 +1,8 @@
 package controller;
 
 import adressbook.model.ABModel;
-import adressbook.model.PersonEntry;
-import controller.FileHandler.FileHandler;
-import controller.FileHandler.VersionControllException;
+import controller.fileHandler.FileHandler;
+import controller.fileHandler.VersionControllException;
 import model.elements.ArtPieceEntry;
 import model.Model;
 import tools.PictureTools;
@@ -21,10 +20,11 @@ import java.util.List;
 
 public class ControllerImplementation implements Controller {
     private Model model;
-    private FileHandler fileHandler;
+    private final FileHandler fileHandler;
     private List<Views> views;
     private List<ArtPieceEntry> selectedElements;
-    private SortAndFilterHandler sortAndFilterHandler;
+    private final SortAndFilterHandler sortAndFilterHandler;
+
 
     public ControllerImplementation(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
@@ -44,7 +44,7 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public void addSelectedElement(ArtPieceEntry artPieceEntry) {
+    public void selectAdditionalElement(ArtPieceEntry artPieceEntry) {
         if (artPieceEntry != null) {
             selectedElements.add(artPieceEntry);
         }
@@ -52,7 +52,7 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public void setSelectedElementTo(ArtPieceEntry artPieceEntry) {
+    public void selectElement(ArtPieceEntry artPieceEntry) {
         this.selectedElements = new ArrayList<>();
         selectedElements.add(artPieceEntry);
         informViewsSelectedElementsChanged();
@@ -67,7 +67,6 @@ public class ControllerImplementation implements Controller {
             fileHandler.saveCopyOfPictureLinkedToArtpiece(entryToChange.getId(), imageToLink);
         }
         refreshViews();
-        //TODO ungetestet
     }
 
     private void refreshViews() {
@@ -77,9 +76,6 @@ public class ControllerImplementation implements Controller {
     @Override
     public void addEntry(ArtPieceEntry entry, Image imageToLink) {
         if (entry.getId() == -1) { entry.setId(createUnusedID());}
-
-        //TODO TEST LÖSCHEN WENN LANGE GENUG GETESTET
-        assert (model.getEntryWithId(entry.getId()) != null);
 
         if (imageToLink != null) {
             entry.setBitmap(imageToLink.getScaledInstance(150,150, Image.SCALE_DEFAULT));
@@ -102,11 +98,6 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public PersonEntry getPersonWithIDFromAddressBook(int buyerID) {
-        return model.getPersonWithIDFromAdressBook(buyerID);
-    }
-
-    @Override
     public void addView(Views view) {
             this.views.add(view);
             view.setModelTo(model);
@@ -115,7 +106,7 @@ public class ControllerImplementation implements Controller {
 
     private void informViewsSelectedElementsChanged(){
         for (Views view : views) {
-            view.changeSelectedElements();
+            view.changeBackgroundOfSelectedElements();
         }
     }
 
@@ -160,7 +151,6 @@ public class ControllerImplementation implements Controller {
 
     @Override
     public void deleteSelectedElements() {
-        //TODO Dialogfenster das fragt ob selectedElements.size() Elemente gelöscht werden sollen
         List<Integer>  deletedIDs = new ArrayList<>();
         for (ArtPieceEntry entry : selectedElements) {
                  model.getPieces().remove(entry);

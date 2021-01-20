@@ -1,15 +1,12 @@
 package tests;
 
 import adressbook.model.ABModel;
-import controller.FileHandler.FileHandler;
-import controller.FileHandler.SaveFileParser;
-import controller.FileHandler.VersionControllException;
+import controller.fileHandler.FileHandler;
+import controller.fileHandler.VersionControllException;
 import model.Model;
 import model.elements.ArtPieceEntry;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.stream.Stream;
 
 public class LoadSaveTest {
     public static void main (String[] args){

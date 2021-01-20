@@ -1,4 +1,4 @@
-package controller.FileHandler;
+package controller.fileHandler;
 
 
 import adressbook.model.ABModel;
@@ -15,12 +15,12 @@ import java.util.List;
 
 
 /**
- * Klasse die die Operationen auf Datein realisiert
+ * Die Klasse {@link FileHandler} realisiert die Verwaltung der gespeicherten Profile und fasst Operationen auf Dateien zusammen.
  */
 
 public class FileHandler {
-    private final String PATH_SETTINGS_FILE  = "./settings.wvs";
-    private static String PROFILE_DIRECTORY = "./profiles/";
+    private static final String PATH_SETTINGS_FILE  = "./settings.wvs";
+    private static final String PROFILE_DIRECTORY = "./profiles/";
     private String pictureFolder;
     private String bitmapFolder;
     private String saveFile;
@@ -31,12 +31,12 @@ public class FileHandler {
      */
     public FileHandler() {
         initialiseFileHandler();
-        checkIfdefaultProfileExists();
+        checkIfDefaultProfileExists();
         System.out.println("FileHandler initialisiert");
 
     }
 
-    private void checkIfdefaultProfileExists() {
+    private void checkIfDefaultProfileExists() {
         try{
             load();
         } catch (Exception e) {
@@ -148,6 +148,7 @@ public class FileHandler {
             }
     }
 
+    //speichert die Pfade des aktuell geladenen Profils in die Datei, aus welcher der Konstruktor sich initialisiert
     private void writeNewPathSettingsToFile()  {
         System.out.println("FileHandler : lege neues PathSettingsFile an");
         try {
@@ -191,7 +192,7 @@ public class FileHandler {
      * @param model das Model
      * @throws IOException
      */
-    public void save(Model model) throws IOException {
+    public synchronized void save(Model model) throws IOException {
         System.out.println("FileHandler : speichere");
         saveAsString(model);
     }
@@ -208,7 +209,7 @@ public class FileHandler {
     }
 
     /**
-     * Lädt das Model in die geladene Profil Datei
+     * Lädt das {@link Model} in die geladene Profil Datei
      * @return
      * @throws IOException
      * @throws ClassNotFoundException
@@ -233,7 +234,10 @@ public class FileHandler {
         return model;
     }
 
-
+    /**
+     * Lädt alle Bitmaps der Einträge im {@link Model} neu aus dem Sekundärspeicher
+     * @param model das {@link Model}
+     */
     public void reloadAllBitmaps(Model model) {
         for (ArtPieceEntry entry : model.getPieces()) {
             try {
@@ -246,10 +250,22 @@ public class FileHandler {
         }
     }
 
-    private Image loadBitmap(int id) throws IOException {
+    /**
+     * lädt das Bitmap des Eintrages mit der Id aus dem aktuellen Profil
+     * @param id die Id
+     * @return das Bitmap
+     * @throws IOException keine Datei vorhanden
+     */
+    public Image loadBitmap(int id) throws IOException {
         return PictureTools.loadImage(pathOfBitmapWithId(id));
     }
 
+    /**
+     * lädt das Bild mit hoher Qualität des Eintrags mit der Id aus dem aktuellen Profil
+     * @param id die Id
+     * @return das Bild
+     * @throws IOException keine Datei vorhanden
+     */
     public Image loadHighQualityPicture(int id) throws IOException {
         return PictureTools.loadImage(pathOfHighQualityPictureWithID(id));
     }
@@ -264,7 +280,7 @@ public class FileHandler {
                 Files.delete(Paths.get(pathOfHighQualityPictureWithID(id)));
                 Files.delete(Paths.get(pathOfBitmapWithId(id)));
             } catch (IOException e) {
-                //Kein Catch da nicht jedes Bild zwangsläufig ein Bild gespeichert hat.
+                //Kein Catch da nicht jeder Eintrag zwangsläufig ein Bild gespeichert hat.
             }
         }
     }

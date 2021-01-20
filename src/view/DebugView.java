@@ -36,7 +36,7 @@ public class DebugView implements Views {
     }
 
     @Override
-    public void changeSelectedElements() {
+    public void changeBackgroundOfSelectedElements() {
 
     }
 

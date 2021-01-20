@@ -14,10 +14,11 @@ public class ArtPiece implements Serializable {
     private int depth;
     private int length;
     private int year;
+    private int edition;
     private Person buyer;
     private int price;
 
-    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, Person buyer) {
+    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, int edition, Person buyer) {
         this.name = name;
         this.technique = technique;
         this.type = type;
@@ -27,6 +28,7 @@ public class ArtPiece implements Serializable {
         this.length = length;
         this.year = year;
         this.price = price;
+        this.edition = edition;
         this.buyer = buyer;
     }
 
@@ -39,6 +41,7 @@ public class ArtPiece implements Serializable {
         this.depth = piece.getDepth();
         this.year = piece.getYear();
         this.price = piece.getPrice();
+        this.edition = piece.getEdition();
         this.buyer = piece.getBuyer();
     }
 
@@ -53,6 +56,13 @@ public class ArtPiece implements Serializable {
         return ("");
     }
 
+    public int getEdition() {
+        return edition;
+    }
+
+    public void setEdition(int edition) {
+        this.edition = edition;
+    }
 
     public String getName() {
         return name;

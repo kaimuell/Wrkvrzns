@@ -6,11 +6,11 @@ import java.io.Serializable;
  * Klasse zum Speichern von Adressinformationen
  */
 public class Adress implements Serializable {
-    private String street;
-    private String houseNo;
-    private String city;
-    private String postal;
-    private String country;
+    private final String street;
+    private final String houseNo;
+    private final String city;
+    private final String postal;
+    private final String country;
 
     public Adress(String street, String houseNo, String city, String postal, String country){
         this.street = street;

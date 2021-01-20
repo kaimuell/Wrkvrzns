@@ -1,4 +1,4 @@
-package controller.DialogController;
+package controller.dialogController;
 
 enum OkCancelOption {
     OK(0), CANCEL(1), UNDECIDED(-1);

@@ -12,12 +12,12 @@ import java.awt.*;
  * Implementiert eine Zeile im {@link SelectViewPanel}
  */
 class ArtPiecePanel extends JPanel {
-    private ArtPieceEntry artPiece;
-    private Controller controller;
+    private final ArtPieceEntry artPiece;
+    private final Controller controller;
 
 
     ArtPiecePanel(ArtPieceEntry artPiece, Controller controller, Color color, JComponent parent) {
-        GridLayout layout = new GridLayout(0, 8);
+        GridLayout layout = new GridLayout(0, 9);
         layout.setHgap(12);
         layout.minimumLayoutSize(parent);
 
@@ -68,6 +68,11 @@ class ArtPiecePanel extends JPanel {
         priceLabel.setHorizontalTextPosition(Label.RIGHT);
         priceLabel.setBackground(color);
         add(priceLabel);
+
+        JLabel editionLabel = new JLabel(String.valueOf(artPiece.getEdition()));
+        editionLabel.setHorizontalTextPosition(Label.RIGHT);
+        priceLabel.setBackground(color);
+        add(editionLabel);
 
         JLabel buyerLabel = new JLabel(artPiece.getBuyer() == null ?
                 "nicht verkauft" : createBuyerRepresentation(artPiece.getBuyer()));

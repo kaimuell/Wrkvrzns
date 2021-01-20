@@ -11,14 +11,14 @@ public class ArtPieceEntry extends ArtPiece implements Serializable {
 
 
     public ArtPieceEntry(int id, String name, String technique, ArtworkType type, int height, int width, int depth,
-                         int length, int year, int price, Person buyer, Image bitmap) {
-        super(name, technique, type, height, width, depth, length, year, price, buyer);
+                         int length, int year, int price, int edition, Person buyer, Image bitmap) {
+        super(name, technique, type, height, width, depth, length, year, price, edition, buyer);
         this.id = id;
         this.bitmap = bitmap;
 
     }
-    public ArtPieceEntry(int id, ArtPiece p, Image bitmap) {
-        super(p.getName(), p.getTechnique(), p.getType(), p.getHeight(), p.getWidth(), p.getDepth(), p.getLength(), p.getYear(), p.getPrice(), p.getBuyer());
+    public ArtPieceEntry(int id, ArtPiece piece, Image bitmap) {
+        super(piece);
         this.id = id;
         this.bitmap = bitmap;
 
@@ -59,6 +59,7 @@ public class ArtPieceEntry extends ArtPiece implements Serializable {
         this.setLength(otherArtPieceEntry.getLength());
         this.setDepth(otherArtPieceEntry.getDepth());
         this.setYear(otherArtPieceEntry.getYear());
+        this.setEdition(otherArtPieceEntry.getEdition());
         this.setBuyer(otherArtPieceEntry.getBuyer());
     }
 
@@ -66,7 +67,7 @@ public class ArtPieceEntry extends ArtPiece implements Serializable {
     public static ArtPieceEntry createEmptyArtPieceEntry(){
         return new ArtPieceEntry(-1,
                 new ArtPiece("","", ArtworkType.PAINTING,
-                        0, 0, 0, 0, 0, 0, null),
+                        0, 0, 0, 0, 0, 0, 1, null),
                 null);
     }
 

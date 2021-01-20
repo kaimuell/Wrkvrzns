@@ -1,4 +1,4 @@
-package controller.DialogController;
+package controller.dialogController;
 
 import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 
-import static controller.DialogController.OkCancelOption.*;
+import static controller.dialogController.OkCancelOption.*;
 
 class SelectPersonFromAdressBookDialog extends AdressBookFrame {
 
