@@ -64,13 +64,9 @@ public class ControllerImplementation implements Controller {
         entryToChange.setVariablesTo(entry);
         if (imageToLink != null) {
             entryToChange.setBitmap(imageToLink.getScaledInstance(150,150,Image.SCALE_DEFAULT));
-            fileHandler.saveCopyOfPictureLinkedToArtpiece(entryToChange.getId(), imageToLink);
+            SaveCopyOfPicture(imageToLink, entryToChange);
         }
         refreshViews();
-    }
-
-    private void refreshViews() {
-        for (Viewer view : views) {view.refreshView(); }
     }
 
     @Override
@@ -79,15 +75,22 @@ public class ControllerImplementation implements Controller {
 
         if (imageToLink != null) {
             entry.setBitmap(imageToLink.getScaledInstance(150,150, Image.SCALE_DEFAULT));
-            System.out.println("Speichere Bildkopien");
-            fileHandler.saveCopyOfPictureLinkedToArtpiece(entry.getId(), imageToLink);
+            SaveCopyOfPicture(imageToLink, entry);
         } else {
             entry.setBitmap(PictureTools.defaultEmptyImage());
         }
         model.getPieces().add(entry);
         refreshViews();
     }
+    private void SaveCopyOfPicture(Image imageToLink, ArtPieceEntry entry) {
+        new Thread( ()-> {
+            fileHandler.saveCopyOfPictureLinkedToArtpiece(entry.getId(), imageToLink);
+        }).start();
+    }
 
+    private void refreshViews() {
+        for (Viewer view : views) {view.refreshView(); }
+    }
 
     private int createUnusedID() {
         int id = 0;

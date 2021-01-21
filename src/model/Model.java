@@ -42,11 +42,6 @@ public class Model implements Serializable, ModelViewAccess {
         }
     }
 
-    @Override
-    public PersonEntry getPersonWithIDFromAdressBook(int buyerID) {
-        return  adressbook.getPersonWithID(buyerID);
-    }
-
     public ArtPieceEntry getEntryWithId(int id) {
         for (ArtPieceEntry entry : pieces) {
             if(entry.getId() == id){

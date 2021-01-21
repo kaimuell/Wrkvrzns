@@ -3,12 +3,14 @@ package view.pictureView;
 import adressbook.model.ABModel;
 import controller.Controller;
 import model.Model;
+import model.ModelViewAccess;
 import model.elements.ArtPieceEntry;
 import view.Viewer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,8 +22,8 @@ public class PictureView extends JPanel implements Viewer {
     private static final Color SELECTED_ELEMENT_BACKGROUND = new Color(160, 71, 71);
     private int panelWidth;
     private int panelHeight;
-    private Model model;
-    private Controller controller;
+    private ModelViewAccess model;
+    private final Controller controller;
     private List<PictureViewPanel> picturePanels;
 
     //TODO Bilder in mehreren Zeilen anzeigen.
@@ -38,7 +40,9 @@ public class PictureView extends JPanel implements Viewer {
     public void refreshView() {
         this.removeAll();
         this.picturePanels = new ArrayList<>();
-        for (ArtPieceEntry entry: model.getPieces()) {
+        Iterator<ArtPieceEntry> it = model.artPiecesToView();
+        while (it.hasNext()) {
+            ArtPieceEntry entry = it.next();
             Color color = selectColor(entry);
             PictureViewPanel panel = new PictureViewPanel(controller, panelHeight, panelWidth, entry, color);
             this.add(panel);
@@ -49,8 +53,7 @@ public class PictureView extends JPanel implements Viewer {
     }
 
     private Color selectColor(ArtPieceEntry entry) {
-        Color color = controller.isASelectedElement(entry) ? SELECTED_ELEMENT_BACKGROUND : STANDARD_BACKGROUND;
-        return color;
+        return controller.isASelectedElement(entry) ? SELECTED_ELEMENT_BACKGROUND : STANDARD_BACKGROUND;
     }
 
     @Override

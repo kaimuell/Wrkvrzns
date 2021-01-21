@@ -14,6 +14,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Das zentrale Fenster zur Anzeige des Programms
+ */
 
 public class MainFrame extends JFrame {
     public MainFrame() {
@@ -32,7 +35,7 @@ public class MainFrame extends JFrame {
 
         this.add (new JScrollPane(viewHub, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
-        this.setJMenuBar(new MainMenuBar(controller, viewHub));
+        this.setJMenuBar(new MainMenuBar(this, controller, viewHub));
         this.add(new Toolbar(controller, this), BorderLayout.NORTH);
 
         controller.load();
