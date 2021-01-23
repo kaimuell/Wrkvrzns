@@ -20,7 +20,7 @@ public class DebugView implements Viewer {
             System.out.println(entry.getName());
             System.out.println(entry.getType().toString());
             System.out.println(entry.getTechnique());
-            System.out.println(entry.getMeatDataRepresentation());
+            System.out.println(entry.getSizeRepresentation());
             System.out.println(entry.getYear());
             System.out.println(entry.getPrice());
             System.out.println();

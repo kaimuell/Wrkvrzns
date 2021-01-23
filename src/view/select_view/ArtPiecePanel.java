@@ -54,7 +54,7 @@ class ArtPiecePanel extends JPanel {
         techniqueLabel.setBackground(color);
         add(techniqueLabel);
 
-        JLabel sizeLabel = new JLabel(artPiece.getMeatDataRepresentation());
+        JLabel sizeLabel = new JLabel(artPiece.getSizeRepresentation());
         sizeLabel.setHorizontalTextPosition(Label.LEFT);
         sizeLabel.setBackground(color);
         add(sizeLabel);

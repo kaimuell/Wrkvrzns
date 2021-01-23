@@ -10,14 +10,14 @@ public class Person implements Serializable {
     private String firstName;
     private String eMail;
     private String tel;
-    private Adress adress;
+    private Address address;
 
-    public Person(String familyName, String firstName, String eMail, String tel, Adress adress) {
+    public Person(String familyName, String firstName, String eMail, String tel, Address address) {
         this.familyName = familyName;
         this.firstName = firstName;
         this.eMail = eMail;
         this.tel = tel;
-        this.adress = adress;
+        this.address = address;
     }
 
     public String getFamilyName() {
@@ -52,11 +52,11 @@ public class Person implements Serializable {
         this.tel = tel;
     }
 
-    public Adress getAdress() {
-        return adress;
+    public Address getAdress() {
+        return address;
     }
 
-    public void setAdress(Adress adress) {
-        this.adress = adress;
+    public void setAdress(Address address) {
+        this.address = address;
     }
 }

@@ -5,14 +5,14 @@ import java.io.Serializable;
 /**
  * Klasse zum Speichern von Adressinformationen
  */
-public class Adress implements Serializable {
+public class Address implements Serializable {
     private final String street;
     private final String houseNo;
     private final String city;
     private final String postal;
     private final String country;
 
-    public Adress(String street, String houseNo, String city, String postal, String country){
+    public Address(String street, String houseNo, String city, String postal, String country){
         this.street = street;
         this.houseNo = houseNo;
         this.city = city;
@@ -38,5 +38,9 @@ public class Adress implements Serializable {
 
     public String getCountry() {
         return country;
+    }
+
+    public static Address emptyAddress(){
+        return new Address("","","","","");
     }
 }

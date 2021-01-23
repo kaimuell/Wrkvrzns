@@ -1,7 +1,7 @@
 package controller.fileHandler;
 
 import adressbook.model.ABModel;
-import adressbook.model.Adress;
+import adressbook.model.Address;
 import adressbook.model.Person;
 import adressbook.model.PersonEntry;
 import model.Model;
@@ -99,7 +99,7 @@ public class SaveFileParser {
                 lines.next(),           //Family name
                 lines.next(),           //eMail
                 lines.next(),           //tel
-                new Adress(
+                new Address(
                         lines.next(),   //Street
                         lines.next(),   //House No
                         lines.next(),   //Postal

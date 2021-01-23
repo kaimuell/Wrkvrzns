@@ -1,7 +1,7 @@
 package adressbook.view;
 
 import adressbook.controller.ABController;
-import adressbook.model.Adress;
+import adressbook.model.Address;
 import adressbook.model.Person;
 import adressbook.model.PersonEntry;
 
@@ -66,6 +66,6 @@ class DialogHandler {
 
 
     private Person createEmptyPerson(){
-        return new Person("","","","", new Adress("","","","",""));
+        return new Person("","","","", new Address("","","","",""));
     }
 }

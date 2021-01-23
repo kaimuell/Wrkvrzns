@@ -1,16 +1,31 @@
 package controller.fileHandler;
 
 import adressbook.model.ABModel;
-import adressbook.model.Person;
-import adressbook.model.PersonEntry;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class AdressBookImportParser {
+/**
+ * Die Klasse {@link AdressBookImportParserForThunderbird} parst exportierte Addressbuch Dateien aus Thunderbird. Diese
+ * müssen mit UTF8, getrennt durch Komma exportiert sein.
+ * Zur Nutzung initialisieren durch den Konstruktor, dann nacheinander load(), parse() und copyToAdressbook() aufrufen.
+ */
+public class AdressBookImportParserForThunderbird {
 
+    private final File inputFile;
+    private final ABModel addressbook;
+    private final boolean onlyWithNames;
+    private List<ThunderbirdContact> contactBuffer;
+    Iterator<String> contacts;
+
+
+    /**
+     * Hilfsklasse zum speichern der Daten
+     */
     class ThunderbirdContact{
         String vorname,nachname,anzeigename,spitzname,
                 primaereEMailAdresse, sekundäreEMailAdresse,messengerName,telDienstlich,telPrivat,faxNummer,pagerNummer,mobilTel,
@@ -67,11 +82,32 @@ public class AdressBookImportParser {
         }
     }
 
-    //TODO parsen neue Thunderbird Kontakte erzeugen umwandeln in Kontakte für das Adressbuch und hinzufügen.
-    // 1. Zeile ignorieren, dann teilen durch Komma.
-    void parseContactsToAddressBook(String thunderbirdContacts, ABModel, boolean onlyWithNames){
-        List<ThunderbirdContact> contactBuffer = new ArrayList<>();
-        Iterator<String> contacts = thunderbirdContacts.lines().iterator();
+    /**
+     * Konsturktor
+     * @param inputFile Die Datei von der gelesen werden soll
+     * @param addressbook Das Adressbuch in das die Kontakte importiert werden sollen
+     * @param onlyWithNames Sollen nur Kontakte hinzugefügt werden, bei denen Namen eingegeben sind?
+     */
+    AdressBookImportParserForThunderbird(File inputFile, ABModel addressbook, boolean onlyWithNames) {
+        this.inputFile = inputFile;
+        this.addressbook = addressbook;
+        this.onlyWithNames = onlyWithNames;
+        this.contactBuffer = new ArrayList<>();
+    }
+
+    /**
+     * Lädt einen Iterator über die Kontakte aus der Datei. Dieser wird in parse verbraucht.
+     * @throws IOException Die Datei konnte nicht geladen werden.
+     */
+    void load() throws IOException {
+        //TODO einlesen der Datei
+    }
+
+    /**
+     * Parsed {@link ThunderbirdContact}s aus dem Iterator der in load erzeugt wurde und speichert diese in einem Buffer.
+     * @throws Exception fehler beim parsen.
+     */
+    void parse() throws Exception{
             while(contacts.hasNext()){
                 ThunderbirdContact person = parseSingleContact(contacts.next());
                 contactBuffer.add(person);
@@ -91,6 +127,13 @@ public class AdressBookImportParser {
                 tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
                 tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
                 tokenizer.nextToken(), tokenizer.nextToken());
+    }
+
+    /**
+     * Kopiert die Kontakte aus dem Buffer in das Adressbuch.
+     */
+    void copyToAdressbook(){
+        //TODO
     }
 }
 

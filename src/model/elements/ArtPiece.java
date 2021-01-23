@@ -45,7 +45,11 @@ public class ArtPiece implements Serializable {
         this.buyer = piece.getBuyer();
     }
 
-    public String getMeatDataRepresentation(){
+    /**
+     * Ereugt eine Reprässentation der Maße, welche dem Typ des Kunstwerks entspricht.
+     * @return
+     */
+    public String getSizeRepresentation(){
         if (type == ArtworkType.PAINTING || type == ArtworkType.GRAFIK){
             return (height + " x " + width + " cm");
         } else if (type == ArtworkType.SCULPTURE ||type == ArtworkType.INSTALLATION){
@@ -56,9 +60,7 @@ public class ArtPiece implements Serializable {
         return ("");
     }
 
-    public int getEdition() {
-        return edition;
-    }
+    public int getEdition() { return edition; }
 
     public void setEdition(int edition) {
         this.edition = edition;

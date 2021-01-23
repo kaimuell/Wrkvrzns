@@ -1,12 +1,10 @@
 package adressbook.view;
 
-import adressbook.model.Adress;
+import adressbook.model.Address;
 import adressbook.model.Person;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PersonDialog extends JDialog{
     private JTextField nameField;
@@ -46,7 +44,7 @@ public class PersonDialog extends JDialog{
             person.setFamilyName(familyNameField.getText());
             person.setTel(telField.getText());
             person.seteMail(emailField.getText());
-            person.setAdress(new Adress(streetField.getText(), houseNrField.getText(), cityField.getText(), zipField.getText(), countryField.getText()));
+            person.setAdress(new Address(streetField.getText(), houseNrField.getText(), cityField.getText(), zipField.getText(), countryField.getText()));
             isApproved = true;
         });
         return okButton;
