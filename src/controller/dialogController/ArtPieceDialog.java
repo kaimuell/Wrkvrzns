@@ -334,16 +334,16 @@ class ArtPieceDialog extends JDialog {
      * Gibt zurück ob Eingabe bestätigt wurde, oder abgebrochen
      * @return wurde ok oder cancel gedrückt?
      */
-    public OkCancelOption okCancelOption() {
+    OkCancelOption okCancelOption() {
         return okCancelOption;
     }
 
 
-    public ArtPieceEntry getEntryInfo() {
+    ArtPieceEntry getEntryInfo() {
         return artPiece;
     }
 
-    public Image getUpdatedImage() {
+    Image getUpdatedImage() {
         return imageForEntry;
     }
 }

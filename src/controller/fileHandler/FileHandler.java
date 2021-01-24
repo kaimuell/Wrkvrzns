@@ -284,6 +284,20 @@ public class FileHandler {
             }
         }
     }
+
+    /**
+     * Parst die Adressen aus einer .csv Datei in das Adressbuch. Diese müsssen mit Komma getrennt exportiert werden.
+     * Idealerweise in UTF-8.
+     * @param file Die Datei in die gelesen werden soll
+     * @param addressbook Das Adreebuch in die die Kontakte importiert werden sollen.
+     * @param onlyWithNames Sollen nur Kontakte importiert werden, für die Namen angegeben sind?
+     */
+    public void importThunderbirdContacts(File file, ABModel addressbook, boolean onlyWithNames) throws Exception {
+        AddressBookImportParserForThunderbird parser = new AddressBookImportParserForThunderbird(file, addressbook, onlyWithNames);
+        parser.load();
+        parser.parse();
+        parser.copyToAdressbook();
+    }
 }
 
 

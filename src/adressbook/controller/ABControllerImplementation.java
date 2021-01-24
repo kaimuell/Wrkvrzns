@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ABControllerImplementation implements ABController {
-    ABModel model;
-    PersonEntry selectedPerson;
+    private ABModel model;
+    private PersonEntry selectedPerson;
     private List<ABViewer> views;
+
+
 
     public ABControllerImplementation(ABModel model) {
         this.model = model;

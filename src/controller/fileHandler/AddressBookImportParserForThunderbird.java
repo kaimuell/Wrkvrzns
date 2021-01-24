@@ -1,27 +1,30 @@
 package controller.fileHandler;
 
+import adressbook.controller.ABController;
+import adressbook.controller.ABControllerImplementation;
 import adressbook.model.ABModel;
+import adressbook.model.Address;
+import adressbook.model.Person;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
- * Die Klasse {@link AdressBookImportParserForThunderbird} parst exportierte Addressbuch Dateien aus Thunderbird. Diese
+ * Die Klasse {@link AddressBookImportParserForThunderbird} parst exportierte Addressbuch Dateien aus Thunderbird. Diese
  * müssen mit UTF8, getrennt durch Komma exportiert sein.
  * Zur Nutzung initialisieren durch den Konstruktor, dann nacheinander load(), parse() und copyToAdressbook() aufrufen.
  */
-public class AdressBookImportParserForThunderbird {
+public class AddressBookImportParserForThunderbird {
 
     private final File inputFile;
     private final ABModel addressbook;
+    private ABController addressBookController;
     private final boolean onlyWithNames;
     private List<ThunderbirdContact> contactBuffer;
-    Iterator<String> contacts;
-
+    private Iterator<String> contacts;
 
     /**
      * Hilfsklasse zum speichern der Daten
@@ -34,7 +37,7 @@ public class AdressBookImportParserForThunderbird {
                 arbeitstitel,abteilung,organisation,webseite1,webseite2,
                 geburtsjahr,geburtsmonat,geburtstag,benutzerdef1,benutzerdef2,benutzerdef3,benutzerdef4,notizen;
 
-        public ThunderbirdContact(String vorname, String nachname, String anzeigename, String spitzname,
+        private ThunderbirdContact(String vorname, String nachname, String anzeigename, String spitzname,
                                   String primaereEMailAdresse, String sekundäreEMailAdresse, String messengerName, String telDienstlich,
                                   String telPrivat, String faxNummer, String pagerNummer, String mobilTel, String privatAdresse, String privatAdresse2,
                                   String privatOrt, String privatBundesland, String privatPLZ, String privatLand, String dienstlichAdresse,
@@ -88,11 +91,12 @@ public class AdressBookImportParserForThunderbird {
      * @param addressbook Das Adressbuch in das die Kontakte importiert werden sollen
      * @param onlyWithNames Sollen nur Kontakte hinzugefügt werden, bei denen Namen eingegeben sind?
      */
-    AdressBookImportParserForThunderbird(File inputFile, ABModel addressbook, boolean onlyWithNames) {
+    AddressBookImportParserForThunderbird(File inputFile, ABModel addressbook, boolean onlyWithNames) {
         this.inputFile = inputFile;
         this.addressbook = addressbook;
         this.onlyWithNames = onlyWithNames;
         this.contactBuffer = new ArrayList<>();
+        this.addressBookController = new ABControllerImplementation(addressbook);
     }
 
     /**
@@ -100,7 +104,9 @@ public class AdressBookImportParserForThunderbird {
      * @throws IOException Die Datei konnte nicht geladen werden.
      */
     void load() throws IOException {
-        //TODO einlesen der Datei
+        FileReader fr = new FileReader(inputFile);
+        BufferedReader reader = new BufferedReader(fr);
+        this.contacts = reader.lines().iterator();
     }
 
     /**
@@ -108,6 +114,7 @@ public class AdressBookImportParserForThunderbird {
      * @throws Exception fehler beim parsen.
      */
     void parse() throws Exception{
+            contacts.next(); // ignorieren der ersten Zeile
             while(contacts.hasNext()){
                 ThunderbirdContact person = parseSingleContact(contacts.next());
                 contactBuffer.add(person);
@@ -116,24 +123,63 @@ public class AdressBookImportParserForThunderbird {
         }
 
     private ThunderbirdContact parseSingleContact(String line) {
-        StringTokenizer tokenizer = new StringTokenizer(line, ",");
-        return new ThunderbirdContact(tokenizer.nextToken(),tokenizer.nextToken(),tokenizer.nextToken(),
-                tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
-                tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
-                tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
-                tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
-                tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
-                tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
-                tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
-                tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken(),
-                tokenizer.nextToken(), tokenizer.nextToken());
+        String[] words = line.split(",", -1);
+        Iterator<String> wordTokens = Arrays.stream(words).iterator();
+        System.out.println(words.length);
+        return new ThunderbirdContact(wordTokens.next(),wordTokens.next(),wordTokens.next(),
+                wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),
+                wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),
+                wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),
+                wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),
+                wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),
+                wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),
+                wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),
+                wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),
+                wordTokens.next(), wordTokens.next());
     }
 
     /**
      * Kopiert die Kontakte aus dem Buffer in das Adressbuch.
      */
     void copyToAdressbook(){
-        //TODO
+        for (ThunderbirdContact contact: contactBuffer) {
+            String name = contact.vorname;
+            String familyName = contact.nachname;
+            String tel = chooseTelNumber(contact);
+            String email = contact.primaereEMailAdresse == "" ? contact.sekundäreEMailAdresse : contact.primaereEMailAdresse;
+            Address address = chooseAddress(contact);
+
+            if (onlyWithNames) {
+                if (!name.equals("") && !familyName.equals("")) {
+                    addressBookController.addPerson(new Person(familyName, name, email, tel, address));
+                }
+            } else {
+                addressBookController.addPerson(new Person(familyName, name, email, tel, address));
+            }
+        }
+    }
+
+    //TODO House No aus Adresse ausschneiden ? letter token durch " " getrennt ?
+    private Address chooseAddress(ThunderbirdContact contact) {
+        if (!contact.privatAdresse.equals("")){
+            return new Address(contact.privatAdresse, "", contact.privatOrt, contact.privatPLZ, contact.privatLand);
+        } else if (!contact.privatAdresse2.equals("")){
+            return new Address(contact.privatAdresse2, "", contact.privatOrt, contact.privatPLZ, contact.privatLand);
+        } else if (!contact.dienstlichAdresse.equals("")){
+            return new Address(contact.dienstlichAdresse, "", contact.dienstlichOrt,contact.dienstlichPLZ, contact.dienstlichLand);
+        } else {
+            return new Address(contact.dienstlichAdresse2, "", contact.dienstlichOrt,contact.dienstlichPLZ, contact.dienstlichLand);
+        }
+    }
+
+    private String chooseTelNumber(ThunderbirdContact contact) {
+        if (!contact.mobilTel.equals("")){
+            return contact.mobilTel;
+        } else if (!contact.telPrivat.equals("")){
+            return contact.telPrivat;
+        } else {
+            return contact.telDienstlich;
+        }
     }
 }
 
