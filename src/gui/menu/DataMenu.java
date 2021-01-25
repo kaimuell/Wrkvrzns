@@ -13,12 +13,23 @@ class DataMenu extends JMenu {
         super("Datei");
         this.parentFrame = parentFrame;
         this.controller = controller;
+        JMenuItem newProfile = newProfileOption(parentFrame, controller);
         JMenuItem save = saveOption(controller);
         JMenuItem close = closeOption(controller);
         //TODO laden
         //TODO speichern als
+        this.add(newProfile);
         this.add(save);
         this.add(close);
+    }
+
+    private JMenuItem newProfileOption(JFrame parentFrame, Controller controller) {
+        JMenuItem newProfile = new JMenuItem("Neu");
+        newProfile.addActionListener( action -> {
+            String name = JOptionPane.showInputDialog(parentFrame, "Name des neuen Profils : ");
+            controller.createNewProfile(name);
+        });
+        return newProfile;
     }
 
     private JMenuItem closeOption(Controller controller) {

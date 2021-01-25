@@ -125,7 +125,6 @@ public class AddressBookImportParserForThunderbird {
     private ThunderbirdContact parseSingleContact(String line) {
         String[] words = line.split(",", -1);
         Iterator<String> wordTokens = Arrays.stream(words).iterator();
-        System.out.println(words.length);
         return new ThunderbirdContact(wordTokens.next(),wordTokens.next(),wordTokens.next(),
                 wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),
                 wordTokens.next(), wordTokens.next(), wordTokens.next(), wordTokens.next(),

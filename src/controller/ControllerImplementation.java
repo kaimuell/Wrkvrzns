@@ -9,6 +9,7 @@ import tools.PictureTools;
 import view.Viewer;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,4 +169,28 @@ public class ControllerImplementation implements Controller {
         return this.sortAndFilterHandler;
     }
 
+    @Override
+    public void importContacts(File file, boolean onlyContactsWithNames) {
+        try{
+            fileHandler.importThunderbirdContacts(file, model.adressbook, onlyContactsWithNames);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createNewProfile(String profileName) {
+        try{
+            this.model = fileHandler.createNewProfile(profileName);
+            updateModelOfViews();
+            updateModelOfSubController();
+            refreshViews();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateModelOfSubController() {
+        sortAndFilterHandler.setModel(model);
+    }
 }

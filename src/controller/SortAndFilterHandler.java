@@ -60,4 +60,8 @@ public class SortAndFilterHandler {
         }
     }
 
+    protected void setModel(Model model){
+        this.model = model;
+    }
+
 }

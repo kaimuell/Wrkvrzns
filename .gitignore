@@ -10,3 +10,6 @@
 
 #ignore pictures
 *.jpg
+
+#thunderbird exports
+*.csv

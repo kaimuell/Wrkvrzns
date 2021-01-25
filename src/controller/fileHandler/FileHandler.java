@@ -95,16 +95,16 @@ public class FileHandler {
 
     private File initialiseFolders() {
         System.out.println("FileHandler : lege Ordner an");
-        String folderPath = createDefaultProfileDirectories();
+        String folderPath = createProfileDirectories("default");
         File saveFile = createNewProfileFile(folderPath);
         return saveFile;
     }
 
-    private String createDefaultProfileDirectories() {
+    private String createProfileDirectories(String profilename) {
         String rootFolderPath = "./profiles/";
         File profilesFolder = new File(rootFolderPath);
         profilesFolder.mkdir();
-        String folderPath = rootFolderPath + "default/";
+        String folderPath = rootFolderPath + profilename + "/";
         File defaultProfileFolder = new File(folderPath);
         defaultProfileFolder.mkdir();
         return folderPath;
@@ -150,7 +150,6 @@ public class FileHandler {
 
     //speichert die Pfade des aktuell geladenen Profils in die Datei, aus welcher der Konstruktor sich initialisiert
     private void writeNewPathSettingsToFile()  {
-        System.out.println("FileHandler : lege neues PathSettingsFile an");
         try {
             FileOutputStream outputStream = new FileOutputStream(PATH_SETTINGS_FILE);
             BufferedWriter streamWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
@@ -297,6 +296,21 @@ public class FileHandler {
         parser.load();
         parser.parse();
         parser.copyToAdressbook();
+    }
+
+    /**
+     * Erstellt eine neue ProfilDatei im Standard ProfilOrdner.
+     * @param profileName der Name des Profils
+     * @return  das neu erstellte Model
+     * @throws IOException speichern  des Profils ist fehlgeschlagen
+     */
+    public Model createNewProfile(String profileName) throws IOException {
+            Model model = new Model(new ABModel());
+            String profileDirectory = createProfileDirectories(profileName);
+            createNewProfileFile(profileDirectory);
+            save(model);
+            writeNewPathSettingsToFile();
+        return model;
     }
 }
 

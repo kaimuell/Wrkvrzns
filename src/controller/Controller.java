@@ -5,6 +5,7 @@ import model.elements.ArtPieceEntry;
 import view.Viewer;
 
 import java.awt.*;
+import java.io.File;
 
 public interface Controller {
 
@@ -75,4 +76,20 @@ public interface Controller {
      * @return die Sortier und Filter Operationen
      */
     SortAndFilterHandler SortOrFilter();
+
+    /** Importiert Kontakte aus einer .csv Datei und fügt sie dem Adressbuch({@link ABModel}) hinzu
+     * @param file die Datei
+     * @param onlyContactsWithNames sollen nur Kontakte importiert werden, bei denen ein NAme eingetragen ist?
+     */
+    void importContacts(File file, boolean onlyContactsWithNames);
+
+    /**Erstellt ein neues Werkverzeichnis und speichert dieses.
+     *
+     * @param profileName der Name des Werkverzeichnisses
+     */
+    void createNewProfile(String profileName);
+
+    void saveAs(String profileName);
+
+    void load (File file);
 }
