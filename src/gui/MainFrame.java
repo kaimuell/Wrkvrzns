@@ -4,8 +4,10 @@ import controller.Controller;
 import controller.ControllerImplementation;
 import controller.fileHandler.FileHandler;
 import gui.menu.MainMenuBar;
+import model.Model;
 import view.ViewHub;
 import view.ViewOption;
+import view.Viewer;
 import view.pictureView.PictureView;
 import view.select_view.SelectViewPanel;
 
@@ -18,7 +20,7 @@ import java.awt.event.WindowEvent;
  * Das zentrale Fenster zur Anzeige des Programms
  */
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements Viewer {
     public MainFrame() {
         super("Wrkvrzns");
         setPreferredSize(new Dimension(1000,700));
@@ -26,12 +28,11 @@ public class MainFrame extends JFrame {
         FileHandler fileHandler = new FileHandler();
         Controller controller = new ControllerImplementation(fileHandler);
 
-
-
-        SelectViewPanel selectVIew = new SelectViewPanel(controller);
+        SelectViewPanel selectView = new SelectViewPanel(controller);
         PictureView pictureView = new PictureView(controller);
-        ViewHub viewHub = new ViewHub(pictureView,selectVIew, ViewOption.SELECT_VIEW, controller);
+        ViewHub viewHub = new ViewHub(pictureView,selectView, ViewOption.SELECT_VIEW, controller);
         controller.addView(viewHub);
+
 
         this.add (new JScrollPane(viewHub, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
@@ -39,7 +40,6 @@ public class MainFrame extends JFrame {
         this.add(new Toolbar(controller, this), BorderLayout.NORTH);
 
         controller.load();
-
 
         //Speichert bei Schliessen des Programms
         addWindowListener(new WindowAdapter() {
@@ -51,5 +51,20 @@ public class MainFrame extends JFrame {
         });
         this.setVisible(true);
         this.pack();
+    }
+
+    @Override
+    public void refreshView() {
+        this.repaint();
+    }
+
+    @Override
+    public void changeBackgroundOfSelectedElements() {
+
+    }
+
+    @Override
+    public void setModelTo(Model model) {
+
     }
 }

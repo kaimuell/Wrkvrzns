@@ -2,31 +2,44 @@ package gui;
 
 import controller.Controller;
 import controller.dialogController.DialogController;
+import gui.elements.FilterChoice;
+import gui.elements.FilterType;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 
 public class Toolbar extends JToolBar{
 
     private final JFrame parentFrame;
-    private Controller controller;
+    private final Controller controller;
+    private final FilterChoice filterChoice;
+    private JTextField filterTextField;
+
 
     public Toolbar(Controller controller, JFrame parentFrame){
         this.controller = controller;
         this.parentFrame = parentFrame;
 
-        initAddArtPieceButton(controller);
-        iniDeleteEntriesButton(controller);
+        initAddArtPieceButton();
+        iniDeleteEntriesButton();
+        JLabel filterLabel = new JLabel("  Filtern nach : ");
+        this.add (filterLabel);
+        this.filterChoice = new FilterChoice();
+        this.add(filterChoice);
+        this.filterTextField = initFilterTextField();
+        this.add(filterTextField);
     }
 
-    private void initAddArtPieceButton(Controller controller) {
+    private void initAddArtPieceButton() {
         JButton addArtPieceButton = new JButton("Werk hinzufügen");
         addArtPieceButton.addActionListener(action ->
                 new DialogController(controller).createNewArtPieceDialogThread().start());
         this.add(addArtPieceButton);
     }
 
-    private void iniDeleteEntriesButton(Controller controller) {
+    private void iniDeleteEntriesButton() {
         JButton deleteEntryButton = new JButton("Markierte Einträge löschen");
         deleteEntryButton.addActionListener(action -> {
             int returnval = JOptionPane.showConfirmDialog(parentFrame, "Einträge wirklich löschen?",
@@ -37,4 +50,44 @@ public class Toolbar extends JToolBar{
         });
         this.add(deleteEntryButton);
     }
+
+    private JTextField initFilterTextField() {
+        JTextField filterTextField = new JTextField();
+        filterTextField.setSize(200, 40);
+        filterTextField.setToolTipText("Filtert nach dem im Feld zuvor ausgewählten Element." +
+                " Ausgewählt werden alle Einträge, welche die Eingabe enthalten. " +
+                "Bestätigen mit Enter");
+        filterTextField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyChar() == '\n') {
+                    if (filterChoice.getSelectedFilterType() == FilterType.NAME) {
+                        controller.SortOrFilter().filterByName(filterTextField.getText());
+                    } else if (filterChoice.getSelectedFilterType() == FilterType.TECHNIQUE){
+                        controller.SortOrFilter().filterByTechnique(filterTextField.getText());
+                    } else if (filterChoice.getSelectedFilterType() == FilterType.TYPE) {
+                        controller.SortOrFilter().filterByType(filterTextField.getText());
+                    } else if (filterChoice.getSelectedFilterType() == FilterType.YEAR) {
+                        controller.SortOrFilter().filterByYear(filterTextField.getText());
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+        return filterTextField;
+    }
+
+
+
+
+
 }

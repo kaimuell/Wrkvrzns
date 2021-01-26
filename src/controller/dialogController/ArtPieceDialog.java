@@ -288,7 +288,6 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void selectPictureFromDialog() {
-            //JFileChooser openDialog = new ChooseSingleJPEGDialog(FileSystemView.getFileSystemView().getHomeDirectory());
         JFileChooser openDialog = DialogController.createChooseSingleJPEGDialog();
 
         int returnVal = openDialog.showOpenDialog(this);

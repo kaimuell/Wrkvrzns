@@ -32,7 +32,7 @@ public class ControllerImplementation implements Controller {
         this.model = new Model(new ABModel());
         this.views = new ArrayList<>();
         this.selectedElements = new ArrayList<>();
-        this.sortAndFilterHandler = new SortAndFilterHandler(model);
+        this.sortAndFilterHandler = new SortAndFilterHandler(model, this);
     }
 
 
@@ -89,7 +89,7 @@ public class ControllerImplementation implements Controller {
         }).start();
     }
 
-    private void refreshViews() {
+    protected void refreshViews() {
         for (Viewer view : views) {view.refreshView(); }
     }
 
@@ -134,6 +134,7 @@ public class ControllerImplementation implements Controller {
     public void load() {
         try {
             this.model = fileHandler.load();
+            updateModelOfSubController();
             updateModelOfViews();
             refreshViews();
         } catch (IOException e) {

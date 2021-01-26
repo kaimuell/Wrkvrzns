@@ -37,8 +37,6 @@ public class SelectViewPanel extends JPanel implements Viewer {
         this.removeAll();
         this.panelList= new ArrayList<>(model.getNumberOfEntries());
         JPanel panel = new JPanel(new GridLayout(model.getNumberOfEntries(), 1));
-
-        panel.setBackground(Color.darkGray);
         Iterator<ArtPieceEntry> it = model.artPiecesToView();
         boolean isEvenRowNumber = true;
         while (it.hasNext()) {
