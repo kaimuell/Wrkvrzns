@@ -1,5 +1,6 @@
 package controller;
 
+import gui.elements.SortingType;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
@@ -40,8 +41,8 @@ public class SortAndFilterHandler {
 
     /**
      * Filtert die Einträge im {@link Model} und setzt die Liste der gefilterten Einträge auf diejenigen
-     * deren Jahr teilweise dem übergebenen entsprechen.
-     * @param year das jahr
+     * deren Jahr teilweise dem übergebenen String entsprechen.
+     * @param year der String
      */
     public void filterByYear(String year){
         model.resetFilteredPieces();
@@ -57,8 +58,8 @@ public class SortAndFilterHandler {
 
     /**
      * Filtert die Einträge im {@link Model} und setzt die Liste der gefilterten Einträge auf diejenigen,
-     * deren Typ gleich dem übergebenen sind
-     * @param type der Typ
+     * deren Typ Teilweise dem übergebenen String entsprechen
+     * @param type der String
      */
     public void filterByType (String type){
         model.resetFilteredPieces();
@@ -71,6 +72,12 @@ public class SortAndFilterHandler {
         controller.refreshViews();
     }
 
+    /**
+     *  Filtert die Einträge im {@link Model} und setzt die Liste der gefilterten Einträge auf diejenigen,
+     *  deren Technik einen Teil des übergebenen Strings enthalten.
+     *
+     * @param technique der String
+     */
     public void filterByTechnique(String technique){
         model.resetFilteredPieces();
         for (ArtPieceEntry entry: model.getPieces()) {
@@ -81,10 +88,41 @@ public class SortAndFilterHandler {
         controller.refreshViews();
     }
 
+    /**
+     * Sortiert die Listen im {@link Model} nach dem übergebenen SortierTyp
+     * @param sortingType der SortierTyp
+     */
+    public void SortBy (SortingType sortingType) {
+        if (sortingType == SortingType.NAME_SMALLER) {
+            model.getFiltertPieces().sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+            model.getPieces().sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+        } else if (sortingType == SortingType.NAME_BIGGER) {
+            model.getFiltertPieces().sort((o1, o2) -> -(o1.getName().compareTo(o2.getName())));
+            model.getPieces().sort((o1, o2) -> -(o1.getName().compareTo(o2.getName())));
+        } else if (sortingType == SortingType.TYPE_SMALLER) {
+            model.getFiltertPieces().sort((o1, o2) -> o1.getType().compareTo(o2.getType()));
+            model.getPieces().sort((o1, o2) -> o1.getType().compareTo(o2.getType()));
+        } else if (sortingType == SortingType.TYPE_BIGGER) {
+            model.getFiltertPieces().sort((o1, o2) -> -o1.getType().compareTo(o2.getType()));
+            model.getPieces().sort((o1, o2) -> -o1.getType().compareTo(o2.getType()));
+        } else if (sortingType == SortingType.YEAR_SMALLER) {
+            model.getFiltertPieces().sort((o1, o2) -> o1.getYear() - o2.getYear());
+            model.getPieces().sort((o1, o2) -> o1.getYear() - o2.getYear());
+        } else if (sortingType == SortingType.YEAR_BIGGER) {
+            model.getFiltertPieces().sort((o1, o2) -> o2.getYear() - o1.getYear());
+            model.getPieces().sort((o1, o2) -> o2.getYear() - o1.getYear());
+        } else if (sortingType == SortingType.PRICE_SMALLER) {
+            model.getFiltertPieces().sort((o1, o2) -> o1.getPrice() - o2.getPrice());
+            model.getPieces().sort((o1, o2) -> o1.getPrice() - o2.getPrice());
+        } else if (sortingType == SortingType.PRICE_BIGGER) {
+            model.getFiltertPieces().sort((o1, o2) -> o2.getPrice() - o1.getPrice());
+            model.getPieces().sort((o1, o2) -> o2.getPrice() - o1.getPrice());
+        }
+        controller.refreshViews();
+    }
 
 
     protected void setModel(Model model){
         this.model = model;
     }
-
 }

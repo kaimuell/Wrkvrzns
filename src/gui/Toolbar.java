@@ -4,6 +4,7 @@ import controller.Controller;
 import controller.dialogController.DialogController;
 import gui.elements.FilterChoice;
 import gui.elements.FilterType;
+import gui.elements.SorterChoice;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -15,6 +16,7 @@ public class Toolbar extends JToolBar{
     private final JFrame parentFrame;
     private final Controller controller;
     private final FilterChoice filterChoice;
+    private final SorterChoice sorterChoice;
     private JTextField filterTextField;
 
 
@@ -30,8 +32,16 @@ public class Toolbar extends JToolBar{
         this.add(filterChoice);
         this.filterTextField = initFilterTextField();
         this.add(filterTextField);
+        JLabel sortlabel = new JLabel(" Sortieren nach : ");
+        this.add(sortlabel);
+        this.sorterChoice = new SorterChoice();
+        this.add(sorterChoice);
+        JButton sortButton = new JButton("sortieren");
+        sortButton.addActionListener(action -> {
+            controller.SortOrFilter().SortBy(sorterChoice.getSortingType());
+        });
+        this.add(sortButton);
     }
-
     private void initAddArtPieceButton() {
         JButton addArtPieceButton = new JButton("Werk hinzufügen");
         addArtPieceButton.addActionListener(action ->
