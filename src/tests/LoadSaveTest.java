@@ -25,8 +25,6 @@ public class LoadSaveTest {
             model = fileHandler.load();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (VersionControllException e) {
             e.printStackTrace();
         }

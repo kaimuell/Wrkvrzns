@@ -145,7 +145,12 @@ class ArtPieceDialog extends JDialog {
                 createShortDescriptionOfPerson(artPiece.getBuyer()));
 
         JButton selectBuyerButton = new JButton("Käufer hinzufügen");
-        selectBuyerButton.addActionListener(e -> setBuyerToSelectionFromDialog());
+        selectBuyerButton.addActionListener( action -> {
+                    new Thread(() -> {
+                        setBuyerToSelectionFromDialog();
+                    }).start();
+                }
+        );
 
         JButton deleteBuyerButton = new JButton("Käufer löschen");
         deleteBuyerButton.addActionListener(e -> deleteBuyer());
@@ -157,7 +162,7 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void setBuyerToSelectionFromDialog() {
-        PersonEntry buyer = selectPersonFromAddressbook();
+        Person buyer = selectPersonFromAddressbook();
         if (buyer != null) {
             artPiece.setBuyer(buyer);
             buyerLabel.setText(
@@ -176,7 +181,7 @@ class ArtPieceDialog extends JDialog {
         }
     }
 
-    private PersonEntry selectPersonFromAddressbook() {
+    private Person selectPersonFromAddressbook() {
         DialogController dialogController = new DialogController(controller);
         return dialogController.selectPersonFromAddressBookDialog();
     }
@@ -283,8 +288,10 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void selectPictureFromDialog() {
-            JFileChooser openDialog = new ChooseSingleJPEGDialog(FileSystemView.getFileSystemView().getHomeDirectory());
-            int returnVal = openDialog.showOpenDialog(this);
+            //JFileChooser openDialog = new ChooseSingleJPEGDialog(FileSystemView.getFileSystemView().getHomeDirectory());
+        JFileChooser openDialog = DialogController.createChooseSingleJPEGDialog();
+
+        int returnVal = openDialog.showOpenDialog(this);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     this.picturePath = setPictureFieldToSelectionOf(openDialog);

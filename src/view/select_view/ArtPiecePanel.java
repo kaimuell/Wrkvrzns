@@ -85,11 +85,9 @@ class ArtPiecePanel extends JPanel {
 
     private String createBuyerRepresentation(Person buyer) {
         StringBuilder builder = new StringBuilder();
-        builder.append(buyer.getFirstName());
-        builder.append(", ");
         builder.append(buyer.getFamilyName());
-        builder.append(" : ");
-        builder.append(buyer.geteMail());
+        builder.append(", ");
+        builder.append(buyer.getFirstName());
 
         return builder.toString();
     }

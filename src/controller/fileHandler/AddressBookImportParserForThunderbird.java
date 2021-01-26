@@ -150,10 +150,10 @@ public class AddressBookImportParserForThunderbird {
 
             if (onlyWithNames) {
                 if (!name.equals("") && !familyName.equals("")) {
-                    addressBookController.addPerson(new Person(familyName, name, email, tel, address));
+                    addressBookController.addPerson(new Person(name, familyName, email, tel, address));
                 }
             } else {
-                addressBookController.addPerson(new Person(familyName, name, email, tel, address));
+                addressBookController.addPerson(new Person(name, familyName, email, tel, address));
             }
         }
     }

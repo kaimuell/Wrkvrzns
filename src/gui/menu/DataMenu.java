@@ -1,8 +1,10 @@
 package gui.menu;
 
 import controller.Controller;
+import controller.dialogController.DialogController;
 
 import javax.swing.*;
+import java.io.File;
 
 class DataMenu extends JMenu {
     private final JFrame parentFrame;
@@ -13,17 +15,21 @@ class DataMenu extends JMenu {
         super("Datei");
         this.parentFrame = parentFrame;
         this.controller = controller;
-        JMenuItem newProfile = newProfileOption(parentFrame, controller);
-        JMenuItem save = saveOption(controller);
-        JMenuItem close = closeOption(controller);
-        //TODO laden
-        //TODO speichern als
+        JMenuItem newProfile = newProfileOption();
+        JMenuItem save = saveOption();
+        JMenuItem close = closeOption();
+        JMenuItem load = loadOption();
+        JMenuItem saveAs = saveAsOption();
+
         this.add(newProfile);
+        this.add(load);
         this.add(save);
+        this.add(saveAs);
         this.add(close);
     }
 
-    private JMenuItem newProfileOption(JFrame parentFrame, Controller controller) {
+
+    private JMenuItem newProfileOption() {
         JMenuItem newProfile = new JMenuItem("Neu");
         newProfile.addActionListener( action -> {
             String name = JOptionPane.showInputDialog(parentFrame, "Name des neuen Profils : ");
@@ -32,7 +38,35 @@ class DataMenu extends JMenu {
         return newProfile;
     }
 
-    private JMenuItem closeOption(Controller controller) {
+    private JMenuItem loadOption() {
+        JMenuItem load = new JMenuItem("Laden");
+        load.addActionListener(action -> {
+            JFileChooser fileChooser = DialogController.createChooseSingleProfileDialog();
+            int option = fileChooser.showOpenDialog(parentFrame);
+            if (option == JFileChooser.APPROVE_OPTION){
+                File file = fileChooser.getSelectedFile();
+                controller.load(file);
+            }
+        });
+        return load;
+    }
+
+    private JMenuItem saveOption() {
+        JMenuItem save = new JMenuItem("Speichern");
+        save.addActionListener(a -> controller.save());
+        return save;
+    }
+
+    private JMenuItem saveAsOption() {
+        JMenuItem saveAs = new JMenuItem("Speichern als");
+        saveAs.addActionListener(action -> {
+            String profileName = JOptionPane.showInputDialog(parentFrame, "Name des neuen Profils : ");
+            controller.saveAs(profileName);
+        });
+        return saveAs;
+    }
+
+    private JMenuItem closeOption() {
         JMenuItem close = new JMenuItem("Beenden");
         close.addActionListener(action -> {
             int returnval = JOptionPane.showConfirmDialog(parentFrame,
@@ -43,13 +77,5 @@ class DataMenu extends JMenu {
             }
         });
         return close;
-    }
-
-    private JMenuItem saveOption(Controller controller) {
-        JMenuItem save = new JMenuItem("Speichern");
-        save.addActionListener(a -> {
-            controller.save();
-        });
-        return save;
     }
 }

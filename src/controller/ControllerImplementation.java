@@ -140,8 +140,6 @@ public class ControllerImplementation implements Controller {
             e.printStackTrace();
         } catch (VersionControllException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         //TODO USER INFOMATIONEN GEBEN
@@ -186,6 +184,31 @@ public class ControllerImplementation implements Controller {
             updateModelOfSubController();
             refreshViews();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveAs(String profileName) {
+        try {
+            fileHandler.createNewProfile(profileName);
+            fileHandler.save(model);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void load(File file) {
+        try {
+            this.model = fileHandler.load(file);
+            updateModelOfViews();
+            updateModelOfSubController();
+            refreshViews();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (VersionControllException e) {
             e.printStackTrace();
         }
     }

@@ -94,7 +94,6 @@ public class FileHandler {
     }
 
     private File initialiseFolders() {
-        System.out.println("FileHandler : lege Ordner an");
         String folderPath = createProfileDirectories("default");
         File saveFile = createNewProfileFile(folderPath);
         return saveFile;
@@ -123,7 +122,6 @@ public class FileHandler {
     }
 
     private void writeEmptyModelToSaveFile() throws IOException {
-        System.out.println("FileHandler: lege leeres Model an");
         Model model = new Model(new ABModel());
         save(model);
     }
@@ -208,20 +206,36 @@ public class FileHandler {
     }
 
     /**
-     * Lädt das {@link Model} in die geladene Profil Datei
-     * @return
-     * @throws IOException
-     * @throws ClassNotFoundException
-     * @throws VersionControllException
+     * Lädt das {@link Model} in die aktuell geladene Profil Datei
+     * @return das geladene Model
+     * @throws IOException Datei konnte nicht geöffnet werden
+     * @throws VersionControllException Version der Datei nicht bekannt.
      */
-    public synchronized Model load() throws IOException, ClassNotFoundException, VersionControllException {
-        System.out.println("FileHandler : lade");
-        Model model = loadAsString();
-
+    public Model load() throws IOException, VersionControllException {
+        Model model = loadAsString(new File(this.saveFile));
+        reloadAllBitmaps(model);
         return model;
     }
 
-    private Model loadAsString() throws IOException, VersionControllException {
+    /**
+     * Lädt das {@link} Model in die angegebene  Profil Datei
+     * @param file die zu ladende Datei
+     * @return das geladene Model
+     * @throws IOException Datei konnte nicht geöffnet werden
+     * @throws VersionControllException Version der Datei nicht bekannt.
+     */
+    public Model load(File file) throws IOException, VersionControllException {
+        Model model = loadAsString(file);
+        this.bitmapFolder = file.getParentFile() + File.separator + "bitmaps";
+        this.pictureFolder = file.getParentFile() + File.separator +"pictures";
+        this.saveFile = file.toString();
+        writeNewPathSettingsToFile();
+        reloadAllBitmaps(model);
+        return model;
+    }
+
+
+    private synchronized Model loadAsString(File saveFile) throws IOException, VersionControllException {
 
         FileReader fr = new FileReader(saveFile);
         BufferedReader reader = new BufferedReader(fr);
@@ -229,7 +243,6 @@ public class FileHandler {
         Model model = SaveFileParser.parseFileInput(lines);
         reader.close();
         fr.close();
-        reloadAllBitmaps(model);
         return model;
     }
 

@@ -1,6 +1,6 @@
 package controller.dialogController;
 
-import adressbook.model.PersonEntry;
+import adressbook.model.Person;
 import controller.Controller;
 import model.elements.ArtPieceEntry;
 
@@ -47,25 +47,24 @@ public class DialogController {
     }
 
     /**
-     * Erstellt einen Frame aus dem Dressbuch indem eine Person ausgewählt werden kann
+     * Erstellt einen Frame aus dem Adressbuch indem eine Person ausgewählt werden kann
      * und gibt die ausgewählte Person zurück
      * @return die Person / null falls keine gewählt
      */
-    public PersonEntry selectPersonFromAddressBookDialog () {
-        SelectPersonFromAdressBookDialog dialog = new SelectPersonFromAdressBookDialog(controller.getAddressbook());
+    public Person selectPersonFromAddressBookDialog () {
+            PersonSelectionDialog dialog = new PersonSelectionDialog(controller.getAddressbook());
 
-        while (dialog.ok_cancel_option == UNDECIDED){
-            waitFor50Milis();
-        }
-        if (dialog.ok_cancel_option == OK){
-            PersonEntry chosenPerson = dialog.getChosenPersonEntry();
-            dialog.dispose();
-            return chosenPerson;
-        } else {
-            dialog.dispose();
-            return null;
-        }
-
+            while (dialog.getOkCancelOption() == UNDECIDED) {
+                waitFor50Milis();
+            }
+            if (dialog.getOkCancelOption() == OK) {
+                Person chosenPerson = dialog.getSelectedPerson();
+                dialog.dispose();
+                return chosenPerson;
+            } else {
+                dialog.dispose();
+                return null;
+            }
     }
 
     protected void waitFor50Milis() {
@@ -78,6 +77,10 @@ public class DialogController {
 
     public static JFileChooser createChooseSingleJPEGDialog () {
         return new ChooseSingleJPEGDialog(new File(System.getProperty("user.home")));
+    }
+
+    public static  JFileChooser createChooseSingleProfileDialog(){
+        return new ChooseSingleProfileDialog(new File("./profiles/"));
     }
 
 }

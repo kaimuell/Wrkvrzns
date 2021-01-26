@@ -15,6 +15,7 @@ public class AdressBookFrame extends JFrame implements ABViewer{
         super("AdressBuch");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(550, 550));
+        this.setLayout(new BorderLayout());
         ABModel model = new ABModel();
         controller = new ABControllerImplementation(model);
         initViewPanel(model, controller);
@@ -30,6 +31,7 @@ public class AdressBookFrame extends JFrame implements ABViewer{
         super("AdressBuch");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(550, 550));
+        this.setLayout(new BorderLayout());
         ABModel model = addressbook;
         controller = new ABControllerImplementation(model);
         initViewPanel(model, controller);

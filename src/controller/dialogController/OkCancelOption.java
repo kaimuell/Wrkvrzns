@@ -1,6 +1,6 @@
 package controller.dialogController;
 
-enum OkCancelOption {
+public enum OkCancelOption {
     OK(0), CANCEL(1), UNDECIDED(-1);
 
     int value;
