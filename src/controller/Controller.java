@@ -1,6 +1,7 @@
 package controller;
 
 import adressbook.model.ABModel;
+import gui.MessageBord;
 import model.elements.ArtPieceEntry;
 import view.Viewer;
 
@@ -50,6 +51,8 @@ public interface Controller {
      * @param view das View
      */
     void addView(Viewer view);
+
+    void addMessageBord(MessageBord messageBord);
 
     /**
      * Gibt das Adressbuch des betrachteten {@link model.Model} zurück

@@ -3,9 +3,9 @@ package controller;
 import gui.elements.SortingType;
 import model.Model;
 import model.elements.ArtPieceEntry;
-import model.elements.ArtworkType;
 
 import java.util.Locale;
+
 
 /**
  * Die Klasse {@link SortAndFilterHandler} ist eine Unterklasse von {@link ControllerImplementation} und
@@ -26,13 +26,10 @@ public class SortAndFilterHandler {
      * @param partOfName der übergebene String
      */
     public void filterByName(String partOfName){
-        System.out.println(partOfName);
         model.resetFilteredPieces();
         for (ArtPieceEntry entry:
                 model.getPieces()) {
-            System.out.println(entry.getName());
             if (entry.getName().toLowerCase().contains(partOfName.toLowerCase())){
-                System.out.println("Eintag gefunden : " + entry.getName());
                 model.getFiltertPieces().add(entry);
             }
         }
@@ -46,7 +43,6 @@ public class SortAndFilterHandler {
      */
     public void filterByYear(String year){
         model.resetFilteredPieces();
-        System.out.println("Suche Jahr : " + year);
         for (ArtPieceEntry entry:
              model.getPieces()) {
             if(String.valueOf(entry.getYear()).contains(year)){
@@ -94,11 +90,11 @@ public class SortAndFilterHandler {
      */
     public void SortBy (SortingType sortingType) {
         if (sortingType == SortingType.NAME_SMALLER) {
-            model.getFiltertPieces().sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
-            model.getPieces().sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+            model.getFiltertPieces().sort((o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
+            model.getPieces().sort((o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
         } else if (sortingType == SortingType.NAME_BIGGER) {
-            model.getFiltertPieces().sort((o1, o2) -> -(o1.getName().compareTo(o2.getName())));
-            model.getPieces().sort((o1, o2) -> -(o1.getName().compareTo(o2.getName())));
+            model.getFiltertPieces().sort((o1, o2) -> -(o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase())));
+            model.getPieces().sort((o1, o2) -> -(o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase())));
         } else if (sortingType == SortingType.TYPE_SMALLER) {
             model.getFiltertPieces().sort((o1, o2) -> o1.getType().compareTo(o2.getType()));
             model.getPieces().sort((o1, o2) -> o1.getType().compareTo(o2.getType()));

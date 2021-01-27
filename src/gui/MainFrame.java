@@ -28,17 +28,16 @@ public class MainFrame extends JFrame implements Viewer {
         FileHandler fileHandler = new FileHandler();
         Controller controller = new ControllerImplementation(fileHandler);
 
-        SelectViewPanel selectView = new SelectViewPanel(controller);
-        PictureView pictureView = new PictureView(controller);
-        ViewHub viewHub = new ViewHub(pictureView,selectView, ViewOption.SELECT_VIEW, controller);
-        controller.addView(viewHub);
-
-
-        this.add (new JScrollPane(viewHub, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+        ViewHub viewHub = initaliseViews(controller);
 
         this.setJMenuBar(new MainMenuBar(this, controller, viewHub));
         this.add(new Toolbar(controller, this), BorderLayout.NORTH);
 
+        NotificationField notificationField = new NotificationField();
+        controller.addMessageBord(notificationField);
+        this.add(notificationField, BorderLayout.SOUTH);
+
+        //laden der vorigen Datei
         controller.load();
 
         //Speichert bei Schliessen des Programms
@@ -51,6 +50,16 @@ public class MainFrame extends JFrame implements Viewer {
         });
         this.setVisible(true);
         this.pack();
+    }
+
+    private ViewHub initaliseViews(Controller controller) {
+        SelectViewPanel selectView = new SelectViewPanel(controller);
+        PictureView pictureView = new PictureView(controller);
+        ViewHub viewHub = new ViewHub(this, pictureView,selectView, ViewOption.SELECT_VIEW, controller);
+        controller.addView(viewHub);
+        controller.addView(this);
+        this.add (new JScrollPane(viewHub, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+        return viewHub;
     }
 
     @Override

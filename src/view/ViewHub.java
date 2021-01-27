@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import gui.MainFrame;
 import model.Model;
 import view.pictureView.PictureView;
 import view.select_view.SelectViewPanel;
@@ -15,14 +16,16 @@ public class ViewHub extends JPanel implements Viewer {
     SelectViewPanel selectView;
     ViewOption viewOption;
     Controller controller;
+    MainFrame mainFrame;
 
-
-    public ViewHub(PictureView pictureView, SelectViewPanel selectView, ViewOption viewOption, Controller controller) {
+    public ViewHub(MainFrame mainFrame, PictureView pictureView, SelectViewPanel selectView, ViewOption viewOption, Controller controller) {
+        this.mainFrame = mainFrame;
         this.pictureView = pictureView;
         this.selectView = selectView;
         this.controller = controller;
         this.setViewModeTo(viewOption);
     }
+
 
     public void setViewModeTo(ViewOption viewOption){
         this.removeAll();
@@ -35,6 +38,7 @@ public class ViewHub extends JPanel implements Viewer {
             selectView.refreshView();
         }
         this.revalidate();
+        mainFrame.refreshView();
 
     }
 

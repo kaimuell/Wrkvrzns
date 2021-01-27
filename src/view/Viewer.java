@@ -2,6 +2,9 @@ package view;
 
 import model.Model;
 
+/**
+ * Iterface für die Views des Programms
+ */
 public interface Viewer {
 
     /**

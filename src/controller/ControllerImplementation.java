@@ -3,6 +3,7 @@ package controller;
 import adressbook.model.ABModel;
 import controller.fileHandler.FileHandler;
 import controller.fileHandler.VersionControllException;
+import gui.MessageBord;
 import model.elements.ArtPieceEntry;
 import model.Model;
 import tools.PictureTools;
@@ -25,16 +26,30 @@ public class ControllerImplementation implements Controller {
     private List<Viewer> views;
     private List<ArtPieceEntry> selectedElements;
     private final SortAndFilterHandler sortAndFilterHandler;
+    private List<MessageBord> messageBords;
 
 
     public ControllerImplementation(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
         this.model = new Model(new ABModel());
         this.views = new ArrayList<>();
+        this.messageBords = new ArrayList<>();
         this.selectedElements = new ArrayList<>();
         this.sortAndFilterHandler = new SortAndFilterHandler(model, this);
     }
 
+
+    @Override
+    public void addView(Viewer view) {
+            this.views.add(view);
+            view.setModelTo(model);
+            view.refreshView();
+    }
+
+    @Override
+    public void addMessageBord(MessageBord messageBord) {
+        this.messageBords.add(messageBord);
+    }
 
     @Override
     public boolean isASelectedElement(ArtPieceEntry artPiece) {
@@ -64,9 +79,10 @@ public class ControllerImplementation implements Controller {
         ArtPieceEntry entryToChange = model.getEntryWithId(entry.getId());
         entryToChange.setVariablesTo(entry);
         if (imageToLink != null) {
-            entryToChange.setBitmap(imageToLink.getScaledInstance(150,150,Image.SCALE_DEFAULT));
+            entryToChange.setBitmap(PictureTools.createBitmap(imageToLink, 250, 250));
             SaveCopyOfPicture(imageToLink, entryToChange);
         }
+        pushMessageToMessageBords("Eintrag modifiziert");
         refreshViews();
     }
 
@@ -75,22 +91,20 @@ public class ControllerImplementation implements Controller {
         if (entry.getId() == -1) { entry.setId(createUnusedID());}
 
         if (imageToLink != null) {
-            entry.setBitmap(imageToLink.getScaledInstance(150,150, Image.SCALE_DEFAULT));
+            entry.setBitmap(PictureTools.createBitmap(imageToLink, 250, 250));
             SaveCopyOfPicture(imageToLink, entry);
         } else {
             entry.setBitmap(PictureTools.defaultEmptyImage());
         }
         model.getPieces().add(entry);
+        pushMessageToMessageBords("Eintrag angelegt");
         refreshViews();
     }
+
     private void SaveCopyOfPicture(Image imageToLink, ArtPieceEntry entry) {
         new Thread( ()-> {
             fileHandler.saveCopyOfPictureLinkedToArtpiece(entry.getId(), imageToLink);
         }).start();
-    }
-
-    protected void refreshViews() {
-        for (Viewer view : views) {view.refreshView(); }
     }
 
     private int createUnusedID() {
@@ -102,19 +116,6 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
-    public void addView(Viewer view) {
-            this.views.add(view);
-            view.setModelTo(model);
-            view.refreshView();
-    }
-
-    private void informViewsSelectedElementsChanged(){
-        for (Viewer view : views) {
-            view.changeBackgroundOfSelectedElements();
-        }
-    }
-
-    @Override
     public ABModel getAddressbook() {
         return model.adressbook;
     }
@@ -123,11 +124,21 @@ public class ControllerImplementation implements Controller {
     public void save() {
         try {
             fileHandler.save(model);
+            pushMessageToMessageBords("Werkverzeichnis gespeichert");
         } catch (IOException e) {
-            e.printStackTrace();
+            pushMessageToMessageBords("Speichern fehlgeschlagen");
         }
+    }
 
-        //TODO USER INFORMATIONEN GEBEN
+    @Override
+    public void saveAs(String profileName) {
+        try {
+            fileHandler.createNewProfile(profileName);
+            fileHandler.save(model);
+            pushMessageToMessageBords("Gespeichert als " + profileName);
+        } catch (IOException e) {
+            pushMessageToMessageBords("Speichern fehlgeschlagen");
+        }
     }
 
     @Override
@@ -136,30 +147,43 @@ public class ControllerImplementation implements Controller {
             this.model = fileHandler.load();
             updateModelOfSubController();
             updateModelOfViews();
+            pushMessageToMessageBords("Werkverzeichnis geladen");
             refreshViews();
         } catch (IOException e) {
-            e.printStackTrace();
+            pushMessageToMessageBords("Laden fehlgeschlagen : Konnte Datei nicht öffnen");
         } catch (VersionControllException e) {
-            e.printStackTrace();
-        }
-
-        //TODO USER INFOMATIONEN GEBEN
-    }
-
-    private void updateModelOfViews() {
-        for (Viewer view: views) {
-            view.setModelTo(this.model);
+            pushMessageToMessageBords("Laden fehlgeschlagen : Dateiversion unbekannt");
         }
     }
 
     @Override
+    public void load(File file) {
+        try {
+            this.model = fileHandler.load(file);
+            updateModelOfViews();
+            updateModelOfSubController();
+            pushMessageToMessageBords("Werkverzeichnis geladen");
+            refreshViews();
+        } catch (IOException e) {
+            pushMessageToMessageBords("Laden fehlgeschlagen : Konnte Datei nicht öffnen.");
+        } catch (VersionControllException e) {
+            pushMessageToMessageBords("Laden fehlgeschlagen : Datei Version unbekannt.");
+        }
+    }
+
+
+    @Override
     public void deleteSelectedElements() {
         List<Integer>  deletedIDs = new ArrayList<>();
+        int counter = 0;
         for (ArtPieceEntry entry : selectedElements) {
                  model.getPieces().remove(entry);
+                 model.getFiltertPieces().remove(entry);
                  deletedIDs.add(entry.getId());
+                 counter++;
             }
         fileHandler.deletePicturesAndBitmapsWithIds(deletedIDs);
+        pushMessageToMessageBords(counter + "Einträge gelöscht");
         refreshViews();
     }
 
@@ -173,7 +197,7 @@ public class ControllerImplementation implements Controller {
         try{
             fileHandler.importThunderbirdContacts(file, model.adressbook, onlyContactsWithNames);
         } catch (Exception e) {
-            e.printStackTrace();
+            pushMessageToMessageBords("Import fehlgeschlagen");
         }
     }
 
@@ -185,36 +209,32 @@ public class ControllerImplementation implements Controller {
             updateModelOfSubController();
             refreshViews();
         } catch (IOException e) {
-            e.printStackTrace();
+            pushMessageToMessageBords("Neues Profil konnte nicht erzeugt werden");
         }
     }
 
-    @Override
-    public void saveAs(String profileName) {
-        try {
-            fileHandler.createNewProfile(profileName);
-            fileHandler.save(model);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void load(File file) {
-        try {
-            this.model = fileHandler.load(file);
-            updateModelOfViews();
-            updateModelOfSubController();
-            refreshViews();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (VersionControllException e) {
-            e.printStackTrace();
+    private void updateModelOfViews() {
+        for (Viewer view: views) {
+            view.setModelTo(this.model);
         }
     }
-
     private void updateModelOfSubController() {
         sortAndFilterHandler.setModel(model);
+    }
+
+    protected void refreshViews() {
+        for (Viewer view : views) {view.refreshView(); }
+    }
+
+    private void informViewsSelectedElementsChanged(){
+        for (Viewer view : views) {
+            view.changeBackgroundOfSelectedElements();
+        }
+    }
+
+    private void pushMessageToMessageBords(String message){
+        for (MessageBord messageBord: messageBords) {
+            messageBord.pushMessage(message);
+        }
     }
 }

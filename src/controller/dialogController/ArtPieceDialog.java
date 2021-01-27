@@ -1,14 +1,12 @@
 package controller.dialogController;
 
 import adressbook.model.Person;
-import adressbook.model.PersonEntry;
 import controller.Controller;
 import tools.PictureTools;
 import gui.elements.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -108,82 +106,54 @@ class ArtPieceDialog extends JDialog {
         choicePanel.add(typeChoice);
         mainPanel.add(choicePanel, BorderLayout.NORTH);
     }
+    private void addPictureSelectionTo(JPanel panel) {
+        JPanel picturePanel = new JPanel(new BorderLayout());
+
+        JPanel previewPanel =  new JPanel();
+        JPanel inputPanel = new JPanel();
+        imagePreviewIcon = new JLabel( );
+        imagePreviewIcon.setSize(80,80);
+        imagePreviewIcon.setIcon(new ImageIcon(artPiece.getBitmap() == null?
+                PictureTools.defaultEmptyImage().getScaledInstance(80,80, Image.SCALE_FAST)
+                : artPiece.getBitmap().getScaledInstance(80,80,Image.SCALE_SMOOTH)));
+        JButton loadPictureButton = new JButton("Bild laden");
+        loadPictureButton.addActionListener(e -> selectPictureFromDialog());
+        previewPanel.add(imagePreviewIcon);
+        inputPanel.add(loadPictureButton);
+        picturePanel.add(previewPanel, BorderLayout.WEST);
+        picturePanel.add(inputPanel, BorderLayout.EAST);
+        panel.add(picturePanel);
+    }
+
+    private void selectPictureFromDialog() {
+        JFileChooser openDialog = DialogController.createChooseSingleJPEGDialog();
+
+        int returnVal = openDialog.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                this.picturePath = setPictureFieldToSelectionOf(openDialog);
+                repaint();
+            } catch (IOException ex) {
+                errorInfoLabel.setText("Bild konnte nicht geladen werden");
+                repaint();
+            }
+        }
+    }
+
+    private String setPictureFieldToSelectionOf(JFileChooser openDialog) throws IOException {
+        File pictureFile = openDialog.getSelectedFile();
+        this.imageForEntry = PictureTools.loadImage(pictureFile.getPath());
+        Image bitmap = PictureTools.createBitmap(imageForEntry, 80, 80);
+        imagePreviewIcon.setIcon(new ImageIcon(bitmap));
+        errorInfoLabel.setText("");
+        return pictureFile.getPath();
+    }
 
     private JPanel initErrorLabel() {
         JPanel errorInfoPanel = new JPanel();
         errorInfoLabel = new JLabel();
         errorInfoPanel.add(errorInfoLabel);
         return errorInfoPanel;
-    }
-
-    private JPanel initOkAndCancelButtons() {
-        JPanel buttonPanel = new JPanel();
-        JButton okButton = new JButton("OK");
-        okButton.addActionListener(e -> {
-            try {
-                setArtPieceInfoToTextFields();
-                okCancelOption = OK;
-            }catch (NumberFormatException error){
-                errorInfoLabel.setText("Eingabe in einem Textfeld, dass nur Zahlen annimmt nicht gültig.");
-                repaint();
-            }
-        });
-        JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener( e -> {
-            this.okCancelOption = CANCEL;
-        });
-
-        buttonPanel.add(okButton);
-        return buttonPanel;
-    }
-
-    private void initBuyerSelection(JPanel entryPanel) {
-
-        JLabel isSoldLabel = new JLabel("Verkauft an:");
-
-        buyerLabel = new JLabel(
-                createShortDescriptionOfPerson(artPiece.getBuyer()));
-
-        JButton selectBuyerButton = new JButton("Käufer hinzufügen");
-        selectBuyerButton.addActionListener( action -> {
-                    new Thread(() -> {
-                        setBuyerToSelectionFromDialog();
-                    }).start();
-                }
-        );
-
-        JButton deleteBuyerButton = new JButton("Käufer löschen");
-        deleteBuyerButton.addActionListener(e -> deleteBuyer());
-
-        entryPanel.add(isSoldLabel);
-        entryPanel.add(buyerLabel);
-        entryPanel.add(selectBuyerButton);
-        entryPanel.add(deleteBuyerButton);
-    }
-
-    private void setBuyerToSelectionFromDialog() {
-        Person buyer = selectPersonFromAddressbook();
-        if (buyer != null) {
-            artPiece.setBuyer(buyer);
-            buyerLabel.setText(
-                    createShortDescriptionOfPerson(buyer));
-            mainPanel.repaint();
-        }
-    }
-
-    private void deleteBuyer() {
-        if (artPiece.getBuyer() != null) {
-            int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?",
-                    "Bestätigen", JOptionPane.YES_NO_OPTION);
-            if (returnval == JOptionPane.YES_OPTION) {
-                artPiece.setBuyer(null);
-            }
-        }
-    }
-
-    private Person selectPersonFromAddressbook() {
-        DialogController dialogController = new DialogController(controller);
-        return dialogController.selectPersonFromAddressBookDialog();
     }
 
     private void initTextFields(JPanel entryPanel) {
@@ -267,48 +237,75 @@ class ArtPieceDialog extends JDialog {
         entryPanel.add(editionLabel);
         entryPanel.add(editionField);
     }
+    private void initBuyerSelection(JPanel entryPanel) {
 
-    private void addPictureSelectionTo(JPanel panel) {
-        JPanel picturePanel = new JPanel(new BorderLayout());
+        JLabel isSoldLabel = new JLabel("Verkauft an:");
 
-        JPanel previewPanel =  new JPanel();
-        JPanel inputPanel = new JPanel();
-        imagePreviewIcon = new JLabel( );
-        imagePreviewIcon.setSize(80,80);
-        imagePreviewIcon.setIcon(new ImageIcon(artPiece.getBitmap() == null?
-                PictureTools.defaultEmptyImage().getScaledInstance(80,80, Image.SCALE_FAST)
-                : artPiece.getBitmap().getScaledInstance(80,80,Image.SCALE_SMOOTH)));
-        JButton loadPictureButton = new JButton("Bild laden");
-        loadPictureButton.addActionListener(e -> selectPictureFromDialog());
-        previewPanel.add(imagePreviewIcon);
-        inputPanel.add(loadPictureButton);
-        picturePanel.add(previewPanel, BorderLayout.WEST);
-        picturePanel.add(inputPanel, BorderLayout.EAST);
-        panel.add(picturePanel);
-    }
+        buyerLabel = new JLabel(
+                createShortDescriptionOfPerson(artPiece.getBuyer()));
 
-    private void selectPictureFromDialog() {
-        JFileChooser openDialog = DialogController.createChooseSingleJPEGDialog();
-
-        int returnVal = openDialog.showOpenDialog(this);
-            if(returnVal == JFileChooser.APPROVE_OPTION) {
-                try {
-                    this.picturePath = setPictureFieldToSelectionOf(openDialog);
-                    repaint();
-                } catch (IOException ex) {
-                    errorInfoLabel.setText("Bild konnte nicht geladen werden");
-                    repaint();
+        JButton selectBuyerButton = new JButton("Käufer hinzufügen");
+        selectBuyerButton.addActionListener( action -> {
+                    new Thread(() -> {
+                        setBuyerToSelectionFromDialog();
+                    }).start();
                 }
-            }
+        );
+
+        JButton deleteBuyerButton = new JButton("Käufer löschen");
+        deleteBuyerButton.addActionListener(e -> deleteBuyer());
+
+        entryPanel.add(isSoldLabel);
+        entryPanel.add(buyerLabel);
+        entryPanel.add(selectBuyerButton);
+        entryPanel.add(deleteBuyerButton);
     }
 
-    private String setPictureFieldToSelectionOf(JFileChooser openDialog) throws IOException {
-        File pictureFile = openDialog.getSelectedFile();
-        this.imageForEntry = PictureTools.loadImage(pictureFile.getPath());
-        Image bitmap = PictureTools.createBitmap(imageForEntry, 80, 80);
-        imagePreviewIcon.setIcon(new ImageIcon(bitmap));
-        errorInfoLabel.setText("");
-        return pictureFile.getPath();
+    private void setBuyerToSelectionFromDialog() {
+        Person buyer = selectPersonFromAddressbook();
+        if (buyer != null) {
+            artPiece.setBuyer(buyer);
+            buyerLabel.setText(
+                    createShortDescriptionOfPerson(buyer));
+            mainPanel.repaint();
+        }
+    }
+
+    private void deleteBuyer() {
+        if (artPiece.getBuyer() != null) {
+            int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?",
+                    "Bestätigen", JOptionPane.YES_NO_OPTION);
+            if (returnval == JOptionPane.YES_OPTION) {
+                artPiece.setBuyer(null);
+            }
+        }
+    }
+
+    private Person selectPersonFromAddressbook() {
+        DialogController dialogController = new DialogController(controller);
+        return dialogController.selectPersonFromAddressBookDialog();
+    }
+
+
+    private JPanel initOkAndCancelButtons() {
+        JPanel buttonPanel = new JPanel();
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(e -> {
+            try {
+                setArtPieceInfoToTextFields();
+                okCancelOption = OK;
+            }catch (NumberFormatException error){
+                errorInfoLabel.setText("Eingabe in einem Textfeld, dass nur Zahlen annimmt nicht gültig.");
+                repaint();
+            }
+        });
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener( e -> {
+            this.okCancelOption = CANCEL;
+        });
+
+        buttonPanel.add(okButton);
+        return buttonPanel;
     }
 
     private void setArtPieceInfoToTextFields() throws NumberFormatException{

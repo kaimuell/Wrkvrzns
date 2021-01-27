@@ -13,3 +13,6 @@
 
 #thunderbird exports
 *.csv
+
+#notes
+issues.txt

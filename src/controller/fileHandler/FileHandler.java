@@ -134,7 +134,7 @@ public class FileHandler {
      */
     public synchronized void saveCopyOfPictureLinkedToArtpiece(int artPieceEntryID, Image picture)  {
             try {
-                Image bitmap = PictureTools.createBitmap(picture, 150, 150);
+                Image bitmap = PictureTools.createBitmap(picture, 250, 250);
                 System.out.println("FileHandler : schreibe Bild nach : " + pathOfHighQualityPictureWithID(artPieceEntryID));
                 System.out.println("FileHandler : schreibe Bitmap nach : " + pathOfBitmapWithId(artPieceEntryID));
                 String pictureFilename = pathOfHighQualityPictureWithID(artPieceEntryID);

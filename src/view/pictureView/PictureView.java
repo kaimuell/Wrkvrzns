@@ -28,11 +28,12 @@ public class PictureView extends JPanel implements Viewer {
 
     //TODO Bilder in mehreren Zeilen anzeigen.
     public PictureView(Controller controller){
-        this.panelHeight = 150;
-        this.panelWidth = 150;
+        this.panelHeight = 200;
+        this.panelWidth = 200;
         this.model = new Model(new ABModel());
         this.controller = controller;
         this.picturePanels = new ArrayList<>();
+        this.setLayout(new GridLayout(0,8));
         refreshView();
     }
 
