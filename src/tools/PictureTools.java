@@ -23,8 +23,30 @@ public class PictureTools {
      * @return das Bitmap
      */
     public static Image createBitmap(Image image, int width, int height){
-        return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        //TODO Abändern, so dass die Proportionen des übergebenen Bildes eingehalten werden
+        return  createProportionalScaledImage(width, height, image);
+
+    }
+
+    private static BufferedImage createProportionalScaledImage(int width, int height, Image image){
+        BufferedImage imageBuff = imageToBufferedImage(image);
+
+            BufferedImage createdImage = new BufferedImage(width,height, BufferedImage.TYPE_3BYTE_BGR);
+            Graphics2D g2d = createdImage.createGraphics();
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect(0,0,width,height);
+            if (imageBuff.getHeight() > imageBuff.getWidth()) {
+                //Ist Hochformat
+                int offset = (width - (width * imageBuff.getWidth() / imageBuff.getHeight()))/2;
+                System.out.println("Hochformat mit Offset :" + offset);
+                g2d.drawImage(imageBuff , 0+offset, 0,  width - (offset *2), height, null);
+            } else {
+                //Ist Querformat
+                int offset = ((height - (height * imageBuff.getHeight() / imageBuff.getWidth())) /2);
+                System.out.println("Querformat mit Offset : " + offset);
+                g2d.drawImage(imageBuff, 0, 0+offset, width, (height-(offset *2)), null);
+            }
+
+            return createdImage;
     }
 
     public static Image loadImage(String filepath) throws IOException{

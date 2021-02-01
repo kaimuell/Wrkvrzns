@@ -42,6 +42,7 @@ public class Toolbar extends JToolBar{
         });
         this.add(sortButton);
     }
+
     private void initAddArtPieceButton() {
         JButton addArtPieceButton = new JButton("Werk hinzufügen");
         addArtPieceButton.addActionListener(action ->

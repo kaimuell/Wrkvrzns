@@ -33,7 +33,9 @@ class DataMenu extends JMenu {
         JMenuItem newProfile = new JMenuItem("Neu");
         newProfile.addActionListener( action -> {
             String name = JOptionPane.showInputDialog(parentFrame, "Name des neuen Profils : ");
-            controller.createNewProfile(name);
+            if (name != null) {
+                controller.createNewProfile(name);
+            }
         });
         return newProfile;
     }
@@ -61,7 +63,9 @@ class DataMenu extends JMenu {
         JMenuItem saveAs = new JMenuItem("Speichern als");
         saveAs.addActionListener(action -> {
             String profileName = JOptionPane.showInputDialog(parentFrame, "Name des neuen Profils : ");
-            controller.saveAs(profileName);
+            if (profileName != null) {
+                controller.saveAs(profileName);
+            }
         });
         return saveAs;
     }

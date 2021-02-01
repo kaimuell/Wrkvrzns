@@ -26,7 +26,6 @@ public class PictureView extends JPanel implements Viewer {
     private final Controller controller;
     private List<PictureViewPanel> picturePanels;
 
-    //TODO Bilder in mehreren Zeilen anzeigen.
     public PictureView(Controller controller){
         this.panelHeight = 200;
         this.panelWidth = 200;

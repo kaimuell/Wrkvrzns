@@ -325,6 +325,10 @@ public class FileHandler {
             writeNewPathSettingsToFile();
         return model;
     }
+
+    private void copyFiles(File sourceDirectory, File targetDirectory){
+        //FileUtils
+    }
 }
 
 
