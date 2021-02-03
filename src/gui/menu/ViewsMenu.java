@@ -25,5 +25,12 @@ class ViewsMenu extends JMenu{
             viewHub.setViewModeTo(ViewOption.PICTURE_VIEW);
         });
         this.add(setPictureView);
+
+        JMenuItem setTableView = new JMenuItem("Tabellen-Ansicht");
+        setTableView.setToolTipText("Ansicht in Tabellenform");
+        setTableView.addActionListener(actoin -> {
+            viewHub.setViewModeTo(ViewOption.TABLE_VIEW);
+        });
+        this.add(setTableView);
     }
 }

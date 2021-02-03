@@ -2,12 +2,15 @@ package view.tableView;
 
 import adressbook.model.Person;
 import model.Model;
+import model.elements.ArtPieceEntry;
+import model.elements.ArtworkType;
 
 
 import javax.swing.table.AbstractTableModel;
 
 public class TableAdapter extends AbstractTableModel {
 
+    public static String[] columnNames = new String[]{"Name", "Typ", "Technik", "Höhe", "Breite", "Tiefe", "Länge", "Jahr", "Preis", "Auflage", "Käufer"};
 
     private Model model;
 
@@ -16,14 +19,25 @@ public class TableAdapter extends AbstractTableModel {
     }
 
     @Override
+    public String getColumnName(int column){
+        return columnNames[column];
+    }
+
+    @Override
+    public Class getColumnClass(int column){
+        return String.class;
+    }
+
+    @Override
     public int getRowCount() {
         return model.getNumberOfEntries();
     }
 
+
     @Override
     public int getColumnCount() {
-        //name, type, technique, height, width, depth, length, year, price, buyer
-        return 10;
+        //name, type, technique, height, width, depth, length, year, price, edition, buyer
+        return 11;
     }
 
     @Override
@@ -47,23 +61,89 @@ public class TableAdapter extends AbstractTableModel {
                 return model.getPieces().get(rowIndex).getYear();
             case 8:
                 return model.getPieces().get(rowIndex).getPrice();
-            case 9:
+            case 9 :
+                return model.getPieces().get(rowIndex).getEdition();
+            case 10:
                 Person buyer = model.getPieces().get(rowIndex).getBuyer();
-                return buyer.getFirstName() + buyer.getFamilyName();
+                return  buyer == null ? "nicht verkauft" : buyer.getFirstName()+ ", " + buyer.getFamilyName();
+            default: return "";
         }
-        return null;
     }
 
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        //TODO
+        String input = (String) aValue;
+        ArtPieceEntry entry = model.getPieces().get(rowIndex);
+        switch (columnIndex){
+            case 0 : entry.setName(input); break;
+            case 1 : try{
+                ArtworkType type = ArtworkType.valueOf(input.toUpperCase());
+                entry.setType(type);
+                break;
+            } catch (IllegalArgumentException e) {
+                break;
+            }
+            case 2 : entry.setTechnique(input); break;
+            case 3 : try{
+                int number = Integer.parseInt(input);
+                entry.setHeight(number);
+                break;
+            }catch (NumberFormatException e){
+                break;
+            }
+            case 4 : try{
+                int number = Integer.parseInt(input);
+                entry.setWidth(number);
+                break;
+            }catch (NumberFormatException e){
+                break;
+            }
+            case 5 : try{
+                int number = Integer.parseInt(input);
+                entry.setDepth(number);
+                break;
+            }catch (NumberFormatException e){
+                break;
+            }
+
+            case 6 : try{
+                int number = Integer.parseInt(input);
+                entry.setLength(number);
+                break;
+            }catch (NumberFormatException e){
+                break;
+            }
+            case 7 : try{
+                int number = Integer.parseInt(input);
+                entry.setYear(number);
+                break;
+            }catch (NumberFormatException e){
+                break;
+            }
+            case 8 : try{
+                int number = Integer.parseInt(input);
+                entry.setPrice(number);
+                break;
+            }catch (NumberFormatException e){
+                break;
+            }
+            case 9 : try{
+                int number = Integer.parseInt(input);
+                entry.setEdition(number);
+                break;
+            }catch (NumberFormatException e){
+                break;
+            }
+            default: break;
+        }
+        fireTableCellUpdated(rowIndex, columnIndex);
 
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if (columnIndex == 9) return false;
+        if (columnIndex == 10) return false;
         else return true;
     }
 }

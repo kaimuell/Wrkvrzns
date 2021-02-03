@@ -1,5 +1,5 @@
 package view;
 
 public enum ViewOption {
-    SELECT_VIEW, PICTURE_VIEW
+    SELECT_VIEW, PICTURE_VIEW, TABLE_VIEW,
 }
