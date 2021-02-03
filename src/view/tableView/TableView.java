@@ -5,7 +5,10 @@ import model.Model;
 import view.Viewer;
 
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
+
+/**
+ * Die Klasse {@link TableView} realisiert eine Tabellen-Ansicht des Models.
+ */
 
 public class TableView extends JTable implements Viewer {
     public TableView() {

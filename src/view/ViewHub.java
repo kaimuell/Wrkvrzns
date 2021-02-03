@@ -14,12 +14,13 @@ import java.awt.*;
  * DIe Klasse {@link ViewHub} fasst eine Auswahl an {@link Viewer} zusammen und ermöglicht das Umschalten zwischen ihnen.
  */
 public class ViewHub extends JPanel implements Viewer {
-    PictureView pictureView;
-    SelectViewPanel selectView;
-    TableView tableView;
-    ViewOption viewOption;
-    Controller controller;
-    MainFrame mainFrame;
+    private static final Color STANDARD_BACKGROUND = new Color(144, 143, 143);
+    private PictureView pictureView;
+    private SelectViewPanel selectView;
+    private TableView tableView;
+    private ViewOption viewOption;
+    private Controller controller;
+    private MainFrame mainFrame;
 
     public ViewHub(MainFrame mainFrame, PictureView pictureView, SelectViewPanel selectView, TableView tableView, ViewOption viewOption, Controller controller) {
         this.mainFrame = mainFrame;
@@ -28,6 +29,7 @@ public class ViewHub extends JPanel implements Viewer {
         this.tableView = tableView;
         this.controller = controller;
         this.setLayout(new BorderLayout());
+        this.setBackground(STANDARD_BACKGROUND);
         this.setViewModeTo(viewOption);
     }
 
@@ -36,10 +38,11 @@ public class ViewHub extends JPanel implements Viewer {
         this.removeAll();
         this.viewOption = viewOption;
         if (viewOption == ViewOption.PICTURE_VIEW){
+
             this.add(pictureView, BorderLayout.CENTER);
             pictureView.refreshView();
         } else if (viewOption == ViewOption.SELECT_VIEW){
-            this.add(selectView,BorderLayout.CENTER);
+            this.add(selectView, BorderLayout.CENTER);
             selectView.refreshView();
         } else if (viewOption == ViewOption.TABLE_VIEW){
             this.add(tableView.getTableHeader(), BorderLayout.NORTH);

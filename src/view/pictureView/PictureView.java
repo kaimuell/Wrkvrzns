@@ -33,6 +33,7 @@ public class PictureView extends JPanel implements Viewer {
         this.controller = controller;
         this.picturePanels = new ArrayList<>();
         this.setLayout(new GridLayout(0,8));
+        this.setBackground(STANDARD_BACKGROUND);
         refreshView();
     }
 

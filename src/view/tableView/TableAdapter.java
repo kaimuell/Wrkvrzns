@@ -8,6 +8,10 @@ import model.elements.ArtworkType;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * Die Klasse {@link TableAdapter} realisiert einen Zugriff auf das Model durch ein {@link TableView}
+ */
+
 public class TableAdapter extends AbstractTableModel {
 
     private final static String[] COLUMN_NAMES =
@@ -19,6 +23,7 @@ public class TableAdapter extends AbstractTableModel {
         this.model = model;
     }
 
+    //Die Namen sind die Bezeichnungen der Spalte im Header
     @Override
     public String getColumnName(int column){
         return COLUMN_NAMES[column];
