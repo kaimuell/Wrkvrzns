@@ -10,6 +10,7 @@ import view.ViewOption;
 import view.Viewer;
 import view.pictureView.PictureView;
 import view.select_view.SelectViewPanel;
+import view.tableView.TableView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +56,8 @@ public class MainFrame extends JFrame implements Viewer {
     private ViewHub initaliseViews(Controller controller) {
         SelectViewPanel selectView = new SelectViewPanel(controller);
         PictureView pictureView = new PictureView(controller);
-        ViewHub viewHub = new ViewHub(this, pictureView,selectView, ViewOption.SELECT_VIEW, controller);
+        TableView tableView = new TableView();
+        ViewHub viewHub = new ViewHub(this, pictureView,selectView, tableView, ViewOption.SELECT_VIEW, controller);
         controller.addView(viewHub);
         controller.addView(this);
         this.add (new JScrollPane(viewHub, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
@@ -64,6 +66,7 @@ public class MainFrame extends JFrame implements Viewer {
 
     @Override
     public void refreshView() {
+        this.revalidate();
         this.repaint();
     }
 
