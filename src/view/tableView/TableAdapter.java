@@ -10,7 +10,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableAdapter extends AbstractTableModel {
 
-    public static String[] columnNames = new String[]{"Name", "Typ", "Technik", "Höhe", "Breite", "Tiefe", "Länge", "Jahr", "Preis", "Auflage", "Käufer"};
+    private final static String[] COLUMN_NAMES =
+            new String[]{"Name", "Typ", "Technik", "Höhe", "Breite", "Tiefe", "Länge", "Jahr", "Preis", "Auflage", "Käufer"};
 
     private Model model;
 
@@ -20,7 +21,7 @@ public class TableAdapter extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column){
-        return columnNames[column];
+        return COLUMN_NAMES[column];
     }
 
     @Override
@@ -37,7 +38,7 @@ public class TableAdapter extends AbstractTableModel {
     @Override
     public int getColumnCount() {
         //name, type, technique, height, width, depth, length, year, price, edition, buyer
-        return 11;
+        return COLUMN_NAMES.length;
     }
 
     @Override

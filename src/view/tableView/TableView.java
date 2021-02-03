@@ -10,7 +10,6 @@ import javax.swing.table.JTableHeader;
 public class TableView extends JTable implements Viewer {
     public TableView() {
         super(new TableAdapter(new Model(new ABModel())));
-        setTableHeader( new JTableHeader());
     }
 
     @Override

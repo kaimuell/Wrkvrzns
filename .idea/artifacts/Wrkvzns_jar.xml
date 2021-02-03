@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Wrkvzns:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Wrkvzns_jar</output-path>
+    <root id="archive" name="Wrkvzns.jar">
+      <element id="module-output" name="Wrkvzns" />
+    </root>
+  </artifact>
+</component>

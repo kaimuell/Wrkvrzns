@@ -27,6 +27,7 @@ public class ViewHub extends JPanel implements Viewer {
         this.selectView = selectView;
         this.tableView = tableView;
         this.controller = controller;
+        this.setLayout(new BorderLayout());
         this.setViewModeTo(viewOption);
     }
 
@@ -35,13 +36,14 @@ public class ViewHub extends JPanel implements Viewer {
         this.removeAll();
         this.viewOption = viewOption;
         if (viewOption == ViewOption.PICTURE_VIEW){
-            this.add(pictureView);
+            this.add(pictureView, BorderLayout.CENTER);
             pictureView.refreshView();
         } else if (viewOption == ViewOption.SELECT_VIEW){
-            this.add(selectView);
+            this.add(selectView,BorderLayout.CENTER);
             selectView.refreshView();
         } else if (viewOption == ViewOption.TABLE_VIEW){
-            this.add(tableView);
+            this.add(tableView.getTableHeader(), BorderLayout.NORTH);
+            this.add(tableView, BorderLayout.CENTER);
             this.revalidate();
             tableView.refreshView();
         }
