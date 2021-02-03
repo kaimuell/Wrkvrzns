@@ -19,7 +19,8 @@ Zukünftig wird eine Abhängigkeit von iText7 bestehen, zur Erstellung von PDF D
 
 ## Zukünftige Funktionen
 
-- Tabellenansicht zur schnellen Bearbeitung von mehreren Einträgen
 - automatisches erstellen von Lieferscheinen 
 - automatisches erstellen von Portfolios
 - automatisches erstellen von Preislisten
+
+- Adressimporte aus den gängigsten Formaten
