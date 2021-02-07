@@ -12,9 +12,11 @@ import java.util.List;
 
 public class ABModel implements Serializable, ABModelReader {
     List<PersonEntry> personList;
+    List<PersonEntry> filteredList;
 
     public ABModel() {
         this.personList = new ArrayList<>();
+        this.filteredList = new ArrayList<>();
     }
 
     public List<PersonEntry> getPersonList() {
@@ -23,7 +25,11 @@ public class ABModel implements Serializable, ABModelReader {
 
     @Override
     public Iterator<PersonEntry> personIterator() {
-        return personList.iterator();
+        if(filteredList.isEmpty()) {
+            return personList.iterator();
+        } else {
+            return filteredList.iterator();
+        }
     }
 
     @Override
@@ -38,5 +44,13 @@ public class ABModel implements Serializable, ABModelReader {
             }
         }
         return null;
+    }
+
+    public List<PersonEntry> getFilteredList(){
+        return this.filteredList;
+    }
+
+    public void resetFilteredList(){
+        this.filteredList = new ArrayList<>();
     }
 }
