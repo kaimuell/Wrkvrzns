@@ -2,6 +2,10 @@ package gui;
 
 import javax.swing.*;
 
+
+/**
+ * Ein textfeld zur anzeige von Statusmeldungen des {@link controller.Controller}
+ */
 public class NotificationField extends JTextField implements MessageBord{
 
     public NotificationField() {

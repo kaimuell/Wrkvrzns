@@ -10,8 +10,8 @@ public class PersonDialog extends JDialog{
     private JTextField nameField;
     private JTextField familyNameField;
     private JTextField telField;
-    private  JTextField emailField;
-    private  JTextField streetField;
+    private JTextField emailField;
+    private JTextField streetField;
     private JTextField houseNrField;
     private JTextField cityField;
     private JTextField zipField;

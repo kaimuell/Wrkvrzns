@@ -57,7 +57,7 @@ public class SaveFileParser {
         builder.append(person.getAdress().getCountry()).append("\n");
     }
 
-    public static Model parseFileInput(Iterator<String> lines) throws VersionControllException{
+    public static Model parseFileInput(Iterator<String> lines) throws VersionControlException {
         Model model = new Model(new ABModel());
         String s = lines.next();
         if(s.equals("1.0")){
@@ -88,7 +88,7 @@ public class SaveFileParser {
                 }
             }
         }else{
-            throw new VersionControllException();
+            throw new VersionControlException();
         }
         return model;
     }

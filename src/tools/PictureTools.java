@@ -49,6 +49,12 @@ public class PictureTools {
             return createdImage;
     }
 
+    /**
+     * Versuch ein Bild aus dem übergebenen Filepath zu laden
+     * @param filepath der Pfad der Datei
+     * @return das Bild
+     * @throws IOException laden fehlgeschlagen
+     */
     public static Image loadImage(String filepath) throws IOException{
         File dat = new File(filepath);
         BufferedImage img = ImageIO.read(dat);
@@ -87,7 +93,7 @@ public class PictureTools {
         return createEmptyImage();
     }
 
-    static BufferedImage imageToBufferedImage(Image im) {
+    private static BufferedImage imageToBufferedImage(Image im) {
         BufferedImage bi = new BufferedImage
                 (im.getWidth(null),im.getHeight(null),BufferedImage.TYPE_INT_RGB);
         Graphics bg = bi.getGraphics();

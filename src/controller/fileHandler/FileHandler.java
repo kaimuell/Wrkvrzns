@@ -61,7 +61,7 @@ public class FileHandler {
         System.out.println("FileHandler : initialisiere");
         try {
             parseInitialSettings(new File(PATH_SETTINGS_FILE));
-        } catch (VersionControllException e2) {
+        } catch (VersionControlException e2) {
             e2.printStackTrace();
         }
     }
@@ -165,7 +165,7 @@ public class FileHandler {
         }
     }
 
-    private void parseInitialSettings(File path_settings_file) throws IOException, VersionControllException {
+    private void parseInitialSettings(File path_settings_file) throws IOException, VersionControlException {
         FileInputStream fileInputStream = new FileInputStream(path_settings_file);
         InputStreamReader streamReader = new InputStreamReader(fileInputStream);
         BufferedReader reader = new BufferedReader(streamReader);
@@ -177,7 +177,7 @@ public class FileHandler {
             bitmapFolder = ((String) lineIterator.next()).trim();
         } else {
             System.out.println("Falsche Version");
-            throw new VersionControllException();
+            throw new VersionControlException();
         }
         reader.close();
         streamReader.close();
@@ -209,9 +209,9 @@ public class FileHandler {
      * Lädt das {@link Model} in die aktuell geladene Profil Datei
      * @return das geladene Model
      * @throws IOException Datei konnte nicht geöffnet werden
-     * @throws VersionControllException Version der Datei nicht bekannt.
+     * @throws VersionControlException Version der Datei nicht bekannt.
      */
-    public Model load() throws IOException, VersionControllException {
+    public Model load() throws IOException, VersionControlException {
         Model model = loadAsString(new File(this.saveFile));
         reloadAllBitmaps(model);
         return model;
@@ -222,9 +222,9 @@ public class FileHandler {
      * @param file die zu ladende Datei
      * @return das geladene Model
      * @throws IOException Datei konnte nicht geöffnet werden
-     * @throws VersionControllException Version der Datei nicht bekannt.
+     * @throws VersionControlException Version der Datei nicht bekannt.
      */
-    public Model load(File file) throws IOException, VersionControllException {
+    public Model load(File file) throws IOException, VersionControlException {
         Model model = loadAsString(file);
         this.bitmapFolder = file.getParentFile() + File.separator + "bitmaps";
         this.pictureFolder = file.getParentFile() + File.separator +"pictures";
@@ -235,7 +235,7 @@ public class FileHandler {
     }
 
 
-    private synchronized Model loadAsString(File saveFile) throws IOException, VersionControllException {
+    private synchronized Model loadAsString(File saveFile) throws IOException, VersionControlException {
 
         FileReader fr = new FileReader(saveFile);
         BufferedReader reader = new BufferedReader(fr);
@@ -327,7 +327,7 @@ public class FileHandler {
     }
 
     private void copyFiles(File sourceDirectory, File targetDirectory){
-        //FileUtils
+        //TODO
     }
 }
 

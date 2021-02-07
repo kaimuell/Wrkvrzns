@@ -2,7 +2,7 @@ package controller;
 
 import adressbook.model.ABModel;
 import controller.fileHandler.FileHandler;
-import controller.fileHandler.VersionControllException;
+import controller.fileHandler.VersionControlException;
 import gui.MessageBord;
 import model.elements.ArtPieceEntry;
 import model.Model;
@@ -151,7 +151,7 @@ public class ControllerImplementation implements Controller {
             refreshViews();
         } catch (IOException e) {
             pushMessageToMessageBords("Laden fehlgeschlagen : Konnte Datei nicht öffnen");
-        } catch (VersionControllException e) {
+        } catch (VersionControlException e) {
             pushMessageToMessageBords("Laden fehlgeschlagen : Dateiversion unbekannt");
         }
     }
@@ -166,7 +166,7 @@ public class ControllerImplementation implements Controller {
             refreshViews();
         } catch (IOException e) {
             pushMessageToMessageBords("Laden fehlgeschlagen : Konnte Datei nicht öffnen.");
-        } catch (VersionControllException e) {
+        } catch (VersionControlException e) {
             pushMessageToMessageBords("Laden fehlgeschlagen : Datei Version unbekannt.");
         }
     }
