@@ -45,4 +45,11 @@ public interface ABController {
      * @return der Eintrag
      */
     PersonEntry getSelectedPerson();
+
+    /**
+     * Filtert das {@link adressbook.model.ABModel} danach ob Name, Nachname oder Email
+     * einen Teilstring des übergebenen Wortes enthalten.
+     * @param input das Wort
+     */
+    void filter(String input);
 }

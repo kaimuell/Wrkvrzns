@@ -8,6 +8,7 @@ import adressbook.model.PersonEntry;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ABControllerImplementation implements ABController {
     private ABModel model;
@@ -49,6 +50,7 @@ public class ABControllerImplementation implements ABController {
     @Override
     public void addPerson(Person person) {
         model.getPersonList().add(new PersonEntry(idCreator(), person));
+        PersonSorter.SortByLastName(model);
         updateViews();
     }
 
@@ -60,13 +62,13 @@ public class ABControllerImplementation implements ABController {
 
     private int idCreator() {
         int id =model.getPersonList().size();
-        while (isIDAllreadyInList(id)) {
+        while (isIDAlreadyInList(id)) {
             id++;
         }
         return id;
     }
 
-    private boolean isIDAllreadyInList(int id){
+    private boolean isIDAlreadyInList(int id){
         for (PersonEntry p : model.getPersonList()) {
             if (p.getId() == id){
                 return true;
@@ -96,5 +98,23 @@ public class ABControllerImplementation implements ABController {
     @Override
     public PersonEntry getSelectedPerson() {
         return selectedPerson;
+    }
+
+    @Override
+    public void filter(String input){
+        model.resetFilteredList();
+        for (PersonEntry entry : model.getPersonList()) {
+            if (containsStringInName(entry, input)){
+                model.getFilteredList().add(entry);
+            }
+        }
+        updateViews();
+    }
+
+    private boolean containsStringInName(PersonEntry entry, String input) {
+        if (entry.getFirstName().toLowerCase().contains(input.toLowerCase())) {return true;}
+        if (entry.getFamilyName().toLowerCase().contains(input.toLowerCase())) {return true;}
+        if (entry.geteMail().toLowerCase().contains(input.toLowerCase(Locale.ROOT))){ return true;}
+        return false;
     }
 }
