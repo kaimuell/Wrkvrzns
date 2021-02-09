@@ -1,6 +1,9 @@
 package adressbook.model;
 
 
+import adressbook.controller.ABController;
+import adressbook.controller.ABControllerImplementation;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +20,15 @@ public class ABModel implements Serializable, ABModelReader {
     public ABModel() {
         this.personList = new ArrayList<>();
         this.filteredList = new ArrayList<>();
+    }
+
+    public ABModel(List<Person> buyers) {
+        this.personList = new ArrayList<>();
+        this.filteredList = new ArrayList<>();
+        ABController controller = new ABControllerImplementation(this);
+        for (Person person : buyers) {
+            controller.addPerson(person);
+        }
     }
 
     public List<PersonEntry> getPersonList() {

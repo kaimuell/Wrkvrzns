@@ -69,13 +69,12 @@ class ArtPiecePanel extends JPanel {
         priceLabel.setBackground(color);
         add(priceLabel);
 
-        JLabel editionLabel = new JLabel(String.valueOf(artPiece.getEdition()));
+        JLabel editionLabel = new JLabel(artPiece.getEditionRepresentation());
         editionLabel.setHorizontalTextPosition(Label.RIGHT);
         priceLabel.setBackground(color);
         add(editionLabel);
 
-        JLabel buyerLabel = new JLabel(artPiece.getBuyer() == null ?
-                "nicht verkauft" : createBuyerRepresentation(artPiece.getBuyer()));
+        JLabel buyerLabel = new JLabel(artPiece.getBuyersRepresentation());
         priceLabel.setHorizontalTextPosition(Label.LEFT);
         priceLabel.setBackground(color);
         add(buyerLabel);

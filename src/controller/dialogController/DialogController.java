@@ -1,12 +1,16 @@
 package controller.dialogController;
 
+import adressbook.model.ABModel;
 import adressbook.model.Person;
+import adressbook.model.PersonEntry;
 import controller.Controller;
 import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static controller.dialogController.OkCancelOption.*;
 import static java.lang.Thread.sleep;
@@ -65,6 +69,39 @@ public class DialogController {
                 dialog.dispose();
                 return null;
             }
+    }
+
+    /**
+     * Setzt die Liste auf eine als Adreesbuch in einem Dialog angezeigte Liste.
+     * Die Methode ist nicht sehr effektiv, da die Liste 2 mal Kopiert wird,
+     * aber ok, da die Zahl der Einträge immer verhältnismässig klein ist.
+     * @param persons die Liste
+     * @return die evtl. veränderte Liste
+     */
+
+    public List<Person> editPeopleDialog (List<Person> persons){
+        ABModel model = new ABModel(new ArrayList<Person>(persons));
+        PersonSelectionDialog dialog = new PersonSelectionDialog(model);
+
+        while (dialog.getOkCancelOption() == UNDECIDED) {
+            waitFor50Milis();
+        }
+        if (dialog.getOkCancelOption() == OK) {
+            List<Person> updatedList = createPersonList(model.getPersonList());
+            dialog.dispose();
+            return updatedList;
+        } else {
+            dialog.dispose();
+            return persons;
+        }
+    }
+
+    private List<Person> createPersonList(List<PersonEntry> personList) {
+        List<Person> newList = new ArrayList<Person>();
+        for (PersonEntry entry: personList) {
+            newList.add((Person) entry);
+        }
+        return newList;
     }
 
     protected void waitFor50Milis() {

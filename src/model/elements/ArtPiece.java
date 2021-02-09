@@ -4,6 +4,8 @@ import adressbook.model.Person;
 import adressbook.model.PersonEntry;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArtPiece implements Serializable {
     private String name;
@@ -15,10 +17,10 @@ public class ArtPiece implements Serializable {
     private int length;
     private int year;
     private int edition;
-    private Person buyer;
+    private List<Person> buyers;
     private int price;
 
-    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, int edition, Person buyer) {
+    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, int edition) {
         this.name = name;
         this.technique = technique;
         this.type = type;
@@ -29,8 +31,8 @@ public class ArtPiece implements Serializable {
         this.year = year;
         this.price = price;
         this.edition = edition;
-        this.buyer = buyer;
-    }
+        this.buyers = new ArrayList<>();
+        }
 
     public ArtPiece (ArtPiece piece){
         this.name = piece.getName();
@@ -42,7 +44,7 @@ public class ArtPiece implements Serializable {
         this.year = piece.getYear();
         this.price = piece.getPrice();
         this.edition = piece.getEdition();
-        this.buyer = piece.getBuyer();
+        this.buyers = piece.getBuyers();
     }
 
     /**
@@ -130,12 +132,35 @@ public class ArtPiece implements Serializable {
         this.year = year;
     }
 
-    public Person getBuyer() {
-        return buyer;
+    public List<Person> getBuyers() {
+        return buyers;
     }
 
-    public void setBuyer(Person buyer) {
-        this.buyer = buyer;
+    public void addBuyer(Person buyer) {
+        this.buyers.add(buyer);
+    }
+
+    /**
+     * Gibt eine Repräsentation des Käufers aus Name, NAchname und email zurück
+     * @return die Repräsentation
+     */
+    public String getBuyersRepresentation (){
+        if (buyers.isEmpty()){
+            return "nicht verkauft";
+        } else if (buyers.size() == 1){
+            Person uniqueBuyer = buyers.get(0);
+            return uniqueBuyer.getFirstName() + " " + uniqueBuyer.getFamilyName();
+        } else {
+            return buyers.size() + " Käufer";
+        }
+    }
+
+    /**
+     * Gibt eine Repräsentetion zurück welche darstellt wie viele Stücke der Edition noch vorhanden sind
+     * @return die Repräsentation
+     */
+    public String getEditionRepresentation(){
+        return (this.edition - buyers.size()) + " / " + this.edition;
     }
 
     public int getPrice() {
@@ -144,5 +169,9 @@ public class ArtPiece implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public void setBuyers(List<Person> buyers) {
+        this.buyers = buyers;
     }
 }
