@@ -70,8 +70,7 @@ public class TableAdapter extends AbstractTableModel {
             case 9 :
                 return model.getPieces().get(rowIndex).getEdition();
             case 10:
-                Person buyer = model.getPieces().get(rowIndex).getBuyer();
-                return  buyer == null ? "nicht verkauft" : buyer.getFirstName()+ ", " + buyer.getFamilyName();
+                return model.getPieces().get(rowIndex).getBuyersRepresentation();
             default: return "";
         }
     }

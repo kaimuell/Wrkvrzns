@@ -1,5 +1,6 @@
 package controller.dialogController;
 
+import adressbook.model.ABModel;
 import adressbook.model.Person;
 import controller.Controller;
 import tools.PictureTools;
@@ -241,19 +242,21 @@ class ArtPieceDialog extends JDialog {
 
         JLabel isSoldLabel = new JLabel("Verkauft an:");
 
-        buyerLabel = new JLabel(
-                createShortDescriptionOfPerson(artPiece.getBuyer()));
+        buyerLabel = new JLabel(artPiece.getBuyersRepresentation());
 
         JButton selectBuyerButton = new JButton("Käufer hinzufügen");
         selectBuyerButton.addActionListener( action -> {
                     new Thread(() -> {
-                        setBuyerToSelectionFromDialog();
+                        addBuyerFromSelectionDialog();
                     }).start();
                 }
         );
 
-        JButton deleteBuyerButton = new JButton("Käufer löschen");
-        deleteBuyerButton.addActionListener(e -> deleteBuyer());
+        JButton deleteBuyerButton = new JButton("Käufer bearbeiten");
+        deleteBuyerButton.addActionListener(e ->
+                new Thread(() ->
+                        editBuyers()).start()
+        );
 
         entryPanel.add(isSoldLabel);
         entryPanel.add(buyerLabel);
@@ -261,24 +264,22 @@ class ArtPieceDialog extends JDialog {
         entryPanel.add(deleteBuyerButton);
     }
 
-    private void setBuyerToSelectionFromDialog() {
+    private void addBuyerFromSelectionDialog() {
         Person buyer = selectPersonFromAddressbook();
         if (buyer != null) {
-            artPiece.setBuyer(buyer);
-            buyerLabel.setText(
-                    createShortDescriptionOfPerson(buyer));
+            artPiece.addBuyer(buyer);
+            buyerLabel.setText(artPiece.getBuyersRepresentation());
             mainPanel.repaint();
         }
     }
 
-    private void deleteBuyer() {
-        if (artPiece.getBuyer() != null) {
-            int returnval = JOptionPane.showConfirmDialog(null, "Wirklich löschen?",
-                    "Bestätigen", JOptionPane.YES_NO_OPTION);
-            if (returnval == JOptionPane.YES_OPTION) {
-                artPiece.setBuyer(null);
-            }
-        }
+
+    //TODO ÄNDERN SO DASS EINZELNE GELÖSCHT WERDEN KÖNNEN
+    private void editBuyers() {
+        DialogController dialogController = new DialogController(controller);
+        artPiece.setBuyers(dialogController.editPeopleDialog(artPiece.getBuyers()));
+        buyerLabel.setText(artPiece.getBuyersRepresentation());
+        mainPanel.repaint();
     }
 
     private Person selectPersonFromAddressbook() {

@@ -30,11 +30,13 @@ public class SaveFileParser {
             builder.append(entry.getYear()).append("\n");
             builder.append(entry.getPrice()).append("\n");
             builder.append(entry.getEdition()).append("\n");
-            if (entry.getBuyer() == null) {
+            if (entry.getBuyers().isEmpty()) {
                 builder.append("0\n");
             } else {
-                builder.append("1\n");
-                parsePerson(builder, entry.getBuyer());
+                builder.append(entry.getBuyers().size() + "\n");
+                for (Person person : entry.getBuyers()) {
+                    parsePerson(builder, person);
+                }
             }
         }
         for (PersonEntry personEntry: model.adressbook.getPersonList()) {
@@ -64,7 +66,7 @@ public class SaveFileParser {
             while (lines.hasNext()){
                 String controllWord = lines.next();
                 if(controllWord.equals("#artpiece")){
-                    model.getPieces().add(
+                    ArtPieceEntry artPieceEntry =
                             new ArtPieceEntry(
                                     parseInt(lines.next()), //Id
                                     lines.next(),           //Name
@@ -76,10 +78,17 @@ public class SaveFileParser {
                                     parseInt(lines.next()), //Length
                                     parseInt(lines.next()), //Year
                                     parseInt(lines.next()), //Price
-                                    parseInt(lines.next()), //Edition
-                                    lines.next().equals("1") ? createNewPerson (lines) : null,
+                                    parseInt(lines.next()),//Edition
                                     null
-                            ));
+                            );
+                    //TODO ANPASSEN
+                    int peopleInBuyersList = parseInt(lines.next());
+                    if (peopleInBuyersList > 0){
+                        for (int i = 0; i < peopleInBuyersList; i++) {
+                            artPieceEntry.addBuyer(createNewPerson(lines));
+                        }
+                    }
+                    model.getPieces().add(artPieceEntry);
                 }else if (controllWord.equals("#contact")){
                     model.adressbook.getPersonList().add(new PersonEntry(
                             parseInt(lines.next()),
