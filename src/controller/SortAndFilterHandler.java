@@ -4,8 +4,6 @@ import gui.elements.SortingType;
 import model.Model;
 import model.elements.ArtPieceEntry;
 
-import java.util.Locale;
-
 
 /**
  * Die Klasse {@link SortAndFilterHandler} ist eine Unterklasse von {@link ControllerImplementation} und

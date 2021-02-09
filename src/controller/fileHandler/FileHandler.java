@@ -130,7 +130,6 @@ public class FileHandler {
      * Speichert das Bild und ein Bitmap desselben in den Dateien der Zugewiesenen id des ArtpieceEntry
      * @param artPieceEntryID die Id des Eintrags
      * @param picture das Bild
-     * @return
      */
     public synchronized void saveCopyOfPictureLinkedToArtpiece(int artPieceEntryID, Image picture)  {
             try {
@@ -187,7 +186,7 @@ public class FileHandler {
     /**
      * Speichert das übergebene Model in das geladene Profil
      * @param model das Model
-     * @throws IOException
+     * @throws IOException Speichern fehlgeschlagen
      */
     public synchronized void save(Model model) throws IOException {
         System.out.println("FileHandler : speichere");
@@ -303,6 +302,7 @@ public class FileHandler {
      * @param file Die Datei in die gelesen werden soll
      * @param addressbook Das Adreebuch in die die Kontakte importiert werden sollen.
      * @param onlyWithNames Sollen nur Kontakte importiert werden, für die Namen angegeben sind?
+     * @throws Exception Kontakte konnten nicht importiert werden
      */
     public void importThunderbirdContacts(File file, ABModel addressbook, boolean onlyWithNames) throws Exception {
         AddressBookImportParserForThunderbird parser = new AddressBookImportParserForThunderbird(file, addressbook, onlyWithNames);
