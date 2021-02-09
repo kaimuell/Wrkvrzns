@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Das Model des Adressbuxhs
+ * Das Model des Adressbuchs
  */
 
 public class ABModel implements Serializable, ABModelReader {

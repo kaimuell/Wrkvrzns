@@ -47,7 +47,7 @@ public class ArtPiece implements Serializable {
 
     /**
      * Ereugt eine Reprässentation der Maße, welche dem Typ des Kunstwerks entspricht.
-     * @return
+     * @return die Reprässentation
      */
     public String getSizeRepresentation(){
         if (type == ArtworkType.PAINTING || type == ArtworkType.GRAFIK){

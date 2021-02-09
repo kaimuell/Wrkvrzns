@@ -11,7 +11,7 @@ import adressbook.model.PersonEntry;
 public interface ABController {
 
     /**
-     * Selectiert einen PersonEntry
+     * Selektiert einen PersonEntry
      * @param p der Eintrag
      */
     void selectPerson(PersonEntry p);
@@ -28,7 +28,7 @@ public interface ABController {
     void addPerson(Person person);
 
     /**
-     * Stellt die Werte des {@link PersonEntry} mit der ID auf die Werte der übergebenen {@Link Person}
+     * Stellt die Werte des {@link PersonEntry} mit der ID auf die Werte der übergebenen {@link Person}
      * @param id die ID
      * @param person die Person
      */
@@ -36,7 +36,7 @@ public interface ABController {
 
     /**
      * Meldet ein View als Listener an
-     * @param view
+     * @param view das View
      */
     void addViewAsListener(ABViewer view);
 

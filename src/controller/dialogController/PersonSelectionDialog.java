@@ -7,6 +7,9 @@ import adressbook.view.AdressBookFrame;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Dialog zur Auswahl einer Person aus dem Adressbuch
+ */
 public class PersonSelectionDialog extends AdressBookFrame {
 
     private Person selectedPerson;
@@ -34,6 +37,7 @@ public class PersonSelectionDialog extends AdressBookFrame {
      this.revalidate();
      refreshView();
  }
+
     public OkCancelOption getOkCancelOption() {
 
         return okCancelOption;

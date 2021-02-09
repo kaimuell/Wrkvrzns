@@ -4,7 +4,7 @@ import javax.swing.*;
 
 
 /**
- * Ein textfeld zur anzeige von Statusmeldungen des {@link controller.Controller}
+ * Ein Textfeld zur Anzeige von Statusmeldungen des {@link controller.Controller}
  */
 public class NotificationField extends JTextField implements MessageBord{
 
