@@ -1,0 +1,18 @@
+unnamed package
+adressbook
+adressbook.controller
+adressbook.model
+adressbook.view
+controller
+controller.dialogController
+controller.fileHandler
+gui
+gui.elements
+gui.menu
+model
+model.elements
+tools
+view
+view.pictureView
+view.select_view
+view.tableView

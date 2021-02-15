@@ -1,7 +1,5 @@
 package model.elements;
 
-import adressbook.model.Person;
-
 import java.awt.*;
 import java.io.Serializable;
 
@@ -23,8 +21,6 @@ public class ArtPieceEntry extends ArtPiece implements Serializable {
         this.bitmap = bitmap;
 
     }
-
-
 
     public void setBitmap(Image bitmap) {
         this.bitmap = bitmap;

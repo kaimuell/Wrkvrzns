@@ -2,6 +2,9 @@ package gui.elements;
 
 import java.awt.*;
 
+/**
+ * Implementiert eine Auswahlbox um eine Art der Sortierung auszuwählen
+ */
 public class SorterChoice extends Choice {
     public SorterChoice(){
         add("Name <");

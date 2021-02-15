@@ -274,7 +274,6 @@ class ArtPieceDialog extends JDialog {
     }
 
 
-    //TODO ÄNDERN SO DASS EINZELNE GELÖSCHT WERDEN KÖNNEN
     private void editBuyers() {
         DialogController dialogController = new DialogController(controller);
         artPiece.setBuyers(dialogController.editPeopleDialog(artPiece.getBuyers()));

@@ -17,7 +17,7 @@ public class FilterChoice extends Choice {
     public FilterType getSelectedFilterType(){
         switch (getSelectedItem()){
            case "Name"      : return NAME;
-            case "Technik"  : return TECHNIQUE;
+           case "Technik"  : return TECHNIQUE;
            case "Jahr"      : return YEAR;
            case "Typ"       : return TYPE;
            default          : return NAME;

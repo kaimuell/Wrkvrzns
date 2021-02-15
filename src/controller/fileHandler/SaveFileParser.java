@@ -12,42 +12,64 @@ import java.util.Iterator;
 
 import static java.lang.Integer.parseInt;
 
+
 public class SaveFileParser {
 
+    /**
+     * Methode um aus einem Model einen String zum speichern zu erszeugen
+     * @param model das Model
+     * @return der String
+     */
     public static String parseFileOutput(Model model) {
         StringBuilder builder = new StringBuilder();
         builder.append("1.0\n");
-        for (ArtPieceEntry entry : model.getPieces()) {
-            builder.append("#artpiece\n");
-            builder.append(entry.getId()).append("\n");
-            builder.append(entry.getName()).append("\n");
-            builder.append(entry.getTechnique()).append("\n");
-            builder.append(entry.getType().ordinal()).append("\n");
-            builder.append(entry.getHeight()).append("\n");
-            builder.append(entry.getWidth()).append("\n");
-            builder.append(entry.getDepth()).append("\n");
-            builder.append(entry.getLength()).append("\n");
-            builder.append(entry.getYear()).append("\n");
-            builder.append(entry.getPrice()).append("\n");
-            builder.append(entry.getEdition()).append("\n");
-            if (entry.getBuyers().isEmpty()) {
-                builder.append("0\n");
-            } else {
-                builder.append(entry.getBuyers().size() + "\n");
-                for (Person person : entry.getBuyers()) {
-                    parsePerson(builder, person);
-                }
-            }
-        }
-        for (PersonEntry personEntry: model.adressbook.getPersonList()) {
-            builder.append("#contact\n");
-            builder.append(personEntry.getId()).append("\n");
-            parsePerson(builder, personEntry);
-        }
+        writeAllArtpieces(model, builder);
+        writeAdressbook(model, builder);
         return builder.toString();
     }
 
-    private static void parsePerson(StringBuilder builder, Person person){
+    private static void writeAdressbook(Model model, StringBuilder builder) {
+        for (PersonEntry personEntry: model.adressbook.getPersonList()) {
+            builder.append("#contact\n");
+            builder.append(personEntry.getId()).append("\n");
+            writePerson(builder, personEntry);
+        }
+    }
+
+    private static void writeAllArtpieces(Model model, StringBuilder builder) {
+        for (ArtPieceEntry entry : model.getPieces()) {
+            writeArtpiece(builder, entry);
+            writeBuyersOfArtpiece(builder, entry);
+        }
+    }
+
+    private static void writeBuyersOfArtpiece(StringBuilder builder, ArtPieceEntry entry) {
+        if (entry.getBuyers().isEmpty()) {
+            builder.append("0\n");
+        } else {
+            builder.append(entry.getBuyers().size() + "\n");
+            for (Person person : entry.getBuyers()) {
+                writePerson(builder, person);
+            }
+        }
+    }
+
+    private static void writeArtpiece(StringBuilder builder, ArtPieceEntry entry) {
+        builder.append("#artpiece\n");
+        builder.append(entry.getId()).append("\n");
+        builder.append(entry.getName()).append("\n");
+        builder.append(entry.getTechnique()).append("\n");
+        builder.append(entry.getType().ordinal()).append("\n");
+        builder.append(entry.getHeight()).append("\n");
+        builder.append(entry.getWidth()).append("\n");
+        builder.append(entry.getDepth()).append("\n");
+        builder.append(entry.getLength()).append("\n");
+        builder.append(entry.getYear()).append("\n");
+        builder.append(entry.getPrice()).append("\n");
+        builder.append(entry.getEdition()).append("\n");
+    }
+
+    private static void writePerson(StringBuilder builder, Person person){
         builder.append(person.getFirstName()).append("\n");
         builder.append(person.getFamilyName()).append("\n");
         builder.append(person.geteMail()).append("\n");
@@ -59,47 +81,74 @@ public class SaveFileParser {
         builder.append(person.getAdress().getCountry()).append("\n");
     }
 
+    /**
+     * Methode um eine Datei wieder in ein Datenmodell umzuwandeln
+     * @param lines die Zeilen des Ausgelesenen Strings einer Datei
+     * @return das Model
+     * @throws VersionControlException die gespeicherte Version ist unbekannt.
+     */
+
     public static Model parseFileInput(Iterator<String> lines) throws VersionControlException {
         Model model = new Model(new ABModel());
-        String s = lines.next();
-        if(s.equals("1.0")){
-            while (lines.hasNext()){
-                String controllWord = lines.next();
-                if(controllWord.equals("#artpiece")){
-                    ArtPieceEntry artPieceEntry =
-                            new ArtPieceEntry(
-                                    parseInt(lines.next()), //Id
-                                    lines.next(),           //Name
-                                    lines.next(),           //Technique
-                                    ArtworkType.values() [parseInt(lines.next())], //Ordinal of Artworktype
-                                    parseInt(lines.next()), //Height
-                                    parseInt(lines.next()), //Width
-                                    parseInt(lines.next()), //Depth
-                                    parseInt(lines.next()), //Length
-                                    parseInt(lines.next()), //Year
-                                    parseInt(lines.next()), //Price
-                                    parseInt(lines.next()),//Edition
-                                    null
-                            );
-                    //TODO ANPASSEN
-                    int peopleInBuyersList = parseInt(lines.next());
-                    if (peopleInBuyersList > 0){
-                        for (int i = 0; i < peopleInBuyersList; i++) {
-                            artPieceEntry.addBuyer(createNewPerson(lines));
-                        }
-                    }
-                    model.getPieces().add(artPieceEntry);
-                }else if (controllWord.equals("#contact")){
-                    model.adressbook.getPersonList().add(new PersonEntry(
-                            parseInt(lines.next()),
-                           createNewPerson(lines)
-                    ));
-                }
-            }
+        String versionControlLine = lines.next();
+
+        if(versionControlLine.equals("1.0")){
+            parseVersion_1_0(lines, model);
         }else{
             throw new VersionControlException();
         }
         return model;
+    }
+
+    private static void parseVersion_1_0(Iterator<String> lines, Model model) {
+        while (lines.hasNext()){
+            String controlWord = lines.next();
+            if(controlWord.equals("#artpiece")){
+                createArtPiece(lines, model);
+            }else if (controlWord.equals("#contact")){
+                createAdressbookEntry(lines, model);
+            }
+        }
+    }
+
+    private static void createArtPiece(Iterator<String> lines, Model model) {
+        ArtPieceEntry artPieceEntry =
+                parseArtpieceEntry(lines);
+        parseBuyersOfArtpiece(lines, artPieceEntry);
+        model.getPieces().add(artPieceEntry);
+    }
+
+    private static void createAdressbookEntry(Iterator<String> lines, Model model) {
+        model.adressbook.getPersonList().add(new PersonEntry(
+               parseInt(lines.next()),
+               createNewPerson(lines)
+        ));
+    }
+
+    private static ArtPieceEntry parseArtpieceEntry(Iterator<String> lines) {
+        return new ArtPieceEntry(
+                parseInt(lines.next()), //Id
+                lines.next(),           //Name
+                lines.next(),           //Technique
+                ArtworkType.values()[parseInt(lines.next())], //Ordinal of Artworktype
+                parseInt(lines.next()), //Height
+                parseInt(lines.next()), //Width
+                parseInt(lines.next()), //Depth
+                parseInt(lines.next()), //Length
+                parseInt(lines.next()), //Year
+                parseInt(lines.next()), //Price
+                parseInt(lines.next()),//Edition
+                null
+        );
+    }
+
+    private static void parseBuyersOfArtpiece(Iterator<String> lines, ArtPieceEntry artPieceEntry) {
+        int peopleInBuyersList = parseInt(lines.next());
+        if (peopleInBuyersList > 0){
+            for (int i = 0; i < peopleInBuyersList; i++) {
+                artPieceEntry.addBuyer(createNewPerson(lines));
+            }
+        }
     }
 
     private static Person createNewPerson(Iterator<String> lines) {
