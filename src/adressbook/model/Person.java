@@ -11,13 +11,15 @@ public class Person implements Serializable {
     private String eMail;
     private String tel;
     private Address address;
+    private PersonType type;
 
-    public Person(String familyName, String firstName, String eMail, String tel, Address address) {
+    public Person(String familyName, String firstName, String eMail, String tel, Address address, PersonType type) {
         this.familyName = familyName;
         this.firstName = firstName;
         this.eMail = eMail;
         this.tel = tel;
         this.address = address;
+        this.type = type;
     }
 
     public String getFamilyName() {
@@ -52,11 +54,19 @@ public class Person implements Serializable {
         this.tel = tel;
     }
 
+    public void setAdress(Address address) {
+        this.address = address;
+    }
+
     public Address getAdress() {
         return address;
     }
 
-    public void setAdress(Address address) {
-        this.address = address;
+    public PersonType getType() {
+        return type;
+    }
+
+   public void setType(PersonType type) {
+        this.type = type;
     }
 }

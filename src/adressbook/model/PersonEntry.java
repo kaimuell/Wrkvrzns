@@ -12,7 +12,7 @@ public class PersonEntry extends Person implements Serializable {
 
 
     public PersonEntry(int id, Person p) {
-        super(p.getFamilyName(), p.getFirstName(), p.geteMail(), p.getTel(), p.getAdress());
+        super(p.getFamilyName(), p.getFirstName(), p.geteMail(), p.getTel(), p.getAdress(), p.getType());
         this.id = id;
         this.links = 0;
     }
