@@ -1,6 +1,7 @@
 package exhibitions;
 
 import controller.dialogController.OkCancelOption;
+import exhibitions.model.Exhibition;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,8 @@ public class ExhibitionDialog extends JDialog {
     private JTextField cityField;
     private JTextField countryField;
     private JTextField yearField;
-    private OkCancelOption okCancelOption = OkCancelOption.UNDECIDED;
+    public OkCancelOption okCancelOption = OkCancelOption.UNDECIDED;
+    private ExhibitionTypeChoice exhibitionTypeChoice;
 
     public ExhibitionDialog(Frame owner, Exhibition exhibition) {
         super(owner);
@@ -22,7 +24,7 @@ public class ExhibitionDialog extends JDialog {
         this.add(initialiseInputPanel(), BorderLayout.CENTER);
 
         JPanel buttonPanel = initialiseButtonPanel();
-        this.add(buttonPanel);
+        this.add(buttonPanel,BorderLayout.SOUTH);
 
         this.pack();
     }
@@ -45,13 +47,16 @@ public class ExhibitionDialog extends JDialog {
 
     private JPanel initialiseInputPanel() {
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(5,2));
+        inputPanel.setLayout(new GridLayout(6,2));
+
+        JLabel typeLabel = new JLabel("Art der Ausstellung : ");
         JLabel nameLabel = new JLabel("Titel : ");
         JLabel placeLabel = new JLabel("Ausstellungsort : ");
         JLabel cityLabel = new JLabel("Stadt : ");
         JLabel countryLabel = new JLabel("Land :");
         JLabel yearLabel = new JLabel("Jahr : ");
 
+        exhibitionTypeChoice = new ExhibitionTypeChoice(exhibition.getType());
         nameField = new JTextField(exhibition.getName());
         placeField = new JTextField(exhibition.getPlace());
         cityField = new JTextField(exhibition.getCity());
@@ -73,6 +78,7 @@ public class ExhibitionDialog extends JDialog {
     }
 
     public void setExhibitionToTextFields(){
+        exhibition.setType(exhibitionTypeChoice.getSelectedExhibitionType());
         exhibition.setName(nameField.getText());
         exhibition.setPlace(placeField.getText());
         exhibition.setCity(cityField.getText());

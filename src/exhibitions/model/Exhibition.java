@@ -1,14 +1,17 @@
-package exhibitions;
+package exhibitions.model;
+
+import exhibitions.model.ExhibitionType;
 
 public class Exhibition {
     private int id;
+    private ExhibitionType type;
     private String name;
     private String place;
     private String city;
     private String country;
     private int year;
 
-    public Exhibition(int id, String name, String place, String city, String country, int year) {
+    public Exhibition(int id, ExhibitionType type, String name, String place, String city, String country, int year) {
         this.id = id;
         this.name = name;
         this.place = place;
@@ -19,6 +22,7 @@ public class Exhibition {
 
     public Exhibition() {
         this.id = -1;
+        this.type = ExhibitionType.SOLO;
         this.name ="";
         this.place="";
         this.city="";
@@ -32,6 +36,14 @@ public class Exhibition {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public ExhibitionType getType() {
+        return type;
+    }
+
+    public void setType(ExhibitionType type) {
+        this.type = type;
     }
 
     public String getName() {
