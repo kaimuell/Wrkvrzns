@@ -87,6 +87,7 @@ class ArtPieceDialog extends JDialog {
         initTextFields(entryPanel);
         initBuyerSelection(entryPanel);
 
+
         centralPanel.add(entryPanel, BorderLayout.CENTER);
         mainPanel.add(centralPanel);
 

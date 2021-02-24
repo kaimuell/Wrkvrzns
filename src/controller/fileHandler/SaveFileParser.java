@@ -1,9 +1,6 @@
 package controller.fileHandler;
 
-import adressbook.model.ABModel;
-import adressbook.model.Address;
-import adressbook.model.Person;
-import adressbook.model.PersonEntry;
+import adressbook.model.*;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
@@ -79,7 +76,9 @@ public class SaveFileParser {
         builder.append(person.getAdress().getPostal()).append("\n");
         builder.append(person.getAdress().getCity()).append("\n");
         builder.append(person.getAdress().getCountry()).append("\n");
+        builder.append(createPersonTypeRepresentation(person)).append("\n");
     }
+
 
     /**
      * Methode um eine Datei wieder in ein Datenmodell umzuwandeln
@@ -142,6 +141,7 @@ public class SaveFileParser {
         );
     }
 
+
     private static void parseBuyersOfArtpiece(Iterator<String> lines, ArtPieceEntry artPieceEntry) {
         int peopleInBuyersList = parseInt(lines.next());
         if (peopleInBuyersList > 0){
@@ -163,8 +163,35 @@ public class SaveFileParser {
                         lines.next(),   //Postal
                         lines.next(),   //City
                         lines.next()    //Country
-                )
+                ),
+                selectType(lines.next())
         );
     }
+
+    private static PersonType selectType(String next) {
+        switch (next) {
+            case "UNDEFINED" :
+                return PersonType.UNDEFINED;
+            case "COLLECTOR" :
+                return PersonType.COLLECTOR;
+            case "GALLERY" :
+                return PersonType.GALLERY;
+            case "MUSEUM" :
+                return PersonType.MUSEUM;
+            default: return PersonType.UNDEFINED;
+        }
+    }
+
+
+    private static String createPersonTypeRepresentation(Person person) {
+        switch (person.getType()){
+            case UNDEFINED: return "UNDEFINED";
+            case COLLECTOR: return "COLLECTOR";
+            case GALLERY: return "GALLERY";
+            case MUSEUM : return "MUSEUM";
+            default: return "UNDEFINED";
+        }
+    }
+
 
 }

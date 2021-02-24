@@ -18,6 +18,7 @@ public class PersonDialog extends JDialog{
     private JTextField countryField;
     private Person person;
     private boolean isApproved;
+    private PersonTypeChoice typeChoice;
 
 
 
@@ -29,6 +30,7 @@ public class PersonDialog extends JDialog{
         JPanel infoPanel = new JPanel();
         infoPanel.add(initialisePersonInfoPanel(), BorderLayout.CENTER);
         infoPanel.add(initialiseAdressInfoPanel(), BorderLayout.CENTER);
+        infoPanel.add(initTypeChoice(new JPanel()));
         infoPanel.add(initialiseOKButton(), BorderLayout.SOUTH);
         infoPanel.revalidate();
         this.add(infoPanel);
@@ -44,7 +46,13 @@ public class PersonDialog extends JDialog{
             person.setFamilyName(familyNameField.getText());
             person.setTel(telField.getText());
             person.seteMail(emailField.getText());
-            person.setAdress(new Address(streetField.getText(), houseNrField.getText(), cityField.getText(), zipField.getText(), countryField.getText()));
+            person.setAdress(new Address(
+                    streetField.getText(),
+                    houseNrField.getText(),
+                    cityField.getText(),
+                    zipField.getText(),
+                    countryField.getText()));
+            person.setType(typeChoice.getSelection());
             isApproved = true;
         });
         return okButton;
@@ -98,6 +106,19 @@ public class PersonDialog extends JDialog{
         initCountryField(adressPanel);
         adressPanel.revalidate();
         return adressPanel;
+    }
+
+    private JPanel initTypeChoice(JPanel panel) {
+        panel.setLayout(new GridLayout(1,2));
+
+        JLabel typeLabel = new JLabel("Person ist : ");
+        this.typeChoice = new PersonTypeChoice();
+        typeChoice.setSelection(person.getType());
+
+        panel.add(typeLabel);
+        panel.add(typeChoice);
+
+        return panel;
     }
 
     private void InitStreetAndZIPField(JPanel adressPanel) {

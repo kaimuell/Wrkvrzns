@@ -5,6 +5,7 @@ import adressbook.controller.ABControllerImplementation;
 import adressbook.model.ABModel;
 import adressbook.model.Address;
 import adressbook.model.Person;
+import adressbook.model.PersonType;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -150,10 +151,10 @@ public class AddressBookImportParserForThunderbird {
 
             if (onlyWithNames) {
                 if (!name.equals("") && !familyName.equals("")) {
-                    addressBookController.addPerson(new Person(name, familyName, email, tel, address));
+                    addressBookController.addPerson(new Person(name, familyName, email, tel, address, PersonType.UNDEFINED));
                 }
             } else {
-                addressBookController.addPerson(new Person(name, familyName, email, tel, address));
+                addressBookController.addPerson(new Person(name, familyName, email, tel, address, PersonType.UNDEFINED));
             }
         }
     }

@@ -4,6 +4,7 @@ import adressbook.controller.ABController;
 import adressbook.model.Address;
 import adressbook.model.Person;
 import adressbook.model.PersonEntry;
+import adressbook.model.PersonType;
 
 import javax.swing.*;
 
@@ -66,6 +67,6 @@ class DialogHandler {
 
 
     private Person createEmptyPerson(){
-        return new Person("","","","", new Address("","","","",""));
+        return new Person("","","","", new Address("","","","",""), PersonType.UNDEFINED);
     }
 }
