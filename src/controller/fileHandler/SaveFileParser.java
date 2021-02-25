@@ -1,6 +1,7 @@
 package controller.fileHandler;
 
 import adressbook.model.*;
+import exhibitions.model.ExhibitionsModel;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
@@ -64,6 +65,7 @@ public class SaveFileParser {
         builder.append(entry.getYear()).append("\n");
         builder.append(entry.getPrice()).append("\n");
         builder.append(entry.getEdition()).append("\n");
+        builder.append(entry.getStrorageLocation()).append("\n");
     }
 
     private static void writePerson(StringBuilder builder, Person person){
@@ -88,7 +90,7 @@ public class SaveFileParser {
      */
 
     public static Model parseFileInput(Iterator<String> lines) throws VersionControlException {
-        Model model = new Model(new ABModel());
+        Model model = new Model(new ABModel(), new ExhibitionsModel(null));
         String versionControlLine = lines.next();
 
         if(versionControlLine.equals("1.0")){
@@ -137,6 +139,7 @@ public class SaveFileParser {
                 parseInt(lines.next()), //Year
                 parseInt(lines.next()), //Price
                 parseInt(lines.next()),//Edition
+                lines.next(),           //Storage Location
                 null
         );
     }

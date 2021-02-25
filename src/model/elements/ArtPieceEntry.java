@@ -9,8 +9,8 @@ public class ArtPieceEntry extends ArtPiece implements Serializable {
 
 
     public ArtPieceEntry(int id, String name, String technique, ArtworkType type, int height, int width, int depth,
-                         int length, int year, int price, int edition, Image bitmap) {
-        super(name, technique, type, height, width, depth, length, year, price, edition);
+                         int length, int year, int price, int edition, String storageLocation, Image bitmap) {
+        super(name, technique, type, height, width, depth, length, year, price, edition, storageLocation);
         this.id = id;
         this.bitmap = bitmap;
 
@@ -63,7 +63,7 @@ public class ArtPieceEntry extends ArtPiece implements Serializable {
     public static ArtPieceEntry createEmptyArtPieceEntry(){
         return new ArtPieceEntry(-1,
                 new ArtPiece("","", ArtworkType.PAINTING,
-                        0, 0, 0, 0, 0, 0, 1),
+                        0, 0, 0, 0, 0, 0, 1, ""),
                 null);
     }
 

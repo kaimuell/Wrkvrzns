@@ -6,6 +6,7 @@ import exhibitions.model.ExhibitionsModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Iterator;
 
 class ExhibitionPanelList extends JPanel implements ExhibitionView{
 
@@ -24,7 +25,9 @@ class ExhibitionPanelList extends JPanel implements ExhibitionView{
     }
 
     private void createPanels() {
-        for (Exhibition e : model.getExhibitions()) {
+        Iterator<Exhibition> iterator = model.getExhibitonIterator();
+        while (iterator.hasNext()){
+            Exhibition e = iterator.next();
             ExhibitionPanel panel = new ExhibitionPanel(e, controller, owner);
             panel.setBackground(
                     e.equals(model.getSelectedExhibition())? SELECTED_ELEMENT_COLOR : BACKGROUND_COLOR

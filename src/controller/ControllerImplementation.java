@@ -3,6 +3,7 @@ package controller;
 import adressbook.model.ABModel;
 import controller.fileHandler.FileHandler;
 import controller.fileHandler.VersionControlException;
+import exhibitions.model.ExhibitionsModel;
 import gui.MessageBord;
 import model.elements.ArtPieceEntry;
 import model.Model;
@@ -31,7 +32,7 @@ public class ControllerImplementation implements Controller {
 
     public ControllerImplementation(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
-        this.model = new Model(new ABModel());
+        this.model = new Model(new ABModel(), new ExhibitionsModel(null));
         this.views = new ArrayList<>();
         this.messageBords = new ArrayList<>();
         this.selectedElements = new ArrayList<>();

@@ -18,9 +18,11 @@ public class ArtPiece implements Serializable {
     private int year;
     private int edition;
     private List<Person> buyers;
+    private List<Integer> exhibitionIds;
     private int price;
+    private String strorageLocation;
 
-    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, int edition) {
+    public ArtPiece(String name, String technique, ArtworkType type, int height, int width, int depth, int length, int year, int price, int edition, String storageLocation) {
         this.name = name;
         this.technique = technique;
         this.type = type;
@@ -31,10 +33,12 @@ public class ArtPiece implements Serializable {
         this.year = year;
         this.price = price;
         this.edition = edition;
+        this.strorageLocation = storageLocation;
         this.buyers = new ArrayList<>();
-        }
+        this.exhibitionIds = new ArrayList<>();
+    }
 
-    public ArtPiece (ArtPiece piece){
+    public ArtPiece(ArtPiece piece) {
         this.name = piece.getName();
         this.technique = piece.getTechnique();
         this.type = piece.getType();
@@ -45,24 +49,28 @@ public class ArtPiece implements Serializable {
         this.price = piece.getPrice();
         this.edition = piece.getEdition();
         this.buyers = piece.getBuyers();
+        this.exhibitionIds = piece.getExhibitionIds();
     }
 
     /**
      * Ereugt eine Reprässentation der Maße, welche dem Typ des Kunstwerks entspricht.
+     *
      * @return die Reprässentation
      */
-    public String getSizeRepresentation(){
-        if (type == ArtworkType.PAINTING || type == ArtworkType.GRAFIK){
+    public String getSizeRepresentation() {
+        if (type == ArtworkType.PAINTING || type == ArtworkType.GRAFIK) {
             return (height + " x " + width + " cm");
-        } else if (type == ArtworkType.SCULPTURE ||type == ArtworkType.INSTALLATION){
+        } else if (type == ArtworkType.SCULPTURE || type == ArtworkType.INSTALLATION) {
             return (height + " x " + width + " x " + depth + " cm");
-        } else if (type == ArtworkType.VIDEO){
+        } else if (type == ArtworkType.VIDEO) {
             return (length + " min");
         }
         return ("");
     }
 
-    public int getEdition() { return edition; }
+    public int getEdition() {
+        return edition;
+    }
 
     public void setEdition(int edition) {
         this.edition = edition;
@@ -142,12 +150,13 @@ public class ArtPiece implements Serializable {
 
     /**
      * Gibt eine Repräsentation des Käufers aus Name, NAchname und email zurück
+     *
      * @return die Repräsentation
      */
-    public String getBuyersRepresentation (){
-        if (buyers.isEmpty()){
+    public String getBuyersRepresentation() {
+        if (buyers.isEmpty()) {
             return "nicht verkauft";
-        } else if (buyers.size() == 1){
+        } else if (buyers.size() == 1) {
             Person uniqueBuyer = buyers.get(0);
             return uniqueBuyer.getFirstName() + " " + uniqueBuyer.getFamilyName();
         } else {
@@ -157,9 +166,10 @@ public class ArtPiece implements Serializable {
 
     /**
      * Gibt eine Repräsentetion zurück welche darstellt wie viele Stücke der Edition noch vorhanden sind
+     *
      * @return die Repräsentation
      */
-    public String getEditionRepresentation(){
+    public String getEditionRepresentation() {
         return (this.edition - buyers.size()) + " / " + this.edition;
     }
 
@@ -173,5 +183,21 @@ public class ArtPiece implements Serializable {
 
     public void setBuyers(List<Person> buyers) {
         this.buyers = buyers;
+    }
+
+    public List<Integer> getExhibitionIds() {
+        return exhibitionIds;
+    }
+
+    public void setExhibitionIds(List<Integer> exhibitionIds) {
+        this.exhibitionIds = exhibitionIds;
+    }
+
+    public String getStrorageLocation() {
+        return strorageLocation;
+    }
+
+    public void setStrorageLocation(String strorageLocation) {
+        this.strorageLocation = strorageLocation;
     }
 }

@@ -2,6 +2,7 @@ package model;
 
 import adressbook.model.ABModel;
 import adressbook.model.PersonEntry;
+import exhibitions.model.ExhibitionsModel;
 import model.elements.ArtPieceEntry;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,12 +11,14 @@ import java.util.List;
 
 public class Model implements Serializable, ModelViewAccess {
     public ABModel adressbook;
+    public ExhibitionsModel exhibitions;
     private List<ArtPieceEntry> pieces;
 
     private List<ArtPieceEntry> filtertPieces;
 
-    public Model(ABModel adressbuch) {
+    public Model(ABModel adressbuch, ExhibitionsModel exhibitions) {
         this.adressbook = adressbuch;
+        this.exhibitions = exhibitions;
         this.pieces = new ArrayList<>();
         this.filtertPieces = new ArrayList<>();
     }

@@ -42,6 +42,7 @@ class ArtPieceDialog extends JDialog {
     private OkCancelOption okCancelOption;
     private String picturePath;
     private JTextField editionField;
+    private JTextField storageLocationField;
 
 
     ArtPieceDialog(ArtPieceEntry artPiece, Controller controller) {
@@ -89,6 +90,15 @@ class ArtPieceDialog extends JDialog {
 
 
         centralPanel.add(entryPanel, BorderLayout.CENTER);
+
+        JPanel storageLocationPanel = new JPanel(new GridLayout(1,2));
+        JLabel storageLocationLabel = new JLabel("Lagerort : ");
+        storageLocationField = new JTextField(artPiece.getStrorageLocation());
+        storageLocationPanel.add(storageLocationLabel);
+        storageLocationPanel.add(storageLocationField);
+
+        centralPanel.add(storageLocationPanel, BorderLayout.SOUTH);
+
         mainPanel.add(centralPanel);
 
         JPanel errorAndButtonPanel = new JPanel(new BorderLayout());
@@ -320,6 +330,7 @@ class ArtPieceDialog extends JDialog {
         artPiece.setYear(ParseIntegerFromTextField(yearField));
         artPiece.setPrice(ParseIntegerFromTextField(priceField));
         artPiece.setEdition(ParseIntegerFromTextField(editionField));
+        artPiece.setStrorageLocation(storageLocationField.getText());
     }
 
     private String createShortDescriptionOfPerson(Person person){
