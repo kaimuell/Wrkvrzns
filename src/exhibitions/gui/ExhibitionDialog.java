@@ -1,4 +1,4 @@
-package exhibitions;
+package exhibitions.gui;
 
 import controller.dialogController.OkCancelOption;
 import exhibitions.model.Exhibition;
@@ -6,7 +6,7 @@ import exhibitions.model.Exhibition;
 import javax.swing.*;
 import java.awt.*;
 
-public class ExhibitionDialog extends JDialog {
+class ExhibitionDialog extends JDialog {
 
     private final Exhibition exhibition;
     private JTextField nameField;
@@ -16,11 +16,17 @@ public class ExhibitionDialog extends JDialog {
     private JTextField yearField;
     public OkCancelOption okCancelOption = OkCancelOption.UNDECIDED;
     private ExhibitionTypeChoice exhibitionTypeChoice;
+    private JTextField withField;
+    private JLabel errorLabel;
 
-    public ExhibitionDialog(Frame owner, Exhibition exhibition) {
+    ExhibitionDialog(Frame owner, Exhibition exhibition) {
         super(owner);
         this.exhibition = exhibition;
         this.setLayout(new BorderLayout());
+
+        errorLabel = new JLabel("");
+        this.add(errorLabel, BorderLayout.NORTH);
+
         this.add(initialiseInputPanel(), BorderLayout.CENTER);
 
         JPanel buttonPanel = initialiseButtonPanel();
@@ -47,9 +53,10 @@ public class ExhibitionDialog extends JDialog {
 
     private JPanel initialiseInputPanel() {
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(6,2));
+        inputPanel.setLayout(new GridLayout(7,2));
 
         JLabel typeLabel = new JLabel("Art der Ausstellung : ");
+        JLabel withLabel = new JLabel("Zusammen mit :");
         JLabel nameLabel = new JLabel("Titel : ");
         JLabel placeLabel = new JLabel("Ausstellungsort : ");
         JLabel cityLabel = new JLabel("Stadt : ");
@@ -57,12 +64,17 @@ public class ExhibitionDialog extends JDialog {
         JLabel yearLabel = new JLabel("Jahr : ");
 
         exhibitionTypeChoice = new ExhibitionTypeChoice(exhibition.getType());
+        withField = new JTextField(exhibition.getWith(), 30);
         nameField = new JTextField(exhibition.getName());
         placeField = new JTextField(exhibition.getPlace());
         cityField = new JTextField(exhibition.getCity());
         countryField = new JTextField(exhibition.getCountry());
         yearField = new JTextField(exhibition.getYear());
 
+        inputPanel.add(typeLabel);
+        inputPanel.add(exhibitionTypeChoice);
+        inputPanel.add(withLabel);
+        inputPanel.add(withField);
 
         inputPanel.add(nameLabel);
         inputPanel.add(nameField);
@@ -74,15 +86,22 @@ public class ExhibitionDialog extends JDialog {
         inputPanel.add(countryField);
         inputPanel.add(yearLabel);
         inputPanel.add(yearField);
+
         return inputPanel;
     }
 
     public void setExhibitionToTextFields(){
         exhibition.setType(exhibitionTypeChoice.getSelectedExhibitionType());
+        exhibition.setWith(withField.getText());
         exhibition.setName(nameField.getText());
         exhibition.setPlace(placeField.getText());
         exhibition.setCity(cityField.getText());
         exhibition.setCountry(countryField.getText());
-        exhibition.setYear(Integer.parseInt(yearField.getText()));
+        try {
+            exhibition.setYear(Integer.parseInt(yearField.getText()));
+            errorLabel.setText("");
+        } catch (NumberFormatException e){
+            errorLabel.setText("Ungültige Jahreseingabe");
+        }
     }
 }

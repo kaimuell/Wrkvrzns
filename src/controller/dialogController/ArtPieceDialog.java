@@ -1,8 +1,11 @@
 package controller.dialogController;
 
-import adressbook.model.ABModel;
 import adressbook.model.Person;
 import controller.Controller;
+import exhibitions.controller.ExhibitionsController;
+import exhibitions.gui.ExhibitionDialogController;
+import exhibitions.model.Exhibition;
+import exhibitions.model.ExhibitionsModel;
 import tools.PictureTools;
 import gui.elements.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
@@ -11,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static controller.dialogController.OkCancelOption.*;
 
@@ -43,6 +47,7 @@ class ArtPieceDialog extends JDialog {
     private String picturePath;
     private JTextField editionField;
     private JTextField storageLocationField;
+    private JLabel exhibitionLabel;
 
 
     ArtPieceDialog(ArtPieceEntry artPiece, Controller controller) {
@@ -83,19 +88,16 @@ class ArtPieceDialog extends JDialog {
         addPictureSelectionTo(pictureSelectionPanel);
         centralPanel.add(pictureSelectionPanel, BorderLayout.NORTH);
 
-        JPanel entryPanel = new JPanel(new GridLayout(6,4));
+        JPanel entryPanel = new JPanel(new GridLayout(7,4));
 
         initTextFields(entryPanel);
         initBuyerSelection(entryPanel);
+        initExhibitionSelection(entryPanel);
 
 
         centralPanel.add(entryPanel, BorderLayout.CENTER);
 
-        JPanel storageLocationPanel = new JPanel(new GridLayout(1,2));
-        JLabel storageLocationLabel = new JLabel("Lagerort : ");
-        storageLocationField = new JTextField(artPiece.getStrorageLocation());
-        storageLocationPanel.add(storageLocationLabel);
-        storageLocationPanel.add(storageLocationField);
+        JPanel storageLocationPanel = createStorageLocationPanel();
 
         centralPanel.add(storageLocationPanel, BorderLayout.SOUTH);
 
@@ -109,6 +111,15 @@ class ArtPieceDialog extends JDialog {
 
         this.add(mainPanel);
         revalidate();
+    }
+
+    private JPanel createStorageLocationPanel() {
+        JPanel storageLocationPanel = new JPanel(new GridLayout(1,2));
+        JLabel storageLocationLabel = new JLabel("Lagerort : ");
+        storageLocationField = new JTextField(artPiece.getStrorageLocation());
+        storageLocationPanel.add(storageLocationLabel);
+        storageLocationPanel.add(storageLocationField);
+        return storageLocationPanel;
     }
 
     private void initTypeChoice() {
@@ -273,6 +284,53 @@ class ArtPieceDialog extends JDialog {
         entryPanel.add(buyerLabel);
         entryPanel.add(selectBuyerButton);
         entryPanel.add(deleteBuyerButton);
+    }
+
+    private void initExhibitionSelection(JPanel entryPanel){
+        JLabel infoLabel = new JLabel("Letze Ausstellung");
+        exhibitionLabel = new JLabel(lastExhibition());
+        JButton addExhibitionButton = new JButton("Hinzufügen");
+        addExhibitionButton.addActionListener(action -> {
+            new Thread(() -> {
+                ExhibitionDialogController edc = new ExhibitionDialogController(
+                        new ExhibitionsController(controller.getModel().exhibitions));
+                Exhibition selectedExhibition = edc.selectExhibitionDialog(this, controller.getModel().exhibitions);
+                if (selectedExhibition != null) {
+                    artPiece.getExhibitionIds().add(selectedExhibition.getId());
+                    exhibitionLabel.setText(lastExhibition());
+                }
+            }).start();
+        });
+
+        JButton editExhibitionsButton = new JButton("Bearbeiten");
+        editExhibitionsButton.addActionListener(action -> {
+            new Thread( () -> {
+                List<Exhibition> exhibitions = controller.getModel().exhibitions.getExhibitionsWithIDs(artPiece.getExhibitionIds());
+                ExhibitionsModel exhibitionModel = new ExhibitionsModel(exhibitions);
+                ExhibitionDialogController exhibitionDialogController = new ExhibitionDialogController(
+                        new ExhibitionsController(exhibitionModel));
+                exhibitionDialogController.createEditExhibitionsListDialog(this, exhibitionModel);
+            }).start();
+        });
+
+        entryPanel.add(infoLabel);
+        entryPanel.add(exhibitionLabel);
+        entryPanel.add(addExhibitionButton);
+        entryPanel.add(editExhibitionsButton);
+
+    }
+
+    private String lastExhibition(){
+        int lastIndex = artPiece.getExhibitionIds().size() -1;
+        if (lastIndex < 0){
+            return "noch nicht ausgestellt";
+        }else {
+            int idOfLastEntry = artPiece.getExhibitionIds().get(lastIndex);
+            String lastExhibition = controller.getExhibitionWithID(idOfLastEntry).getName();
+
+            return lastExhibition == null ? "Ausstellung nicht gefunden " : lastExhibition;
+        }
+
     }
 
     private void addBuyerFromSelectionDialog() {

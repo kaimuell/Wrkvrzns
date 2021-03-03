@@ -1,6 +1,6 @@
 package exhibitions.controller;
 
-import exhibitions.ExhibitionView;
+import exhibitions.gui.ExhibitionView;
 import exhibitions.model.Exhibition;
 import exhibitions.model.ExhibitionsModel;
 
@@ -21,7 +21,7 @@ public class ExhibitionsController {
     }
 
     public void addExhibition(Exhibition exhibition){
-        if (exhibition.getId() == -1 && exhibitionsModel.containsId(exhibition.getId())){
+        if (exhibition.getId() == -1 || exhibitionsModel.containsId(exhibition.getId())){
             exhibition.setId(createID());
         }
         exhibitionsModel.getExhibitions().add(exhibition);
@@ -44,6 +44,7 @@ public class ExhibitionsController {
 
     public void selectExhibition(Exhibition exhibition) {
         exhibitionsModel.setSelectedExhibition(exhibition);
+        System.out.println("Ausstellung ausgewählt : " + exhibition.getName());
         updateViews();
     }
 

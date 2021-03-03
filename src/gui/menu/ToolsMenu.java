@@ -2,6 +2,8 @@ package gui.menu;
 
 import adressbook.view.AdressBookFrame;
 import controller.Controller;
+import controller.dialogController.OkCancelOption;
+import exhibitions.gui.ExhibitionViewFrame;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,6 +19,29 @@ public class ToolsMenu extends JMenu {
         this.superComponent = superComponent;
         initOpenAdressbook();
         initImportContacts(superComponent, controller);
+        initOpenExhibitions();
+    }
+
+    private void initOpenExhibitions() {
+        JMenuItem openExhibitions = new JMenuItem("Ausstellungen");
+        openExhibitions.setToolTipText("Zeigt die Liste der Ausstellungen");
+        openExhibitions.addActionListener(action -> {
+                    new Thread(() -> {
+                        ExhibitionViewFrame evf = new ExhibitionViewFrame(controller.getModel().exhibitions, true, false);
+                        evf.setVisible(true);
+                        while (evf.okCancelOption == OkCancelOption.UNDECIDED) {
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        evf.dispose();
+                    }).start();
+                }
+        );
+        this.add(openExhibitions);
+
     }
 
     private void initImportContacts(JFrame superComponent, Controller controller) {

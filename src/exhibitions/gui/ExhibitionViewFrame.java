@@ -1,4 +1,4 @@
-package exhibitions;
+package exhibitions.gui;
 
 import controller.dialogController.OkCancelOption;
 import exhibitions.controller.ExhibitionsController;
@@ -7,7 +7,7 @@ import exhibitions.model.ExhibitionsModel;
 import javax.swing.*;
 import java.awt.*;
 
-public class ExhibitionViewFrame extends JFrame {
+public class ExhibitionViewFrame extends JFrame implements ExhibitionView {
 
     private ExhibitionsModel model;
     private ExhibitionsController controller;
@@ -25,10 +25,14 @@ public class ExhibitionViewFrame extends JFrame {
         this.controller = new ExhibitionsController(model);
         this.okCancelOption = OkCancelOption.UNDECIDED;
         this.setLayout(new BorderLayout());
+        this.setSize(new Dimension(500, 500));
 
         ExhibitionToolbar toolbar = new ExhibitionToolbar(this, controller, model, withAddingOption);
         this.add(toolbar, BorderLayout.NORTH);
-        this.add(new ExhibitionPanelList(this, controller, model), BorderLayout.CENTER);
+        ExhibitionPanelList epl = new ExhibitionPanelList(this, controller, model);
+        this.add(epl, BorderLayout.CENTER);
+        controller.addView(epl);
+        controller.addView(this);
 
         JPanel buttonPanel = new JPanel(new GridLayout(1,2));
         JButton okButton =  new JButton("OK");
@@ -46,5 +50,11 @@ public class ExhibitionViewFrame extends JFrame {
         }
         this.add(buttonPanel, BorderLayout.SOUTH);
 
+    }
+
+    @Override
+    public void refreshView() {
+        revalidate();
+        repaint();
     }
 }

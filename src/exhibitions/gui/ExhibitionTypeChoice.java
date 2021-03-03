@@ -1,4 +1,4 @@
-package exhibitions;
+package exhibitions.gui;
 
 import exhibitions.model.ExhibitionType;
 

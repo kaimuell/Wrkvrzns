@@ -1,7 +1,6 @@
 package model.elements;
 
 import adressbook.model.Person;
-import adressbook.model.PersonEntry;
 
 import java.io.Serializable;
 import java.util.ArrayList;

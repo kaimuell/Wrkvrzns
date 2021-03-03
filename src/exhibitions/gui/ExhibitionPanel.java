@@ -1,14 +1,14 @@
-package exhibitions;
+package exhibitions.gui;
 
 import exhibitions.controller.ExhibitionsController;
 import exhibitions.model.Exhibition;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-class ExhibitionPanel extends JPanel implements MouseInputListener {
+class ExhibitionPanel extends JPanel implements MouseListener {
     private final Exhibition exhibition;
     private final ExhibitionsController controller;
     private final JFrame owner;
@@ -24,21 +24,22 @@ class ExhibitionPanel extends JPanel implements MouseInputListener {
         this.add(new JLabel(exhibition.getPlace()));
         this.add(new JLabel(exhibition.getCity()));
         this.add(new JLabel(exhibition.getType().toString()));
-
+        this.addMouseListener(this);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 2){
-            new ExhibitionDialogController(controller)
-                    .createEditExhibitionDialog(owner, exhibition, this)
-                    .start();
-        } else controller.selectExhibition(exhibition);
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (e.getClickCount() == 2){
+            new ExhibitionDialogController(controller)
+                    .createEditExhibitionDialog(owner, exhibition, this)
+                    .start();
+        }
+        controller.selectExhibition(exhibition);
     }
 
     @Override
@@ -56,13 +57,4 @@ class ExhibitionPanel extends JPanel implements MouseInputListener {
 
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
 }

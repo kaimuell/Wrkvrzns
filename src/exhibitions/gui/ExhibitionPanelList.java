@@ -1,4 +1,4 @@
-package exhibitions;
+package exhibitions.gui;
 
 import exhibitions.controller.ExhibitionsController;
 import exhibitions.model.Exhibition;
@@ -16,15 +16,15 @@ class ExhibitionPanelList extends JPanel implements ExhibitionView{
     private static final Color SELECTED_ELEMENT_COLOR = new Color(240,180,180);;
     private static final Color BACKGROUND_COLOR = new Color (220,220,220);
 
-    public ExhibitionPanelList(JFrame owner, ExhibitionsController controller, ExhibitionsModel model) {
+    ExhibitionPanelList(JFrame owner, ExhibitionsController controller, ExhibitionsModel model) {
         this.owner = owner;
         this.controller = controller;
         this.model = model;
-
         createPanels();
     }
 
     private void createPanels() {
+        JPanel mainPanel = new JPanel(new GridLayout(model.getExhibitions().size(), 1));
         Iterator<Exhibition> iterator = model.getExhibitonIterator();
         while (iterator.hasNext()){
             Exhibition e = iterator.next();
@@ -32,8 +32,10 @@ class ExhibitionPanelList extends JPanel implements ExhibitionView{
             panel.setBackground(
                     e.equals(model.getSelectedExhibition())? SELECTED_ELEMENT_COLOR : BACKGROUND_COLOR
             );
-            this.add(panel);
+            mainPanel.add(panel);
         }
+        this.add(mainPanel);
+        this.revalidate();
     }
 
     @Override

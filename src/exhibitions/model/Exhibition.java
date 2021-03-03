@@ -5,19 +5,30 @@ import exhibitions.model.ExhibitionType;
 public class Exhibition {
     private int id;
     private ExhibitionType type;
+    private String with;
     private String name;
     private String place;
     private String city;
     private String country;
     private int year;
 
-    public Exhibition(int id, ExhibitionType type, String name, String place, String city, String country, int year) {
+    public Exhibition(int id, ExhibitionType type, String with, String name, String place, String city, String country, int year) {
         this.id = id;
         this.name = name;
+        this.type = type;
+        this.with = with;
         this.place = place;
         this.city = city;
         this.country = country;
         this.year = year;
+    }
+
+    public String getWith() {
+        return with;
+    }
+
+    public void setWith(String with) {
+        this.with = with;
     }
 
     public Exhibition() {

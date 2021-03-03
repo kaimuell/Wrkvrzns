@@ -37,4 +37,17 @@ public class ExhibitionsModel {
     public void setSelectedExhibition(Exhibition selectedExhibition) {
         this.selectedExhibition = selectedExhibition;
     }
+
+    public List<Exhibition> getExhibitionsWithIDs(List<Integer> exhibitionIds) {
+        List<Exhibition> exhibitions = new ArrayList<>();
+        for (Exhibition exhibition : this.exhibitions) {
+            if (exhibitionIds.contains(exhibition.getId())){
+                exhibitions.add(exhibition);
+            }
+
+        }
+
+        return exhibitions;
+
+    }
 }

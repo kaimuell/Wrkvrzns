@@ -1,15 +1,19 @@
 package controller;
 
 import adressbook.model.ABModel;
+import exhibitions.model.Exhibition;
 import gui.MessageBord;
+import model.Model;
 import model.elements.ArtPieceEntry;
 import view.Viewer;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
+
 
 public interface Controller {
+
+    Model getModel();
 
     /**
      * Gibt zurück ob sich der Eintrag in der Liste der Ausgewählten Einträge befindet
@@ -96,4 +100,7 @@ public interface Controller {
     void saveAs(String profileName);
 
     void load (File file);
+
+    Exhibition getExhibitionWithID(int idOfLastEntry);
+
 }

@@ -1,4 +1,4 @@
-package exhibitions;
+package exhibitions.gui;
 
 import exhibitions.controller.ExhibitionsController;
 import exhibitions.model.ExhibitionsModel;
