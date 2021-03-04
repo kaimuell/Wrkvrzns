@@ -1,10 +1,13 @@
-package exhibitions.gui;
+package exhibitions;
 
 import controller.dialogController.OkCancelOption;
-import exhibitions.model.Exhibition;
 
 import javax.swing.*;
 import java.awt.*;
+
+/**
+ * Dialog zum Eingeben und Bearbeiten von Ausstellungen
+ */
 
 class ExhibitionDialog extends JDialog {
 
@@ -19,7 +22,7 @@ class ExhibitionDialog extends JDialog {
     private JTextField withField;
     private JLabel errorLabel;
 
-    ExhibitionDialog(Frame owner, Exhibition exhibition) {
+    ExhibitionDialog(Frame owner, Exhibition exhibition, boolean isEditable) {
         super(owner);
         this.exhibition = exhibition;
         this.setLayout(new BorderLayout());
@@ -31,7 +34,9 @@ class ExhibitionDialog extends JDialog {
 
         JPanel buttonPanel = initialiseButtonPanel();
         this.add(buttonPanel,BorderLayout.SOUTH);
-
+        if (!isEditable){
+            deactivateTextFields();
+        }
         this.pack();
     }
 
@@ -90,6 +95,9 @@ class ExhibitionDialog extends JDialog {
         return inputPanel;
     }
 
+    /**
+     * Setzt die Informationen einer Ausstellung auf die der Textfelder
+     */
     public void setExhibitionToTextFields(){
         exhibition.setType(exhibitionTypeChoice.getSelectedExhibitionType());
         exhibition.setWith(withField.getText());
@@ -103,5 +111,16 @@ class ExhibitionDialog extends JDialog {
         } catch (NumberFormatException e){
             errorLabel.setText("Ungültige Jahreseingabe");
         }
+    }
+
+
+    private void deactivateTextFields() {
+        exhibitionTypeChoice.setEnabled(false);
+        withField.setEditable(false);
+        nameField.setEditable(false);
+        placeField.setEditable(false);
+        cityField.setEditable(false);
+        countryField.setEditable(false);
+        yearField.setEditable(false);
     }
 }

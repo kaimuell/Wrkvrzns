@@ -2,10 +2,10 @@ package controller.dialogController;
 
 import adressbook.model.Person;
 import controller.Controller;
-import exhibitions.controller.ExhibitionsController;
-import exhibitions.gui.ExhibitionDialogController;
-import exhibitions.model.Exhibition;
-import exhibitions.model.ExhibitionsModel;
+import exhibitions.ExhibitionsController;
+import exhibitions.ExhibitionViewManager;
+import exhibitions.Exhibition;
+import exhibitions.ExhibitionsModel;
 import tools.PictureTools;
 import gui.elements.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
@@ -292,7 +292,7 @@ class ArtPieceDialog extends JDialog {
         JButton addExhibitionButton = new JButton("Hinzufügen");
         addExhibitionButton.addActionListener(action -> {
             new Thread(() -> {
-                ExhibitionDialogController edc = new ExhibitionDialogController(
+                ExhibitionViewManager edc = new ExhibitionViewManager(
                         new ExhibitionsController(controller.getModel().exhibitions));
                 Exhibition selectedExhibition = edc.selectExhibitionDialog(this, controller.getModel().exhibitions);
                 if (selectedExhibition != null) {
@@ -307,9 +307,9 @@ class ArtPieceDialog extends JDialog {
             new Thread( () -> {
                 List<Exhibition> exhibitions = controller.getModel().exhibitions.getExhibitionsWithIDs(artPiece.getExhibitionIds());
                 ExhibitionsModel exhibitionModel = new ExhibitionsModel(exhibitions);
-                ExhibitionDialogController exhibitionDialogController = new ExhibitionDialogController(
+                ExhibitionViewManager exhibitionViewManager = new ExhibitionViewManager(
                         new ExhibitionsController(exhibitionModel));
-                exhibitionDialogController.createEditExhibitionsListDialog(this, exhibitionModel);
+                exhibitionViewManager.createEditExhibitionsListDialog(this, exhibitionModel);
             }).start();
         });
 
@@ -389,14 +389,6 @@ class ArtPieceDialog extends JDialog {
         artPiece.setPrice(ParseIntegerFromTextField(priceField));
         artPiece.setEdition(ParseIntegerFromTextField(editionField));
         artPiece.setStrorageLocation(storageLocationField.getText());
-    }
-
-    private String createShortDescriptionOfPerson(Person person){
-        if (person != null) {
-            return (person.getFirstName() + " " + person.getFamilyName() + ", " + person.geteMail() + ",  " + person.getTel());
-        }else {
-            return "nicht verkauft";
-        }
     }
 
     private int ParseIntegerFromTextField(JTextField textField) throws NumberFormatException{

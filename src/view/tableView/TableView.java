@@ -1,7 +1,7 @@
 package view.tableView;
 
 import adressbook.model.ABModel;
-import exhibitions.model.ExhibitionsModel;
+import exhibitions.ExhibitionsModel;
 import model.Model;
 import view.Viewer;
 

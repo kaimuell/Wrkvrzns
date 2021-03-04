@@ -1,7 +1,4 @@
-package exhibitions.gui;
-
-import exhibitions.controller.ExhibitionsController;
-import exhibitions.model.ExhibitionsModel;
+package exhibitions;
 
 import javax.swing.*;
 
@@ -31,7 +28,7 @@ class ExhibitionToolbar extends JToolBar{
     private JButton createAddExhibitionButton() {
         JButton addExhibition = new JButton("Hinzufügen");
         addExhibition.addActionListener(action -> {
-            new ExhibitionDialogController(controller)
+            new ExhibitionViewManager(controller)
                     .createNewExhibitionDialog(owner).start();
         });
         return addExhibition;

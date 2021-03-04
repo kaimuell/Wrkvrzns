@@ -1,7 +1,7 @@
 package controller;
 
 import adressbook.model.ABModel;
-import exhibitions.model.Exhibition;
+import exhibitions.Exhibition;
 import gui.MessageBord;
 import model.Model;
 import model.elements.ArtPieceEntry;

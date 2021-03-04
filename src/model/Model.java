@@ -1,7 +1,7 @@
 package model;
 
 import adressbook.model.ABModel;
-import exhibitions.model.ExhibitionsModel;
+import exhibitions.ExhibitionsModel;
 import model.elements.ArtPieceEntry;
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,6 +1,8 @@
-package exhibitions.model;
+package exhibitions;
 
-import exhibitions.model.ExhibitionType;
+/**
+ * Klasse zum speichern von informationen von Ausstellungen
+ */
 
 public class Exhibition {
     private int id;

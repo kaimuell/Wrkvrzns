@@ -1,13 +1,15 @@
-package exhibitions.gui;
+package exhibitions;
 
 import controller.dialogController.OkCancelOption;
-import exhibitions.controller.ExhibitionsController;
-import exhibitions.model.ExhibitionsModel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ExhibitionViewFrame extends JFrame implements ExhibitionView {
+/**
+ * Fenster zum Anzeigen einer Liste von Ausstellungen
+ */
+
+class ExhibitionViewFrame extends JFrame implements ExhibitionView {
 
     private ExhibitionsModel model;
     private ExhibitionsController controller;
@@ -15,11 +17,12 @@ public class ExhibitionViewFrame extends JFrame implements ExhibitionView {
 
     /**
      *
-     * @param model
-     * @param withAddingOption
-     * @param withCancelButton
+     * @param model             Das ExhibitionsModel
+     * @param withAddingOption  können Ausstellungen hinzugefügt werden?
+     * @param withCancelButton  hat das Fenster einen Button zum Abbrechen?
+     * @param isEditable        sind die Ausstellungen editierbar?
      */
-    public ExhibitionViewFrame(ExhibitionsModel model, boolean withAddingOption, boolean withCancelButton) {
+    ExhibitionViewFrame(ExhibitionsModel model, boolean withAddingOption, boolean withCancelButton, boolean isEditable) {
         super("Ausstellungen");
         this.model = model;
         this.controller = new ExhibitionsController(model);
@@ -29,7 +32,7 @@ public class ExhibitionViewFrame extends JFrame implements ExhibitionView {
 
         ExhibitionToolbar toolbar = new ExhibitionToolbar(this, controller, model, withAddingOption);
         this.add(toolbar, BorderLayout.NORTH);
-        ExhibitionPanelList epl = new ExhibitionPanelList(this, controller, model);
+        ExhibitionPanelList epl = new ExhibitionPanelList(this, controller, model, isEditable);
         this.add(epl, BorderLayout.CENTER);
         controller.addView(epl);
         controller.addView(this);

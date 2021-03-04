@@ -1,22 +1,25 @@
-package exhibitions.gui;
-
-import exhibitions.controller.ExhibitionsController;
-import exhibitions.model.Exhibition;
+package exhibitions;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+
+/**
+ * Panel zur Anzeige einer Ausstellung in der {@link ExhibitionPanelList}
+ */
 class ExhibitionPanel extends JPanel implements MouseListener {
     private final Exhibition exhibition;
     private final ExhibitionsController controller;
     private final JFrame owner;
+    private final boolean isEditable;
 
-    ExhibitionPanel(Exhibition exhibition, ExhibitionsController controller, JFrame owner) {
+    ExhibitionPanel(Exhibition exhibition, ExhibitionsController controller, JFrame owner, boolean isEditable) {
         this.exhibition = exhibition;
         this.controller = controller;
         this.owner = owner;
+        this.isEditable = isEditable;
 
         this.setLayout(new GridLayout(1, 4));
         this.add(new JLabel(String.valueOf(exhibition.getYear())));
@@ -35,8 +38,8 @@ class ExhibitionPanel extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getClickCount() == 2){
-            new ExhibitionDialogController(controller)
-                    .createEditExhibitionDialog(owner, exhibition, this)
+            new ExhibitionViewManager(controller)
+                    .createEditExhibitionDialog(owner, exhibition, this, isEditable)
                     .start();
         }
         controller.selectExhibition(exhibition);

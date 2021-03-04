@@ -1,11 +1,8 @@
-package exhibitions.controller;
-
-import exhibitions.gui.ExhibitionView;
-import exhibitions.model.Exhibition;
-import exhibitions.model.ExhibitionsModel;
+package exhibitions;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ExhibitionsController {
     private ExhibitionsModel exhibitionsModel;

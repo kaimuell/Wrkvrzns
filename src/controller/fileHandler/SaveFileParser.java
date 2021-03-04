@@ -1,10 +1,10 @@
 package controller.fileHandler;
 
 import adressbook.model.*;
-import exhibitions.controller.ExhibitionsController;
-import exhibitions.model.Exhibition;
-import exhibitions.model.ExhibitionType;
-import exhibitions.model.ExhibitionsModel;
+import exhibitions.ExhibitionsController;
+import exhibitions.Exhibition;
+import exhibitions.ExhibitionType;
+import exhibitions.ExhibitionsModel;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
@@ -13,8 +13,6 @@ import java.util.Iterator;
 
 import static java.lang.Integer.parseInt;
 
-
-//TODO Ausstellungen speichern und Liste der AusstellungsIDs von Kunstwerken Speichern.
 
 public class SaveFileParser {
 

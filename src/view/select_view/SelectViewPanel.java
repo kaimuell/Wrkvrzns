@@ -2,7 +2,7 @@ package view.select_view;
 
 import adressbook.model.ABModel;
 import controller.Controller;
-import exhibitions.model.ExhibitionsModel;
+import exhibitions.ExhibitionsModel;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.ModelViewAccess;

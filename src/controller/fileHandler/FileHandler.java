@@ -2,7 +2,7 @@ package controller.fileHandler;
 
 
 import adressbook.model.ABModel;
-import exhibitions.model.ExhibitionsModel;
+import exhibitions.ExhibitionsModel;
 import tools.PictureTools;
 import model.Model;
 import model.elements.ArtPieceEntry;

@@ -2,8 +2,9 @@ package gui.menu;
 
 import adressbook.view.AdressBookFrame;
 import controller.Controller;
-import controller.dialogController.OkCancelOption;
-import exhibitions.gui.ExhibitionViewFrame;
+import exhibitions.ExhibitionsController;
+import exhibitions.ExhibitionViewManager;
+import exhibitions.ExhibitionsModel;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -27,16 +28,9 @@ public class ToolsMenu extends JMenu {
         openExhibitions.setToolTipText("Zeigt die Liste der Ausstellungen");
         openExhibitions.addActionListener(action -> {
                     new Thread(() -> {
-                        ExhibitionViewFrame evf = new ExhibitionViewFrame(controller.getModel().exhibitions, true, false);
-                        evf.setVisible(true);
-                        while (evf.okCancelOption == OkCancelOption.UNDECIDED) {
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        evf.dispose();
+                       ExhibitionsModel exhibitionsModel = controller.getModel().exhibitions;
+                        ExhibitionViewManager edc = new ExhibitionViewManager(new ExhibitionsController(exhibitionsModel));
+                        edc.createExhibitionMainWindow(exhibitionsModel);
                     }).start();
                 }
         );

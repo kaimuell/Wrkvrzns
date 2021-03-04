@@ -1,8 +1,12 @@
-package exhibitions.model;
+package exhibitions;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+/**
+ * Model zur verwaltung von Ausstellungen
+ */
 
 public class ExhibitionsModel {
     private List<Exhibition> exhibitions;

@@ -1,6 +1,4 @@
-package exhibitions.gui;
-
-import exhibitions.model.ExhibitionType;
+package exhibitions;
 
 import java.awt.*;
 

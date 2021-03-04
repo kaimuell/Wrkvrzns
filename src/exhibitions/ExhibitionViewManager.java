@@ -1,16 +1,18 @@
-package exhibitions.gui;
+package exhibitions;
 
 import controller.dialogController.OkCancelOption;
-import exhibitions.controller.ExhibitionsController;
-import exhibitions.model.Exhibition;
-import exhibitions.model.ExhibitionsModel;
 
 import javax.swing.*;
 
-public class ExhibitionDialogController {
+/**
+ * Die Klasse {@link ExhibitionViewManager} fasst die Ansichten auf Ausstellungen zusammen.
+ */
+
+
+public class ExhibitionViewManager {
     ExhibitionsController controller;
 
-    public ExhibitionDialogController(ExhibitionsController controller) {
+    public ExhibitionViewManager(ExhibitionsController controller) {
         this.controller = controller;
     }
 
@@ -18,7 +20,7 @@ public class ExhibitionDialogController {
     Thread createNewExhibitionDialog (JFrame owner){
         return new Thread ( ()-> {
             Exhibition exhibition = new Exhibition();
-            ExhibitionDialog dialog = new ExhibitionDialog(owner, exhibition);
+            ExhibitionDialog dialog = new ExhibitionDialog(owner, exhibition, true);
             dialog.setVisible(true);
             while (dialog.okCancelOption == OkCancelOption.UNDECIDED) {
                 try {
@@ -35,9 +37,9 @@ public class ExhibitionDialogController {
         );
     }
 
-    Thread createEditExhibitionDialog (JFrame owner, Exhibition exhibition, ExhibitionPanel panel){
+    Thread createEditExhibitionDialog (JFrame owner, Exhibition exhibition, ExhibitionPanel panel, boolean editable){
         return new Thread ( ()-> {
-            ExhibitionDialog dialog = new ExhibitionDialog(owner, exhibition);
+            ExhibitionDialog dialog = new ExhibitionDialog(owner, exhibition, editable);
             dialog.setVisible(true);
             while (dialog.okCancelOption == OkCancelOption.UNDECIDED) {
                 try {
@@ -53,7 +55,7 @@ public class ExhibitionDialogController {
     }
 
     public Exhibition selectExhibitionDialog(JDialog owner, ExhibitionsModel model){
-        ExhibitionViewFrame evf = new ExhibitionViewFrame(model, true, true);
+        ExhibitionViewFrame evf = new ExhibitionViewFrame(model, true, true, true);
         evf.setVisible(true);
         while (evf.okCancelOption == OkCancelOption.UNDECIDED){
             try {
@@ -72,12 +74,25 @@ public class ExhibitionDialogController {
     }
 
     public void createEditExhibitionsListDialog(JDialog owner, ExhibitionsModel exhibitionModel) {
-        ExhibitionViewFrame evf = new ExhibitionViewFrame(exhibitionModel, false, false);
+        ExhibitionViewFrame evf = new ExhibitionViewFrame(exhibitionModel, false, false, false);
         evf.setLocationRelativeTo(owner);
         evf.setVisible(true);
         while (evf.okCancelOption == OkCancelOption.UNDECIDED) {
             try {
                 Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        evf.dispose();
+    }
+
+    public void createExhibitionMainWindow(ExhibitionsModel exhibitionsModel){
+        ExhibitionViewFrame evf = new ExhibitionViewFrame(exhibitionsModel, true, false, true);
+        evf.setVisible(true);
+        while (evf.okCancelOption == OkCancelOption.UNDECIDED) {
+            try {
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
