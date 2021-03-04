@@ -71,6 +71,8 @@ public class FileHandler {
     private void createSettingsFileAndEmptySaveFile() {
         System.out.println("FileHandler : lege neue Dateien an");
         try {
+            File addressbookfile = new File(ADRESSBOOK_FILE);
+            addressbookfile.createNewFile();
             File file = new File(PATH_SETTINGS_FILE);
             file.createNewFile();
             createInitialSaveFile();
@@ -193,6 +195,18 @@ public class FileHandler {
     public synchronized void save(Model model) throws IOException {
         System.out.println("FileHandler : speichere");
         saveAsString(model);
+        saveAddressbook(model);
+    }
+
+    private void saveAddressbook(Model model) throws IOException {
+        FileOutputStream fos = new FileOutputStream(ADRESSBOOK_FILE);
+        OutputStreamWriter osw = new OutputStreamWriter(fos);
+        BufferedWriter writer = new BufferedWriter(osw);
+        String addressbookAsString = SaveFileParser.parseAddressbookOutput(model);
+        writer.write(addressbookAsString);
+        writer.close();
+        osw.close();
+        fos.close();
     }
 
     private void saveAsString(Model model) throws IOException {
@@ -215,7 +229,18 @@ public class FileHandler {
     public Model load() throws IOException, VersionControlException {
         Model model = loadAsString(new File(this.saveFile));
         reloadAllBitmaps(model);
+        model.setAdressbook(loadAdressbook(ADRESSBOOK_FILE));
         return model;
+    }
+
+    private ABModel loadAdressbook(String adressbookFile) throws IOException, VersionControlException {
+        FileReader fr = new FileReader(adressbookFile);
+        BufferedReader reader = new BufferedReader(fr);
+        Iterator<String> lines = reader.lines().iterator();
+        ABModel adressbook = SaveFileParser.parseAdressbookInput(lines);
+        reader.close();
+        fr.close();
+        return adressbook;
     }
 
     /**
@@ -329,7 +354,6 @@ public class FileHandler {
     }
 
     private void copyFiles(File sourceDirectory, File targetDirectory){
-        //TODO
     }
 }
 

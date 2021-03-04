@@ -45,7 +45,7 @@ public interface Controller {
     /**
      * Fügt den übergebenen Eintrag dem {@link model.Model} hinzu
      * und speichert das übergebene Bild unter der Id des Eintrags in die Profildatei.
-     * @param entry der Eitrag
+     * @param entry der Eintrag
      * @param imageToLink das Bild
      */
     void addEntry(ArtPieceEntry entry, Image imageToLink);

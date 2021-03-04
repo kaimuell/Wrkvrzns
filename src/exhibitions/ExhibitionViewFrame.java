@@ -11,8 +11,6 @@ import java.awt.*;
 
 class ExhibitionViewFrame extends JFrame implements ExhibitionView {
 
-    private ExhibitionsModel model;
-    private ExhibitionsController controller;
     public OkCancelOption okCancelOption;
 
     /**
@@ -24,8 +22,7 @@ class ExhibitionViewFrame extends JFrame implements ExhibitionView {
      */
     ExhibitionViewFrame(ExhibitionsModel model, boolean withAddingOption, boolean withCancelButton, boolean isEditable) {
         super("Ausstellungen");
-        this.model = model;
-        this.controller = new ExhibitionsController(model);
+        ExhibitionsController controller = new ExhibitionsController(model);
         this.okCancelOption = OkCancelOption.UNDECIDED;
         this.setLayout(new BorderLayout());
         this.setSize(new Dimension(500, 500));
@@ -39,16 +36,12 @@ class ExhibitionViewFrame extends JFrame implements ExhibitionView {
 
         JPanel buttonPanel = new JPanel(new GridLayout(1,2));
         JButton okButton =  new JButton("OK");
-        okButton.addActionListener(action -> {
-            this.okCancelOption = OkCancelOption.OK;
-        });
+        okButton.addActionListener(action -> this.okCancelOption = OkCancelOption.OK);
         buttonPanel.add(okButton);
 
         if (withCancelButton){
             JButton cancelButton = new JButton("ABBRECHEN");
-            cancelButton.addActionListener(action -> {
-                okCancelOption = OkCancelOption.CANCEL;
-            });
+            cancelButton.addActionListener(action -> okCancelOption = OkCancelOption.CANCEL);
             buttonPanel.add(cancelButton);
         }
         this.add(buttonPanel, BorderLayout.SOUTH);
