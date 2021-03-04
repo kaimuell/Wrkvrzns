@@ -1,6 +1,10 @@
 package controller.fileHandler;
 
 import adressbook.model.*;
+import exhibitions.ExhibitionsController;
+import exhibitions.Exhibition;
+import exhibitions.ExhibitionType;
+import exhibitions.ExhibitionsModel;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
@@ -22,11 +26,26 @@ public class SaveFileParser {
         builder.append("1.0\n");
         writeAllArtpieces(model, builder);
         writeAdressbook(model, builder);
+        writeExhibitionList(model, builder);
         return builder.toString();
     }
 
+    private static void writeExhibitionList(Model model, StringBuilder builder) {
+        for (Exhibition exhibition : model.exhibitions.getExhibitions() ) {
+            builder.append("#exhibition\n")
+                    .append(String.valueOf(exhibition.getId())).append("\n")
+                    .append(exhibition.getType().toString()).append("\n")
+                    .append(exhibition.getWith()).append("\n")
+                    .append(exhibition.getName()).append("\n")
+                    .append(exhibition.getPlace()).append("\n")
+                    .append(exhibition.getCity()).append("\n")
+                    .append(exhibition.getCountry()).append("\n")
+                    .append(exhibition.getYear()).append("\n");
+        }
+    }
+
     private static void writeAdressbook(Model model, StringBuilder builder) {
-        for (PersonEntry personEntry: model.adressbook.getPersonList()) {
+        for (PersonEntry personEntry: model.getAdressbook().getPersonList()) {
             builder.append("#contact\n");
             builder.append(personEntry.getId()).append("\n");
             writePerson(builder, personEntry);
@@ -36,15 +55,30 @@ public class SaveFileParser {
     private static void writeAllArtpieces(Model model, StringBuilder builder) {
         for (ArtPieceEntry entry : model.getPieces()) {
             writeArtpiece(builder, entry);
+            writeExhibitions(builder, entry);
             writeBuyersOfArtpiece(builder, entry);
         }
+    }
+
+    private static void writeExhibitions(StringBuilder builder, ArtPieceEntry entry) {
+            if (entry.getExhibitionIds().isEmpty()){
+                builder.append("\n");
+            }else{
+                Iterator<Integer> it = entry.getExhibitionIds().iterator();
+                while (it.hasNext()){
+                    builder.append(String.valueOf(it));
+                    if (it.hasNext()){
+                        builder.append(",");
+                    }
+                }
+            }
     }
 
     private static void writeBuyersOfArtpiece(StringBuilder builder, ArtPieceEntry entry) {
         if (entry.getBuyers().isEmpty()) {
             builder.append("0\n");
         } else {
-            builder.append(entry.getBuyers().size() + "\n");
+            builder.append(entry.getBuyers().size()).append("\n");
             for (Person person : entry.getBuyers()) {
                 writePerson(builder, person);
             }
@@ -64,6 +98,7 @@ public class SaveFileParser {
         builder.append(entry.getYear()).append("\n");
         builder.append(entry.getPrice()).append("\n");
         builder.append(entry.getEdition()).append("\n");
+        builder.append(entry.getStrorageLocation()).append("\n");
     }
 
     private static void writePerson(StringBuilder builder, Person person){
@@ -88,7 +123,7 @@ public class SaveFileParser {
      */
 
     public static Model parseFileInput(Iterator<String> lines) throws VersionControlException {
-        Model model = new Model(new ABModel());
+        Model model = new Model(new ABModel(), new ExhibitionsModel(null));
         String versionControlLine = lines.next();
 
         if(versionControlLine.equals("1.0")){
@@ -106,19 +141,45 @@ public class SaveFileParser {
                 createArtPiece(lines, model);
             }else if (controlWord.equals("#contact")){
                 createAdressbookEntry(lines, model);
+            }else if (controlWord.equals("#exhibition")){
+                createExhibitionEntry(lines, model);
             }
         }
+    }
+
+    private static void createExhibitionEntry(Iterator<String> lines, Model model) {
+
+        ExhibitionsController exc = new ExhibitionsController(model.exhibitions);
+        exc.addExhibition(new Exhibition(
+                Integer.parseInt(lines.next()), //ID
+                ExhibitionType.valueOf(lines.next()), //ExhibitionType
+                lines.next(),                    //With
+                lines.next(),                   //Name
+                lines.next(),                   //Place
+                lines.next(),                   //City
+                lines.next(),                   //Country
+                Integer.parseInt(lines.next())  //Year
+        ));
     }
 
     private static void createArtPiece(Iterator<String> lines, Model model) {
         ArtPieceEntry artPieceEntry =
                 parseArtpieceEntry(lines);
+        parseExhibitionIds(lines.next(), artPieceEntry);
         parseBuyersOfArtpiece(lines, artPieceEntry);
         model.getPieces().add(artPieceEntry);
     }
 
+    private static void parseExhibitionIds(String exhibitionIdLine, ArtPieceEntry artPieceEntry) {
+        if (!exhibitionIdLine.equals("")) {
+            for (String number : exhibitionIdLine.split(",")) {
+                artPieceEntry.getExhibitionIds().add(Integer.parseInt(number));
+            }
+        }
+    }
+
     private static void createAdressbookEntry(Iterator<String> lines, Model model) {
-        model.adressbook.getPersonList().add(new PersonEntry(
+        model.getAdressbook().getPersonList().add(new PersonEntry(
                parseInt(lines.next()),
                createNewPerson(lines)
         ));
@@ -137,6 +198,7 @@ public class SaveFileParser {
                 parseInt(lines.next()), //Year
                 parseInt(lines.next()), //Price
                 parseInt(lines.next()),//Edition
+                lines.next(),           //Storage Location
                 null
         );
     }
@@ -192,6 +254,4 @@ public class SaveFileParser {
             default: return "UNDEFINED";
         }
     }
-
-
 }

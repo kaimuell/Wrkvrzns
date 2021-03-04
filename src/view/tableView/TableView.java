@@ -1,6 +1,7 @@
 package view.tableView;
 
 import adressbook.model.ABModel;
+import exhibitions.ExhibitionsModel;
 import model.Model;
 import view.Viewer;
 
@@ -12,7 +13,7 @@ import javax.swing.*;
 
 public class TableView extends JTable implements Viewer {
     public TableView() {
-        super(new TableAdapter(new Model(new ABModel())));
+        super(new TableAdapter(new Model(new ABModel(), new ExhibitionsModel(null))));
     }
 
     @Override

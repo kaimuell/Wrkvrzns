@@ -3,6 +3,8 @@ package controller;
 import adressbook.model.ABModel;
 import controller.fileHandler.FileHandler;
 import controller.fileHandler.VersionControlException;
+import exhibitions.Exhibition;
+import exhibitions.ExhibitionsModel;
 import gui.MessageBord;
 import model.elements.ArtPieceEntry;
 import model.Model;
@@ -31,7 +33,7 @@ public class ControllerImplementation implements Controller {
 
     public ControllerImplementation(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
-        this.model = new Model(new ABModel());
+        this.model = new Model(new ABModel(), new ExhibitionsModel(null));
         this.views = new ArrayList<>();
         this.messageBords = new ArrayList<>();
         this.selectedElements = new ArrayList<>();
@@ -49,6 +51,11 @@ public class ControllerImplementation implements Controller {
     @Override
     public void addMessageBord(MessageBord messageBord) {
         this.messageBords.add(messageBord);
+    }
+
+    @Override
+    public Model getModel() {
+        return this.model;
     }
 
     @Override
@@ -117,7 +124,7 @@ public class ControllerImplementation implements Controller {
 
     @Override
     public ABModel getAddressbook() {
-        return model.adressbook;
+        return model.getAdressbook();
     }
 
     @Override
@@ -171,6 +178,16 @@ public class ControllerImplementation implements Controller {
         }
     }
 
+    @Override
+    public Exhibition getExhibitionWithID(int idOfLastEntry) {
+        for (Exhibition e : model.exhibitions.getExhibitions()){
+            if (e.getId() == idOfLastEntry){
+                return e;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public void deleteSelectedElements() {
@@ -195,7 +212,7 @@ public class ControllerImplementation implements Controller {
     @Override
     public void importContacts(File file, boolean onlyContactsWithNames) {
         try{
-            fileHandler.importThunderbirdContacts(file, model.adressbook, onlyContactsWithNames);
+            fileHandler.importThunderbirdContacts(file, model.getAdressbook(), onlyContactsWithNames);
         } catch (Exception e) {
             pushMessageToMessageBords("Import fehlgeschlagen");
         }

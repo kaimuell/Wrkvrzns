@@ -2,6 +2,9 @@ package gui.menu;
 
 import adressbook.view.AdressBookFrame;
 import controller.Controller;
+import exhibitions.ExhibitionsController;
+import exhibitions.ExhibitionViewManager;
+import exhibitions.ExhibitionsModel;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,6 +20,22 @@ public class ToolsMenu extends JMenu {
         this.superComponent = superComponent;
         initOpenAdressbook();
         initImportContacts(superComponent, controller);
+        initOpenExhibitions();
+    }
+
+    private void initOpenExhibitions() {
+        JMenuItem openExhibitions = new JMenuItem("Ausstellungen");
+        openExhibitions.setToolTipText("Zeigt die Liste der Ausstellungen");
+        openExhibitions.addActionListener(action -> {
+                    new Thread(() -> {
+                       ExhibitionsModel exhibitionsModel = controller.getModel().exhibitions;
+                        ExhibitionViewManager edc = new ExhibitionViewManager(new ExhibitionsController(exhibitionsModel));
+                        edc.createExhibitionMainWindow(exhibitionsModel);
+                    }).start();
+                }
+        );
+        this.add(openExhibitions);
+
     }
 
     private void initImportContacts(JFrame superComponent, Controller controller) {

@@ -26,7 +26,7 @@ public class DebugView implements Viewer {
             System.out.println();
         }
         System.out.println();
-        for (PersonEntry person: model.adressbook.getPersonList()) {
+        for (PersonEntry person: model.getAdressbook().getPersonList()) {
             System.out.println(person.getFirstName());
             System.out.println(person.getFamilyName());
             System.out.println(person.geteMail());

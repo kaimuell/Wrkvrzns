@@ -162,11 +162,11 @@ public class AddressBookImportParserForThunderbird {
     //TODO House No aus Adresse ausschneiden ? letter token durch " " getrennt ?
     private Address chooseAddress(ThunderbirdContact contact) {
         if (!contact.privatAdresse.equals("")){
-            return new Address(contact.privatAdresse, "", contact.privatOrt, contact.privatPLZ, contact.privatLand);
+            return new Address(contact.privatAdresse + contact.privatAdresse2, "", contact.privatOrt, contact.privatPLZ, contact.privatLand);
         } else if (!contact.privatAdresse2.equals("")){
             return new Address(contact.privatAdresse2, "", contact.privatOrt, contact.privatPLZ, contact.privatLand);
         } else if (!contact.dienstlichAdresse.equals("")){
-            return new Address(contact.dienstlichAdresse, "", contact.dienstlichOrt,contact.dienstlichPLZ, contact.dienstlichLand);
+            return new Address(contact.dienstlichAdresse + contact.dienstlichAdresse2, "", contact.dienstlichOrt,contact.dienstlichPLZ, contact.dienstlichLand);
         } else {
             return new Address(contact.dienstlichAdresse2, "", contact.dienstlichOrt,contact.dienstlichPLZ, contact.dienstlichLand);
         }
