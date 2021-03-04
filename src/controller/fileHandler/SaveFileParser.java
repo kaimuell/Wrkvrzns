@@ -1,5 +1,7 @@
 package controller.fileHandler;
 
+import adressbook.controller.ABController;
+import adressbook.controller.ABControllerImplementation;
 import adressbook.model.*;
 import exhibitions.ExhibitionsController;
 import exhibitions.Exhibition;
@@ -25,7 +27,6 @@ public class SaveFileParser {
         StringBuilder builder = new StringBuilder();
         builder.append("1.0\n");
         writeAllArtpieces(model, builder);
-        writeAdressbook(model, builder);
         writeExhibitionList(model, builder);
         return builder.toString();
     }
@@ -41,14 +42,6 @@ public class SaveFileParser {
                     .append(exhibition.getCity()).append("\n")
                     .append(exhibition.getCountry()).append("\n")
                     .append(exhibition.getYear()).append("\n");
-        }
-    }
-
-    private static void writeAdressbook(Model model, StringBuilder builder) {
-        for (PersonEntry personEntry: model.getAdressbook().getPersonList()) {
-            builder.append("#contact\n");
-            builder.append(personEntry.getId()).append("\n");
-            writePerson(builder, personEntry);
         }
     }
 
@@ -253,5 +246,48 @@ public class SaveFileParser {
             case MUSEUM : return "MUSEUM";
             default: return "UNDEFINED";
         }
+    }
+
+    /**
+     * Erzeugt aein Adressbuch aus einem String Iterator über die Zeilen einer Speicherdatei.
+     * @param lines
+     * @return
+     * @throws VersionControlException
+     */
+
+    public static ABModel parseAdressbookInput(Iterator<String> lines) throws VersionControlException{
+        ABModel adressbook = new ABModel();
+        String controllword = lines.next();
+        if(controllword.trim().equals("1.0")){
+            System.out.println();
+            parseContacts(adressbook, lines);
+            return adressbook;
+        }else {
+            throw new VersionControlException();
+
+        }
+    }
+
+    private static void parseContacts(ABModel adressbook, Iterator<String> lines) {
+        ABController controller = new ABControllerImplementation(adressbook);
+        while (lines.hasNext()){
+            controller.addPerson(createNewPerson(lines));
+        }
+
+    }
+
+    /**
+     * Schreibt die Informationen aus dem Adressbuch des Models in einen String
+     * @param model
+     * @return
+     */
+
+    public static String parseAddressbookOutput(Model model){
+        StringBuilder builder = new StringBuilder();
+        builder.append("1.0\n");
+        for (Person person : model.getAdressbook().getPersonList()) {
+            writePerson(builder, person);
+        }
+        return builder.toString();
     }
 }
