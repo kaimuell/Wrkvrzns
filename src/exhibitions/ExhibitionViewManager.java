@@ -3,6 +3,8 @@ package exhibitions;
 import controller.dialogController.OkCancelOption;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Die Klasse {@link ExhibitionViewManager} fasst die Ansichten auf Ausstellungen zusammen.
@@ -73,10 +75,14 @@ public class ExhibitionViewManager {
         }
     }
 
-    public void createEditExhibitionsListDialog(JDialog owner, ExhibitionsModel exhibitionModel) {
+    public List<Integer> createEditExhibitionsListDialog(JDialog owner, ExhibitionsModel exhibitionModel) {
         ExhibitionViewFrame evf = new ExhibitionViewFrame(exhibitionModel, false, false, false);
         evf.setLocationRelativeTo(owner);
         evf.setVisible(true);
+        List<Integer> oldids = new ArrayList();
+        for (Exhibition e : exhibitionModel.getExhibitions()){
+            oldids.add(e.getId());
+        }
         while (evf.okCancelOption == OkCancelOption.UNDECIDED) {
             try {
                 Thread.sleep(500);
@@ -84,7 +90,16 @@ public class ExhibitionViewManager {
                 e.printStackTrace();
             }
         }
+        List<Integer> ids = new ArrayList();
+        boolean accepted = false;
+        if (evf.okCancelOption == OkCancelOption.OK){
+            for (Exhibition e : exhibitionModel.getExhibitions()){
+                ids.add(e.getId());
+            }
+            accepted = true;
+        }
         evf.dispose();
+        return accepted ? ids : oldids;
     }
 
     public void createExhibitionMainWindow(ExhibitionsModel exhibitionsModel){

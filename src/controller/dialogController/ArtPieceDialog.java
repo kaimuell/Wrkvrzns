@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static controller.dialogController.OkCancelOption.*;
@@ -309,7 +310,17 @@ class ArtPieceDialog extends JDialog {
                 ExhibitionsModel exhibitionModel = new ExhibitionsModel(exhibitions);
                 ExhibitionViewManager exhibitionViewManager = new ExhibitionViewManager(
                         new ExhibitionsController(exhibitionModel));
-                exhibitionViewManager.createEditExhibitionsListDialog(this, exhibitionModel);
+                List<Integer> edited_ids = exhibitionViewManager.createEditExhibitionsListDialog(this, exhibitionModel);
+                List<Integer> idsToDelete = new ArrayList<>();
+                for (int id : artPiece.getExhibitionIds()) {
+                    if (!edited_ids.contains(id)){
+                    idsToDelete.add(id);
+                    }
+                }
+                for (int id : idsToDelete) {
+                    artPiece.getExhibitionIds().remove(id);
+                }
+                exhibitionLabel.setText(lastExhibition());
             }).start();
         });
 
