@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="svg-7.1.14">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/libs/iText7-Core-7.1.14-only-jars/svg-7.1.14.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

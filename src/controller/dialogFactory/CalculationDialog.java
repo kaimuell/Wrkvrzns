@@ -4,6 +4,7 @@ import model.elements.ArtPiece;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CalculationDialog extends JDialog {
@@ -11,40 +12,34 @@ public class CalculationDialog extends JDialog {
     private final JTextField galleryPercentField;
     private final JTextField errorLabel;
     private final RoundingChoice roundingChoice;
-    List<ArtPiece> artPieces;
+    private List<ArtPieceWithNewPrice> pieceWithNewPriceList;
     OkCancelOption okCancelOption;
 
 
     public CalculationDialog(Frame owner, List<ArtPiece> artpieces) {
         super(owner);
-        this.artPieces = artpieces;
+        initArtpieceList(artpieces);
         this.okCancelOption = OkCancelOption.UNDECIDED;
-
-        JPanel centerPanel = new JPanel(new GridLayout(4,2));
-
-        errorLabel = new JTextField("");
         JLabel taxesLabel = new JLabel("Steuersatz aufschlagen : ");
         taxesField = new JTextField();
         JLabel galleryPercentLabel = new JLabel("Galerie Prozente aufschlagen : ");
         galleryPercentField = new JTextField();
         JLabel roundingLabel = new JLabel("Runden auf : ");
         roundingChoice = new RoundingChoice();
-
         JButton okButton = new JButton("OK");
-        okButton.addActionListener(action -> {
-            for (ArtPiece artPiece : artpieces) {
-                try {
-                    artPiece.setPrice(calculatePrice(artPiece.getPrice()));
-                    errorLabel.setText("");
-                    this.revalidate();
-                } catch (Exception e){
-                    errorLabel.setText("Konnte Eingaben nicht parsen");
-                    this.revalidate();
-                }
-                //TODO WIrklich Preise im Model ändern?
-            }
+        JPanel centerPanel = initCenterPanel(taxesLabel, galleryPercentLabel, roundingLabel, okButton);
+        this.add(centerPanel);
+        JPanel errorPanel =  new JPanel();
+        errorLabel = new JTextField("");
+        errorPanel.add(errorLabel);
+        this.add(errorPanel);
+        this.pack();
+    }
 
-            okCancelOption = OkCancelOption.OK;
+    private JPanel initCenterPanel(JLabel taxesLabel, JLabel galleryPercentLabel, JLabel roundingLabel, JButton okButton) {
+        JPanel centerPanel = new JPanel(new GridLayout(4,2));
+        okButton.addActionListener(action -> {
+            parseNumbersAndCalculatePrices();
         });
         centerPanel.add(taxesLabel);
         centerPanel.add(taxesField);
@@ -52,12 +47,36 @@ public class CalculationDialog extends JDialog {
         centerPanel.add(galleryPercentField);
         centerPanel.add(roundingLabel);
         centerPanel.add(roundingChoice);
-        JPanel errorPanel =  new JPanel();
-        errorPanel.add(errorLabel);
-        this.add(errorPanel);
-        this.add(centerPanel);
-        this.pack();
+        return centerPanel;
     }
+
+    private void initArtpieceList(List<ArtPiece> artpieces) {
+        this.pieceWithNewPriceList = new ArrayList<>();
+        for (ArtPiece a: artpieces
+             ) {
+            this.pieceWithNewPriceList.add(new ArtPieceWithNewPrice(a, 0));
+        }
+    }
+
+    private void parseNumbersAndCalculatePrices() {
+        for (ArtPieceWithNewPrice artPiece : this.pieceWithNewPriceList) {
+            try {
+                artPiece.setNewPrice(calculatePrice(artPiece.getArtPiece().getPrice()));
+                errorLabel.setText("");
+                this.revalidate();
+                okCancelOption = OkCancelOption.OK;
+            } catch (Exception e){
+                errorLabel.setText("Konnte Eingaben nicht parsen");
+                this.revalidate();
+            }
+        }
+    }
+
+    public List<ArtPieceWithNewPrice> getArtpiecesWithCalculatedPrices(){
+        return pieceWithNewPriceList;
+    }
+
+
 
     private int calculatePrice(int price) throws Exception {
             float priceWithTaxes = price + (price * parseNumber(taxesField));
@@ -65,6 +84,7 @@ public class CalculationDialog extends JDialog {
 
             return roundingChoice.roundByChoice((int)priceWithGalleryPercent);
     }
+
 
     private int parseNumber(JTextField numberLabel) throws Exception{
             int number = numberLabel.getText().equals("") ? 0 : Integer.parseInt(numberLabel.getText());
