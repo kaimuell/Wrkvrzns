@@ -24,7 +24,7 @@ public class ExhibitionsController {
         if (exhibition.getId() == -1 || exhibitionsModel.containsId(exhibition.getId())){
             exhibition.setId(createID());
         }
-        exhibitionsModel.getExhibitions().add(exhibition);
+        exhibitionsModel.addExhibition(exhibition);
         updateViews();
     }
 
@@ -51,7 +51,7 @@ public class ExhibitionsController {
     public void deleteSelectedExhibition() {
         Exhibition exhibition = exhibitionsModel.getSelectedExhibition();
         if (exhibition != null) {
-            exhibitionsModel.getExhibitions().remove(exhibition);
+            exhibitionsModel.removeExhibition(exhibition);
             exhibitionsModel.setSelectedExhibition(null);
             updateViews();
         }

@@ -6,6 +6,7 @@ import exhibitions.model.ExhibitionsModel;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -82,8 +83,9 @@ public class ExhibitionViewManager {
         evf.setLocationRelativeTo(owner);
         evf.setVisible(true);
         List<Integer> oldids = new ArrayList();
-        for (Exhibition e : exhibitionModel.getExhibitions()){
-            oldids.add(e.getId());
+        for (Iterator<Integer> it = exhibitionModel.getKeysIterator(); it.hasNext(); ) {
+            Integer id = it.next();
+            oldids.add(id);
         }
         while (evf.okCancelOption == OkCancelOption.UNDECIDED) {
             try {
@@ -95,8 +97,9 @@ public class ExhibitionViewManager {
         List<Integer> ids = new ArrayList();
         boolean accepted = false;
         if (evf.okCancelOption == OkCancelOption.OK){
-            for (Exhibition e : exhibitionModel.getExhibitions()){
-                ids.add(e.getId());
+            for (Iterator<Integer> it = exhibitionModel.getKeysIterator(); it.hasNext(); ) {
+                Integer id = it.next();
+                ids.add(id);
             }
             accepted = true;
         }

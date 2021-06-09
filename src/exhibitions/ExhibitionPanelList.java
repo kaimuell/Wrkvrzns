@@ -29,7 +29,7 @@ class ExhibitionPanelList extends JPanel implements ExhibitionView{
     }
 
     private void createPanels() {
-        JPanel mainPanel = new JPanel(new GridLayout(model.getExhibitions().size(), 1));
+        JPanel mainPanel = new JPanel(new GridLayout(model.getNumberOfEntries(), 1));
         Iterator<Exhibition> iterator = model.getExhibitonIterator();
         while (iterator.hasNext()){
             Exhibition e = iterator.next();

@@ -15,6 +15,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -180,7 +181,8 @@ public class ControllerImplementation implements Controller {
 
     @Override
     public Exhibition getExhibitionWithID(int idOfLastEntry) {
-        for (Exhibition e : model.exhibitions.getExhibitions()){
+        for (Iterator<Exhibition> it = model.exhibitions.getExhibitonIterator(); it.hasNext(); ) {
+            Exhibition e = it.next();
             if (e.getId() == idOfLastEntry){
                 return e;
             }
