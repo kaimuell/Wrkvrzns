@@ -1,5 +1,8 @@
 package exhibitions;
 
+import exhibitions.entities.Exhibition;
+import exhibitions.model.ExhibitionsModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;

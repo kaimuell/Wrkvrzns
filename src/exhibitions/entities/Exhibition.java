@@ -1,4 +1,6 @@
-package exhibitions;
+package exhibitions.entities;
+
+import exhibitions.ExhibitionType;
 
 /**
  * Klasse zum speichern von informationen von Ausstellungen

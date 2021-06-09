@@ -1,5 +1,8 @@
 package exhibitions;
 
+import exhibitions.entities.Exhibition;
+import exhibitions.model.ExhibitionsModel;
+
 import java.util.ArrayList;
 import java.util.List;
 

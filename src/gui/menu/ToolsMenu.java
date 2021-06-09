@@ -4,7 +4,7 @@ import adressbook.view.AdressBookFrame;
 import controller.Controller;
 import exhibitions.ExhibitionsController;
 import exhibitions.ExhibitionViewManager;
-import exhibitions.ExhibitionsModel;
+import exhibitions.model.ExhibitionsModel;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;

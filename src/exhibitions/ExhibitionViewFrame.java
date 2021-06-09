@@ -1,6 +1,7 @@
 package exhibitions;
 
-import controller.dialogController.OkCancelOption;
+import controller.dialogFactory.OkCancelOption;
+import exhibitions.model.ExhibitionsModel;
 
 import javax.swing.*;
 import java.awt.*;

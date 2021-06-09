@@ -1,4 +1,4 @@
-package controller.dialogController;
+package controller.dialogFactory;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;

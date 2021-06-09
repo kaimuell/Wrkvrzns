@@ -4,9 +4,9 @@ import adressbook.controller.ABController;
 import adressbook.controller.ABControllerImplementation;
 import adressbook.model.*;
 import exhibitions.ExhibitionsController;
-import exhibitions.Exhibition;
+import exhibitions.entities.Exhibition;
 import exhibitions.ExhibitionType;
-import exhibitions.ExhibitionsModel;
+import exhibitions.model.ExhibitionsModel;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
@@ -59,11 +59,13 @@ public class SaveFileParser {
             }else{
                 Iterator<Integer> it = entry.getExhibitionIds().iterator();
                 while (it.hasNext()){
-                    builder.append(String.valueOf(it));
+
+                    builder.append(String.valueOf(it.next()));
                     if (it.hasNext()){
                         builder.append(",");
                     }
                 }
+                builder.append("\n");
             }
     }
 

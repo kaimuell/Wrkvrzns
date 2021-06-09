@@ -1,5 +1,7 @@
 package exhibitions;
 
+import exhibitions.model.ExhibitionsModel;
+
 import javax.swing.*;
 
 class ExhibitionToolbar extends JToolBar{

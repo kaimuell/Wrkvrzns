@@ -2,7 +2,7 @@ package view.pictureView;
 
 import adressbook.model.ABModel;
 import controller.Controller;
-import exhibitions.ExhibitionsModel;
+import exhibitions.model.ExhibitionsModel;
 import model.Model;
 import model.ModelViewAccess;
 import model.elements.ArtPieceEntry;

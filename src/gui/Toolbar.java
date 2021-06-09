@@ -1,7 +1,7 @@
 package gui;
 
 import controller.Controller;
-import controller.dialogController.DialogController;
+import controller.dialogFactory.DialogFactory;
 import gui.elements.FilterChoice;
 import gui.elements.FilterType;
 import gui.elements.SorterChoice;
@@ -46,7 +46,7 @@ public class Toolbar extends JToolBar{
     private void initAddArtPieceButton() {
         JButton addArtPieceButton = new JButton("Werk hinzufügen");
         addArtPieceButton.addActionListener(action ->
-                new DialogController(controller).createNewArtPieceDialogThread().start());
+                new DialogFactory(controller).createNewArtPieceDialogThread().start());
         this.add(addArtPieceButton);
     }
 

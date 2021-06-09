@@ -1,4 +1,6 @@
-package exhibitions;
+package exhibitions.model;
+
+import exhibitions.entities.Exhibition;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,7 +1,7 @@
 package gui.menu;
 
 import controller.Controller;
-import controller.dialogController.DialogController;
+import controller.dialogFactory.DialogFactory;
 
 import javax.swing.*;
 import java.io.File;
@@ -43,7 +43,7 @@ class DataMenu extends JMenu {
     private JMenuItem loadOption() {
         JMenuItem load = new JMenuItem("Laden");
         load.addActionListener(action -> {
-            JFileChooser fileChooser = DialogController.createChooseSingleProfileDialog();
+            JFileChooser fileChooser = DialogFactory.createChooseSingleProfileDialog();
             int option = fileChooser.showOpenDialog(parentFrame);
             if (option == JFileChooser.APPROVE_OPTION){
                 File file = fileChooser.getSelectedFile();

@@ -1,4 +1,4 @@
-package controller.dialogController;
+package controller.dialogFactory;
 
 import adressbook.model.ABModel;
 import adressbook.model.Person;
@@ -12,17 +12,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static controller.dialogController.OkCancelOption.*;
+import static controller.dialogFactory.OkCancelOption.*;
 import static java.lang.Thread.sleep;
 
 /**
  * Realisiert Dialog Aufrufe
  */
 
-public class DialogController {
+public class DialogFactory {
     private final Controller controller;
 
-    public DialogController(Controller controller) {
+    public DialogFactory(Controller controller) {
 
         this.controller = controller;
 

@@ -1,5 +1,7 @@
 package exhibitions;
 
+import exhibitions.entities.Exhibition;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;

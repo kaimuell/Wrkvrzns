@@ -1,11 +1,11 @@
-package controller.dialogController;
+package controller.dialogFactory;
 
 import adressbook.model.Person;
 import controller.Controller;
 import exhibitions.ExhibitionsController;
 import exhibitions.ExhibitionViewManager;
-import exhibitions.Exhibition;
-import exhibitions.ExhibitionsModel;
+import exhibitions.entities.Exhibition;
+import exhibitions.model.ExhibitionsModel;
 import tools.PictureTools;
 import gui.elements.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static controller.dialogController.OkCancelOption.*;
+import static controller.dialogFactory.OkCancelOption.*;
 
 /**
  * Eingabe Dialog für die Informationen eines {@link ArtPieceEntry}
@@ -150,7 +150,7 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void selectPictureFromDialog() {
-        JFileChooser openDialog = DialogController.createChooseSingleJPEGDialog();
+        JFileChooser openDialog = DialogFactory.createChooseSingleJPEGDialog();
 
         int returnVal = openDialog.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
@@ -355,14 +355,14 @@ class ArtPieceDialog extends JDialog {
 
 
     private void editBuyers() {
-        DialogController dialogController = new DialogController(controller);
+        DialogFactory dialogController = new DialogFactory(controller);
         artPiece.setBuyers(dialogController.editPeopleDialog(artPiece.getBuyers()));
         buyerLabel.setText(artPiece.getBuyersRepresentation());
         mainPanel.repaint();
     }
 
     private Person selectPersonFromAddressbook() {
-        DialogController dialogController = new DialogController(controller);
+        DialogFactory dialogController = new DialogFactory(controller);
         return dialogController.selectPersonFromAddressBookDialog();
     }
 
