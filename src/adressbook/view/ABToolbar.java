@@ -1,6 +1,8 @@
 package adressbook.view;
 
 import adressbook.controller.ABController;
+import services.MyToolbar;
+import services.MyToolbarButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,7 @@ import java.awt.event.KeyListener;
 
 /**Toolbar des Addressbuchs**/
 
-public class ABToolbar extends JToolBar {
+public class ABToolbar extends MyToolbar {
     ABController controller;
     JFrame superFrame;
     private JTextField filterTextField;
@@ -24,13 +26,13 @@ public class ABToolbar extends JToolBar {
     }
 
     private JButton initRemoveButton() {
-        JButton removeButton = new JButton("selektierten Eintrag Löschen");
+        JButton removeButton = new MyToolbarButton("selektierten Eintrag Löschen");
         removeButton.addActionListener(e -> controller.deleteSelectedPerson());
         return removeButton;
     }
 
     private JButton initAddButton() {
-        JButton addButton = new JButton("Eintrag Hinzufügen");
+        JButton addButton = new MyToolbarButton("Eintrag Hinzufügen");
         addButton.addActionListener(e -> new DialogHandler(controller).createAddPersonDialogThread(superFrame).start());
         return addButton;
     }

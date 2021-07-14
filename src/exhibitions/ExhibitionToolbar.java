@@ -1,10 +1,12 @@
 package exhibitions;
 
 import exhibitions.model.ExhibitionsModel;
+import services.MyToolbar;
+import services.MyToolbarButton;
 
 import javax.swing.*;
 
-class ExhibitionToolbar extends JToolBar{
+class ExhibitionToolbar extends MyToolbar {
     private final ExhibitionsController controller;
     private final ExhibitionsModel model;
     private final JFrame owner;
@@ -20,7 +22,7 @@ class ExhibitionToolbar extends JToolBar{
     }
 
     private JButton createDeleteSelectedElementButton() {
-        JButton deleteButton = new JButton("Ausgewähle Ausstellung löschen");
+        JButton deleteButton = new MyToolbarButton("Ausgewähle Ausstellung löschen");
         deleteButton.addActionListener(action -> {
             controller.deleteSelectedExhibition();
         });
@@ -28,7 +30,7 @@ class ExhibitionToolbar extends JToolBar{
     }
 
     private JButton createAddExhibitionButton() {
-        JButton addExhibition = new JButton("Hinzufügen");
+        JButton addExhibition = new MyToolbarButton("Hinzufügen");
         addExhibition.addActionListener(action -> {
             new ExhibitionViewManager(controller)
                     .createNewExhibitionDialog(owner).start();

@@ -1,10 +1,11 @@
 package gui.elements;
 
-import java.awt.*;
+import services.MYToolbarChoice;
+
 
 import static gui.elements.FilterType.*;
 
-public class FilterChoice extends Choice {
+public class FilterChoice extends MYToolbarChoice {
 
     public FilterChoice(){
         add("Name");

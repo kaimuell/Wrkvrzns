@@ -1,11 +1,13 @@
 package gui.elements;
 
-import java.awt.*;
+import services.MYToolbarChoice;
+
+
 
 /**
  * Implementiert eine Auswahlbox um eine Art der Sortierung auszuwählen
  */
-public class SorterChoice extends Choice {
+public class SorterChoice extends MYToolbarChoice {
     public SorterChoice(){
         add("Name <");
         add("Name >");
