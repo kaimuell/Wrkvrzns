@@ -15,5 +15,6 @@
     <orderEntry type="library" name="styled-xml-parser-7.1.14" level="project" />
     <orderEntry type="library" name="barcodes-7.1.14" level="project" />
     <orderEntry type="library" name="forms-7.1.14" level="project" />
+    <orderEntry type="library" name="slf4j-api-1.7.32" level="project" />
   </component>
 </module>

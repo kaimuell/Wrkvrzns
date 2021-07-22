@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="slf4j-api-1.7.32">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/libs/slf4j/slf4j-api-1.7.32.jar!/" />
+      <root url="jar://$USER_HOME$/libs/slf4j/slf4j-jdk14-1.7.9.jar!/" />
+      <root url="jar://$USER_HOME$/libs/slf4j/slf4j-log4j12-1.7.32.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/libs/slf4j/slf4j-jdk14-1.7.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
