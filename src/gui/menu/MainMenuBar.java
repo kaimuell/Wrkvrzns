@@ -15,6 +15,7 @@ public class MainMenuBar extends JMenuBar {
         this.add(new DataMenu(parentFrame, controller));
         this.add(new ToolsMenu(parentFrame, controller));
         this.add(new ViewsMenu(viewHub));
+        this.add(new OutputMenue(controller, parentFrame));
         this.setVisible(true);
     }
 }

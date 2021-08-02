@@ -20,3 +20,6 @@ issues.txt
 
 #testpictures
 test.PNG
+
+#pdfs
+*.pdf
