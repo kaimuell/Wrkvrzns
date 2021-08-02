@@ -22,6 +22,7 @@ import java.awt.event.WindowEvent;
  */
 
 public class MainFrame extends JFrame implements Viewer {
+
     public MainFrame() {
         super("Wrkvrzns");
         setPreferredSize(new Dimension(1000,700));

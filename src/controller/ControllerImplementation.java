@@ -83,6 +83,11 @@ public class ControllerImplementation implements Controller {
     }
 
     @Override
+    public List<ArtPieceEntry> getSelectedElements() {
+        return selectedElements;
+    }
+
+    @Override
     public void modifyEntry(ArtPieceEntry entry, Image imageToLink) {
         ArtPieceEntry entryToChange = model.getEntryWithId(entry.getId());
         entryToChange.setVariablesTo(entry);
@@ -190,6 +195,15 @@ public class ControllerImplementation implements Controller {
         return null;
     }
 
+    @Override
+    public Image loadPictureOf(ArtPieceEntry entry) {
+        try {
+            return fileHandler.loadHighQualityPicture(entry.getId());
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
 
     @Override
     public void deleteSelectedElements() {
@@ -256,4 +270,6 @@ public class ControllerImplementation implements Controller {
             messageBord.pushMessage(message);
         }
     }
+
+
 }

@@ -18,9 +18,12 @@ import java.util.List;
 public class Portfolio {
 
     private List<ArtPieceEntry> artpieces;
+    private List<java.awt.Image> images;
 
-    public Portfolio(List<ArtPieceEntry> artpieces) {
+    public Portfolio(List<ArtPieceEntry> artpieces, List<java.awt.Image> images) {
+
         this.artpieces = artpieces;
+        this.images = images;
     }
 
     public void create_PDF(String destination) throws IOException {
@@ -29,8 +32,9 @@ public class Portfolio {
             pdfDocument.addNewPage();
         }
         Document doc = new Document(pdfDocument);
-        for (ArtPieceEntry artpiece : artpieces) {
-            doc.add( new Image(ImageDataFactory.create(artpiece.getBitmap(), null))); // TODO ändern zu tatsächlichem Bild, Position und Größe definieren
+        for (int i = 0; i< artpieces.size(); i++) {
+            ArtPieceEntry artpiece = artpieces.get(i);
+            doc.add( new Image(ImageDataFactory.create(images.get(i), null))); // TODO  Position und Größe definieren
             String description = artpiece.getName() + ", " + artpiece.getTechnique() + ", " + artpiece.getYear() + ", "+  artpiece.getPrice() + " €";
             doc.add(new Paragraph(description));
             doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));

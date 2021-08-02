@@ -28,6 +28,10 @@ public class DialogFactory {
 
     }
 
+    public static JFileChooser createChooseSinglePDFDialog() {
+        return  new ChoosePDFDialog(new File("./"));
+    }
+
     public Thread createModifyEntryDialogThread(ArtPieceEntry artPieceEntry) {
         return new Thread( () -> {
             ArtPieceDialog dialog = new ArtPieceDialog(artPieceEntry, controller);

@@ -9,6 +9,7 @@ import view.Viewer;
 
 import java.awt.*;
 import java.io.File;
+import java.util.List;
 
 
 public interface Controller {
@@ -33,6 +34,8 @@ public interface Controller {
      * @param artPieceEntry der auszuwählende Eintrag
      */
     void selectElement(ArtPieceEntry artPieceEntry);
+    
+    List<ArtPieceEntry> getSelectedElements();
 
     /**
      * Setzt die Felder des {@link ArtPieceEntry} im {@link model.Model} auf
@@ -103,4 +106,5 @@ public interface Controller {
 
     Exhibition getExhibitionWithID(int idOfLastEntry);
 
+    Image loadPictureOf(ArtPieceEntry entry);
 }
