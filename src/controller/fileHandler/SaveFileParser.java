@@ -94,7 +94,7 @@ public class SaveFileParser {
         builder.append(entry.getYear()).append("\n");
         builder.append(entry.getPrice()).append("\n");
         builder.append(entry.getEdition()).append("\n");
-        builder.append(entry.getStrorageLocation()).append("\n");
+        builder.append(entry.getStorageLocation()).append("\n");
     }
 
     private static void writePerson(StringBuilder builder, Person person){
