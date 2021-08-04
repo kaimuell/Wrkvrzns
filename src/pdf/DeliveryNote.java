@@ -20,13 +20,16 @@ public class DeliveryNote{
 
      public void create_PDF(String destination) throws IOException {
          PdfDocument pdfDocument = new PdfDocument(new PdfWriter(destination));
+         pdfDocument.addNewPage();
          Document doc = new Document(pdfDocument);
          for (ArtPieceEntry entry : artPieceEntries) {
-            doc.add(new Image(ImageDataFactory.create(entry.getBitmap(), null)));
+            doc.add(new Image(ImageDataFactory.create(entry.getBitmap(), null)).scale(0.5f , 0.5f));
             doc.add(new Paragraph("Name : " + entry.getName()));
-            doc.add(new Paragraph("Technick : " + entry.getTechnique()));
+            doc.add(new Paragraph("Technik : " + entry.getTechnique()));
             doc.add(new Paragraph("Jahr : " + entry.getYear()));
-            doc.add(new Paragraph());
+            doc.add(new Paragraph(""));
          }
+         doc.close();
+         pdfDocument.close();
      }
 }

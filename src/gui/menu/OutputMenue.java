@@ -35,9 +35,9 @@ public class OutputMenue extends JMenu {
                 int option = fileChooser.showOpenDialog(parentFrame);
                 if (option == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
+                    List<ArtPieceEntry> entries = controller.getSelectedElements();
 
-                    if (file != null) {
-                        List<ArtPieceEntry> entries = controller.getSelectedElements();
+                    if (file != null && !entries.isEmpty()) {
                         try {
                             new DeliveryNote(entries).create_PDF(file.getAbsolutePath());
                         } catch (IOException ioException) {
@@ -49,17 +49,17 @@ public class OutputMenue extends JMenu {
             }
         });
         JMenuItem createPortfolio = new JMenuItem("Portfolio erstellen");
-        createArtpieceList.setToolTipText("Erstellt eine PDF mit einem Portfolio der ausgewählten Werke");
-        createArtpieceList.addActionListener(new ActionListener() {
+        createPortfolio.setToolTipText("Erstellt eine PDF mit einem Portfolio der ausgewählten Werke");
+        createPortfolio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = DialogFactory.createChooseSinglePDFDialog();
                 int option = fileChooser.showOpenDialog(parentFrame);
                 if (option == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
+                    List<ArtPieceEntry> entries = controller.getSelectedElements();
 
-                    if (file != null) {
-                        List<ArtPieceEntry> entries = controller.getSelectedElements();
+                    if (file != null && !entries.isEmpty()) {
                         List<Image> images = new ArrayList<>();
                         for (ArtPieceEntry entry : entries) {
                             Image pictureOfEntry = controller.loadPictureOf(entry);
