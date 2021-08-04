@@ -192,11 +192,11 @@ public class ArtPiece implements Serializable {
         this.exhibitionIds = exhibitionIds;
     }
 
-    public String getStrorageLocation() {
+    public String getStorageLocation() {
         return strorageLocation;
     }
 
-    public void setStrorageLocation(String strorageLocation) {
+    public void setStorageLocation(String strorageLocation) {
         this.strorageLocation = strorageLocation;
     }
 }

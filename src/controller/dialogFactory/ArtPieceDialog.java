@@ -117,7 +117,7 @@ class ArtPieceDialog extends JDialog {
     private JPanel createStorageLocationPanel() {
         JPanel storageLocationPanel = new JPanel(new GridLayout(1,2));
         JLabel storageLocationLabel = new JLabel("Lagerort : ");
-        storageLocationField = new JTextField(artPiece.getStrorageLocation());
+        storageLocationField = new JTextField(artPiece.getStorageLocation());
         storageLocationPanel.add(storageLocationLabel);
         storageLocationPanel.add(storageLocationField);
         return storageLocationPanel;
@@ -399,7 +399,7 @@ class ArtPieceDialog extends JDialog {
         artPiece.setYear(ParseIntegerFromTextField(yearField));
         artPiece.setPrice(ParseIntegerFromTextField(priceField));
         artPiece.setEdition(ParseIntegerFromTextField(editionField));
-        artPiece.setStrorageLocation(storageLocationField.getText());
+        artPiece.setStorageLocation(storageLocationField.getText());
     }
 
     private int ParseIntegerFromTextField(JTextField textField) throws NumberFormatException{
