@@ -16,6 +16,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Ein Menue zur Auswahl der Ausgabearten
+ */
+
 public class OutputMenue extends JMenu {
     private final JFrame parentFrame;
     private Controller controller;
