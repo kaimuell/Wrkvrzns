@@ -1,5 +1,0 @@
-package gui.elements;
-
-public enum SortingType {
-    NAME_BIGGER, NAME_SMALLER, TYPE_BIGGER, TYPE_SMALLER, YEAR_BIGGER, YEAR_SMALLER, PRICE_BIGGER, PRICE_SMALLER
-}

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_16">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -16,5 +20,19 @@
     <orderEntry type="library" name="barcodes-7.1.14" level="project" />
     <orderEntry type="library" name="forms-7.1.14" level="project" />
     <orderEntry type="library" name="slf4j-api-1.7.32" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:barcodes:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:font-asian:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:forms:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:hyph:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:io:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:kernel:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcpkix-jdk15on:1.68" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.68" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:layout:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:pdfa:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:sign:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:styled-xml-parser:7.1.16" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:svg:7.1.16" level="project" />
   </component>
 </module>
