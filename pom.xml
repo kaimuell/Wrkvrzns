@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>groupId</groupId>
+    <artifactId>Wrkvzns</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+        <itext.version>7.1.16</itext.version>
+    </properties>
+
+
+    <dependencies>
+        <!-- add all iText 7 Community modules -->
+
+        <dependency>
+
+            <groupId>com.itextpdf</groupId>
+
+            <artifactId>itext7-core</artifactId>
+
+            <version>${itext.version}</version>
+
+            <type>pom</type>
+
+        </dependency>
+
+    </dependencies>
+</project>
