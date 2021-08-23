@@ -44,12 +44,6 @@ public class DeliveryNote{
              table.addCell(new Cell()
                      .add(new Paragraph("Jahr : " + entry.getYear()))
                      .setBorder(Border.NO_BORDER));
-           /* doc.add(new Image(ImageDataFactory.create(entry.getBitmap(), null)).setWidth(100f).setHeight(100f));
-            doc.add(new Paragraph("Name : " + entry.getName()));
-            doc.add(new Paragraph("Technik : " + entry.getTechnique()));
-            doc.add(new Paragraph("Jahr : " + entry.getYear()));
-            doc.add(new Paragraph(""));
-         */
          }
          doc.add(table);
          doc.close();

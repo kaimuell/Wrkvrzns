@@ -28,7 +28,7 @@ public class ToolsMenu extends JMenu {
         openExhibitions.setToolTipText("Zeigt die Liste der Ausstellungen");
         openExhibitions.addActionListener(action -> {
                     new Thread(() -> {
-                       ExhibitionsModel exhibitionsModel = controller.getModel().exhibitions;
+                       ExhibitionsModel exhibitionsModel = controller.getModel().getExhibitions();
                         ExhibitionViewManager edc = new ExhibitionViewManager(new ExhibitionsController(exhibitionsModel));
                         edc.createExhibitionMainWindow(exhibitionsModel);
                     }).start();

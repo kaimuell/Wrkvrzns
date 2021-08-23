@@ -186,7 +186,7 @@ public class ControllerImplementation implements Controller {
 
     @Override
     public Exhibition getExhibitionWithID(int idOfLastEntry) {
-        for (Iterator<Exhibition> it = model.exhibitions.getExhibitonIterator(); it.hasNext(); ) {
+        for (Iterator<Exhibition> it = model.getExhibitions().getExhibitonIterator(); it.hasNext(); ) {
             Exhibition e = it.next();
             if (e.getId() == idOfLastEntry){
                 return e;

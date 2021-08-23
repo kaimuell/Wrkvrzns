@@ -294,8 +294,8 @@ class ArtPieceDialog extends JDialog {
         addExhibitionButton.addActionListener(action -> {
             new Thread(() -> {
                 ExhibitionViewManager edc = new ExhibitionViewManager(
-                        new ExhibitionsController(controller.getModel().exhibitions));
-                Exhibition selectedExhibition = edc.selectExhibitionDialog(this, controller.getModel().exhibitions);
+                        new ExhibitionsController(controller.getModel().getExhibitions()));
+                Exhibition selectedExhibition = edc.selectExhibitionDialog(this, controller.getModel().getExhibitions());
                 if (selectedExhibition != null) {
                     artPiece.getExhibitionIds().add(selectedExhibition.getId());
                     exhibitionLabel.setText(lastExhibition());
@@ -306,7 +306,7 @@ class ArtPieceDialog extends JDialog {
         JButton editExhibitionsButton = new JButton("Bearbeiten");
         editExhibitionsButton.addActionListener(action -> {
             new Thread( () -> {
-                List<Exhibition> exhibitions = controller.getModel().exhibitions.getExhibitionsWithIDs(artPiece.getExhibitionIds());
+                List<Exhibition> exhibitions = controller.getModel().getExhibitions().getExhibitionsWithIDs(artPiece.getExhibitionIds());
                 ExhibitionsModel exhibitionModel = new ExhibitionsModel(exhibitions);
                 ExhibitionViewManager exhibitionViewManager = new ExhibitionViewManager(
                         new ExhibitionsController(exhibitionModel));
