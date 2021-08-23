@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Model implements Serializable, ModelViewAccess {
     private ABModel adressbook;
-    public ExhibitionsModel exhibitions;
+    private ExhibitionsModel exhibitions;
     private List<ArtPieceEntry> pieces;
 
     private List<ArtPieceEntry> filtertPieces;
@@ -44,6 +44,7 @@ public class Model implements Serializable, ModelViewAccess {
         }
     }
 
+
     public ArtPieceEntry getEntryWithId(int id) {
         for (ArtPieceEntry entry : pieces) {
             if(entry.getId() == id){
@@ -51,6 +52,10 @@ public class Model implements Serializable, ModelViewAccess {
             }
         }
         return null;
+    }
+
+    public ExhibitionsModel getExhibitions() {
+        return exhibitions;
     }
 
     public void resetFilteredPieces() {

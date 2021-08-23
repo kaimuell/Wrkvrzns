@@ -32,7 +32,7 @@ public class SaveFileParser {
     }
 
     private static void writeExhibitionList(Model model, StringBuilder builder) {
-        for (Iterator<Exhibition> it = model.exhibitions.getExhibitonIterator(); it.hasNext(); ) {
+        for (Iterator<Exhibition> it = model.getExhibitions().getExhibitonIterator(); it.hasNext(); ) {
             Exhibition exhibition = it.next();
             builder.append("#exhibition\n")
                     .append(String.valueOf(exhibition.getId())).append("\n")
@@ -145,7 +145,7 @@ public class SaveFileParser {
 
     private static void createExhibitionEntry(Iterator<String> lines, Model model) {
 
-        ExhibitionsController exc = new ExhibitionsController(model.exhibitions);
+        ExhibitionsController exc = new ExhibitionsController(model.getExhibitions());
         exc.addExhibition(new Exhibition(
                 Integer.parseInt(lines.next()), //ID
                 ExhibitionType.valueOf(lines.next()), //ExhibitionType
