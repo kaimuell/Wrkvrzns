@@ -12,6 +12,7 @@ import com.itextpdf.layout.property.AreaBreakType;
 import model.elements.ArtPieceEntry;
 
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Portfolio {
         Document doc = new Document(pdfDocument);
         for (int i = 0; i< artpieces.size(); i++) {
             ArtPieceEntry artpiece = artpieces.get(i);
-            doc.add( new Image(ImageDataFactory.create(images.get(i), null))); // TODO  Position und Größe definieren
+            doc.add(new Image(ImageDataFactory.create(images.get(i), null)));// TODO  Position und Größe definieren
             String description = artpiece.getName() + ", " + artpiece.getTechnique() + ", " +
                     artpiece.getSizeRepresentation() + ", " + artpiece.getYear() + ", "+  artpiece.getPrice() + " €";
             doc.add(new Paragraph(description));
