@@ -1,6 +1,5 @@
-package view.tableView;
+package gui.view.tableView;
 
-import adressbook.model.Person;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;

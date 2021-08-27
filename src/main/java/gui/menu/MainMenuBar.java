@@ -1,10 +1,9 @@
 package gui.menu;
 
 import controller.Controller;
-import view.ViewHub;
+import gui.view.ViewHub;
 
 import javax.swing.*;
-import javax.swing.text.View;
 
 /**
  * Die MenuBar des Programms

@@ -1,4 +1,4 @@
-package view;
+package gui.view;
 
 import controller.Controller;
 import controller.dialogFactory.DialogFactory;

@@ -1,11 +1,11 @@
-package view;
+package gui.view;
 
 import controller.Controller;
 import gui.MainFrame;
 import model.Model;
-import view.pictureView.PictureView;
-import view.select_view.SelectViewPanel;
-import view.tableView.TableView;
+import gui.view.pictureView.PictureView;
+import gui.view.select_view.SelectViewPanel;
+import gui.view.tableView.TableView;
 
 import javax.swing.*;
 import java.awt.*;

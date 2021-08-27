@@ -42,7 +42,7 @@ public class OutputMenue extends JMenu {
 
                         if (file != null && !entries.isEmpty()) {
                             try {
-                                new DeliveryNote(entries).create_PDF(file.getAbsolutePath());
+                                new DeliveryNote(entries, false).create_PDF(file.getAbsolutePath());
                                 JOptionPane.showMessageDialog(parentFrame, "Lieferschein erstellt.");
                             } catch (IOException ioException) {
                                 JOptionPane.showMessageDialog(parentFrame, "Die Datei konnte nicht erzeugt werden. " +
@@ -74,7 +74,7 @@ public class OutputMenue extends JMenu {
                                 images.add(pictureOfEntry == null ? PictureTools.defaultEmptyImage() : pictureOfEntry);
                             }
                             try {
-                                new Portfolio(entries, images).create_PDF(file.getAbsolutePath());
+                                new Portfolio(entries, images, true).create_PDF(file.getAbsolutePath());
                                 JOptionPane.showMessageDialog(parentFrame, "Portfolio erstellt.");
                             } catch (IOException ioException) {
                                 JOptionPane.showMessageDialog(parentFrame, "Die Datei konnte nicht erzeugt werden. " +

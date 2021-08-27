@@ -5,12 +5,12 @@ import controller.ControllerImplementation;
 import controller.fileHandler.FileHandler;
 import gui.menu.MainMenuBar;
 import model.Model;
-import view.ViewHub;
-import view.ViewOption;
-import view.Viewer;
-import view.pictureView.PictureView;
-import view.select_view.SelectViewPanel;
-import view.tableView.TableView;
+import gui.view.ViewHub;
+import gui.view.ViewOption;
+import gui.view.Viewer;
+import gui.view.pictureView.PictureView;
+import gui.view.select_view.SelectViewPanel;
+import gui.view.tableView.TableView;
 
 import javax.swing.*;
 import java.awt.*;

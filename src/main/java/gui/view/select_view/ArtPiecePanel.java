@@ -1,9 +1,9 @@
-package view.select_view;
+package gui.view.select_view;
 
 import adressbook.model.Person;
 import controller.Controller;
 import model.elements.ArtPieceEntry;
-import view.PanelMouseInputScheme;
+import gui.view.PanelMouseInputScheme;
 
 import javax.swing.*;
 import java.awt.*;

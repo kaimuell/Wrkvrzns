@@ -1,8 +1,8 @@
-package view.pictureView;
+package gui.view.pictureView;
 
 import controller.Controller;
 import model.elements.ArtPieceEntry;
-import view.PanelMouseInputScheme;
+import gui.view.PanelMouseInputScheme;
 
 import javax.swing.*;
 import javax.swing.border.Border;

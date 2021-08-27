@@ -16,11 +16,12 @@ import java.util.List;
 
 public class DeliveryNote{
     private List<ArtPieceEntry> artPieceEntries;
+    private boolean withPrices;
 
-     public DeliveryNote(List<ArtPieceEntry> artPieceEntries){
+     public DeliveryNote(List<ArtPieceEntry> artPieceEntries, boolean withPrices){
          this.artPieceEntries = artPieceEntries;
+         this.withPrices = withPrices;
      }
-
 
      public void create_PDF(String destination) throws IOException {
          PdfDocument pdfDocument = new PdfDocument(new PdfWriter(destination));
@@ -31,7 +32,7 @@ public class DeliveryNote{
          table.setHorizontalBorderSpacing(5);
 
          for (ArtPieceEntry entry : artPieceEntries) {
-             table.addCell(new Cell(3,0).add(new Image(ImageDataFactory.create(entry.getBitmap(), null))
+             table.addCell(new Cell(4,0).add(new Image(ImageDataFactory.create(entry.getBitmap(), null))
                      .setWidth(100f)
                      .setHeight(100f)
              ).setBorder(Border.NO_BORDER));
@@ -44,9 +45,13 @@ public class DeliveryNote{
              table.addCell(new Cell()
                      .add(new Paragraph("Jahr : " + entry.getYear()))
                      .setBorder(Border.NO_BORDER));
+             table.addCell(new Cell()
+                     .add(new Paragraph(withPrices ? ("Preis : " + entry.getPrice()) : " "))
+                     .setBorder(Border.NO_BORDER));
          }
          doc.add(table);
          doc.close();
          pdfDocument.close();
      }
+
 }

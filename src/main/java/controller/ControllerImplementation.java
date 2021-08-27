@@ -9,7 +9,7 @@ import gui.MessageBord;
 import model.elements.ArtPieceEntry;
 import model.Model;
 import tools.PictureTools;
-import view.Viewer;
+import gui.view.Viewer;
 
 import java.awt.*;
 import java.io.File;

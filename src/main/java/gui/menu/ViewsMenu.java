@@ -1,7 +1,7 @@
 package gui.menu;
 
-import view.ViewHub;
-import view.ViewOption;
+import gui.view.ViewHub;
+import gui.view.ViewOption;
 
 import javax.swing.*;
 

@@ -5,7 +5,7 @@ import exhibitions.entities.Exhibition;
 import gui.MessageBord;
 import model.Model;
 import model.elements.ArtPieceEntry;
-import view.Viewer;
+import gui.view.Viewer;
 
 import java.awt.*;
 import java.io.File;
