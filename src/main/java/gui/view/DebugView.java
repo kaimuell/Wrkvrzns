@@ -1,4 +1,4 @@
-package view;
+package gui.view;
 
 import adressbook.model.PersonEntry;
 import model.Model;

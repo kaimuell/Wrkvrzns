@@ -1,9 +1,9 @@
-package view.tableView;
+package gui.view.tableView;
 
 import adressbook.model.ABModel;
 import exhibitions.model.ExhibitionsModel;
 import model.Model;
-import view.Viewer;
+import gui.view.Viewer;
 
 import javax.swing.*;
 

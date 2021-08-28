@@ -1,4 +1,4 @@
-package view.pictureView;
+package gui.view.pictureView;
 
 import adressbook.model.ABModel;
 import controller.Controller;
@@ -6,7 +6,7 @@ import exhibitions.model.ExhibitionsModel;
 import model.Model;
 import model.ModelViewAccess;
 import model.elements.ArtPieceEntry;
-import view.Viewer;
+import gui.view.Viewer;
 
 import javax.swing.*;
 import java.awt.*;

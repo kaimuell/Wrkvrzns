@@ -18,13 +18,15 @@ import java.util.List;
 
 public class Portfolio {
 
+    private final boolean withPrices;
     private List<ArtPieceEntry> artpieces;
     private List<java.awt.Image> images;
 
-    public Portfolio(List<ArtPieceEntry> artpieces, List<java.awt.Image> images) {
+    public Portfolio(List<ArtPieceEntry> artpieces, List<java.awt.Image> images, boolean withPrices) {
 
         this.artpieces = artpieces;
         this.images = images;
+        this.withPrices = withPrices;
     }
 
     public void create_PDF(String destination) throws IOException {
@@ -33,13 +35,27 @@ public class Portfolio {
         for (int i = 0; i< artpieces.size(); i++) {
             ArtPieceEntry artpiece = artpieces.get(i);
             doc.add(new Image(ImageDataFactory.create(images.get(i), null)));// TODO  Position und Größe definieren
-            String description = artpiece.getName() + ", " + artpiece.getTechnique() + ", " +
-                    artpiece.getSizeRepresentation() + ", " + artpiece.getYear() + ", "+  artpiece.getPrice() + " €";
+            String description = createDescription(artpiece);
+
             doc.add(new Paragraph(description));
             if (i < artpieces.size() -1){ doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));}
         }
         pdfDocument.close();
         doc.close();
 
+    }
+
+    private String createDescription(ArtPieceEntry artpiece) {
+        StringBuilder stringbuilder = new StringBuilder()
+                .append(artpiece.getName())
+                .append(", ").append(artpiece.getTechnique())
+                .append(", ").append(artpiece.getSizeRepresentation())
+                .append(", ").append(artpiece.getYear());
+        if (withPrices){
+            stringbuilder.append(", ")
+                    .append(artpiece.getPrice())
+                    .append(" €");
+        }
+        return stringbuilder.toString();
     }
 }

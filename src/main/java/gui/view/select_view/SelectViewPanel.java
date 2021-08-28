@@ -1,4 +1,4 @@
-package view.select_view;
+package gui.view.select_view;
 
 import adressbook.model.ABModel;
 import controller.Controller;
@@ -6,7 +6,7 @@ import exhibitions.model.ExhibitionsModel;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.ModelViewAccess;
-import view.Viewer;
+import gui.view.Viewer;
 
 
 import javax.swing.*;
