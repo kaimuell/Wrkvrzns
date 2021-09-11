@@ -14,8 +14,6 @@ import java.util.List;
 
 public interface Controller {
 
-    Model getModel();
-
     /**
      * Gibt zurück ob sich der Eintrag in der Liste der Ausgewählten Einträge befindet
      * @param artPiece der Eintrag
@@ -60,12 +58,6 @@ public interface Controller {
     void addView(Viewer view);
 
     void addMessageBord(MessageBord messageBord);
-
-    /**
-     * Gibt das Adressbuch des betrachteten {@link model.Model} zurück
-     * @return das Adressbuch
-     */
-    ABModel getAddressbook();
 
     /**
      * Speichert das gerade betrachtete {@link model.Model} in dem aktuell geladenen Profil

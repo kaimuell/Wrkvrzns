@@ -4,6 +4,7 @@ import adressbook.model.ABModel;
 import adressbook.model.Person;
 import adressbook.model.PersonEntry;
 import controller.Controller;
+import model.ModelContainer;
 import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
@@ -60,7 +61,7 @@ public class DialogFactory {
      * @return die Person / null falls keine gewählt
      */
     public Person selectPersonFromAddressBookDialog () {
-            PersonSelectionDialog dialog = new PersonSelectionDialog(controller.getAddressbook());
+            PersonSelectionDialog dialog = new PersonSelectionDialog(ModelContainer.getModel().getAdressbook());
 
             while (dialog.getOkCancelOption() == UNDECIDED) {
                 waitFor50Milis();

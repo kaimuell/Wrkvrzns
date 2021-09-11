@@ -6,6 +6,7 @@ import exhibitions.ExhibitionsController;
 import exhibitions.ExhibitionViewManager;
 import exhibitions.entities.Exhibition;
 import exhibitions.model.ExhibitionsModel;
+import model.ModelContainer;
 import tools.PictureTools;
 import gui.elements.ArtworkTypeChoice;
 import model.elements.ArtPieceEntry;
@@ -294,8 +295,8 @@ class ArtPieceDialog extends JDialog {
         addExhibitionButton.addActionListener(action -> {
             new Thread(() -> {
                 ExhibitionViewManager edc = new ExhibitionViewManager(
-                        new ExhibitionsController(controller.getModel().getExhibitions()));
-                Exhibition selectedExhibition = edc.selectExhibitionDialog(this, controller.getModel().getExhibitions());
+                        new ExhibitionsController(ModelContainer.getModel().getExhibitions()));
+                Exhibition selectedExhibition = edc.selectExhibitionDialog(this, ModelContainer.getModel().getExhibitions());
                 if (selectedExhibition != null) {
                     artPiece.getExhibitionIds().add(selectedExhibition.getId());
                     exhibitionLabel.setText(lastExhibition());
@@ -306,7 +307,7 @@ class ArtPieceDialog extends JDialog {
         JButton editExhibitionsButton = new JButton("Bearbeiten");
         editExhibitionsButton.addActionListener(action -> {
             new Thread( () -> {
-                List<Exhibition> exhibitions = controller.getModel().getExhibitions().getExhibitionsWithIDs(artPiece.getExhibitionIds());
+                List<Exhibition> exhibitions = ModelContainer.getModel().getExhibitions().getExhibitionsWithIDs(artPiece.getExhibitionIds());
                 ExhibitionsModel exhibitionModel = new ExhibitionsModel(exhibitions);
                 ExhibitionViewManager exhibitionViewManager = new ExhibitionViewManager(
                         new ExhibitionsController(exhibitionModel));

@@ -1,6 +1,7 @@
 package controller.dialogFactory;
 
 import model.elements.ArtPiece;
+import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class CalculationDialog extends JDialog {
     OkCancelOption okCancelOption;
 
 
-    public CalculationDialog(Frame owner, List<ArtPiece> artpieces) {
+    public CalculationDialog(Frame owner, ArrayList<ArtPieceEntry> artpieces) {
         super(owner);
         initArtpieceList(artpieces);
         this.okCancelOption = OkCancelOption.UNDECIDED;
@@ -33,15 +34,18 @@ public class CalculationDialog extends JDialog {
         errorLabel = new JTextField("");
         errorPanel.add(errorLabel);
         this.add(errorPanel);
-        this.pack();
-    }
-
-    private JPanel initCenterPanel(JLabel taxesLabel, JLabel galleryPercentLabel, JLabel roundingLabel, JButton okButton) {
-        JPanel centerPanel = new JPanel(new GridLayout(4,2));
         okButton.addActionListener(action -> {
             parseNumbersAndCalculatePrices();
         });
+        this.add(okButton);
+        this.pack();
+    }
+
+
+    private JPanel initCenterPanel(JLabel taxesLabel, JLabel galleryPercentLabel, JLabel roundingLabel, JButton okButton) {
+        JPanel centerPanel = new JPanel(new GridLayout(4,2));
         centerPanel.add(taxesLabel);
+        this.add(taxesLabel);
         centerPanel.add(taxesField);
         centerPanel.add(galleryPercentLabel);
         centerPanel.add(galleryPercentField);
@@ -50,7 +54,7 @@ public class CalculationDialog extends JDialog {
         return centerPanel;
     }
 
-    private void initArtpieceList(List<ArtPiece> artpieces) {
+    private void initArtpieceList(List<ArtPieceEntry> artpieces) {
         this.pieceWithNewPriceList = new ArrayList<>();
         for (ArtPiece a: artpieces
              ) {
