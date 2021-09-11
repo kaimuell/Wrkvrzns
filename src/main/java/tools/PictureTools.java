@@ -32,7 +32,7 @@ public class PictureTools {
 
             BufferedImage createdImage = new BufferedImage(width,height, BufferedImage.TYPE_3BYTE_BGR);
             Graphics2D g2d = createdImage.createGraphics();
-            g2d.setColor(Color.BLACK);
+            g2d.setColor(Color.WHITE);
             g2d.drawRect(0,0,width,height);
             if (imageBuff.getHeight() > imageBuff.getWidth()) {
                 //Ist Hochformat
@@ -105,7 +105,7 @@ public class PictureTools {
     private static Image createEmptyImage(){
         BufferedImage image = new BufferedImage(150,150, BufferedImage.TYPE_3BYTE_BGR);
         Graphics2D g2d = image.createGraphics();
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.WHITE);
         g2d.drawRect(0,0,150,150);
 
         return image;

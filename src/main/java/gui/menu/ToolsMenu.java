@@ -2,13 +2,19 @@ package gui.menu;
 
 import adressbook.view.AdressBookFrame;
 import controller.Controller;
+import controller.dialogFactory.CalculationDialog;
 import exhibitions.ExhibitionsController;
 import exhibitions.ExhibitionViewManager;
 import exhibitions.model.ExhibitionsModel;
+import model.ModelContainer;
+import model.elements.ArtPiece;
+import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ToolsMenu extends JMenu {
     private final JFrame superComponent;
@@ -21,6 +27,13 @@ public class ToolsMenu extends JMenu {
         initOpenAdressbook();
         initImportContacts(superComponent, controller);
         initOpenExhibitions();
+        JMenuItem adjustPrices = new JMenuItem("Alle Preise anpassen");
+        adjustPrices.setToolTipText("");
+        adjustPrices.addActionListener(action -> {
+            CalculationDialog cd = new CalculationDialog(superComponent, (ArrayList<ArtPieceEntry>) ModelContainer.getModel().getPieces());
+            cd.setVisible(true);
+        });
+        this.add(adjustPrices);
     }
 
     private void initOpenExhibitions() {
@@ -28,7 +41,7 @@ public class ToolsMenu extends JMenu {
         openExhibitions.setToolTipText("Zeigt die Liste der Ausstellungen");
         openExhibitions.addActionListener(action -> {
                     new Thread(() -> {
-                       ExhibitionsModel exhibitionsModel = controller.getModel().getExhibitions();
+                       ExhibitionsModel exhibitionsModel = ModelContainer.getModel().getExhibitions();
                         ExhibitionViewManager edc = new ExhibitionViewManager(new ExhibitionsController(exhibitionsModel));
                         edc.createExhibitionMainWindow(exhibitionsModel);
                     }).start();
@@ -72,7 +85,7 @@ public class ToolsMenu extends JMenu {
         JMenuItem adressbook = new JMenuItem("Adressbuch öffnen");
         adressbook.addActionListener(action -> {
             AdressBookFrame af =
-            new AdressBookFrame(controller.getAddressbook());
+            new AdressBookFrame(ModelContainer.getModel().getAdressbook());
             af.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         });
         this.add(adressbook);
