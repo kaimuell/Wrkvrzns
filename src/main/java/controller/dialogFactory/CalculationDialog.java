@@ -9,43 +9,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CalculationDialog extends JDialog {
-    private final JTextField taxesField;
-    private final JTextField galleryPercentField;
-    private final JTextField errorLabel;
-    private final RoundingChoice roundingChoice;
+    private  JTextField taxesField;
+    private  JTextField galleryPercentField;
+    private  JTextField errorLabel;
+    private  RoundingChoice roundingChoice;
     private List<ArtPieceWithNewPrice> pieceWithNewPriceList;
-    OkCancelOption okCancelOption;
+    private OkCancelOption okCancelOption;
 
 
     public CalculationDialog(Frame owner, ArrayList<ArtPieceEntry> artpieces) {
         super(owner);
+        this.setPreferredSize(new Dimension(400, 200));
         initArtpieceList(artpieces);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.okCancelOption = OkCancelOption.UNDECIDED;
-        JLabel taxesLabel = new JLabel("Steuersatz aufschlagen : ");
-        taxesField = new JTextField();
-        JLabel galleryPercentLabel = new JLabel("Galerie Prozente aufschlagen : ");
-        galleryPercentField = new JTextField();
-        JLabel roundingLabel = new JLabel("Runden auf : ");
-        roundingChoice = new RoundingChoice();
-        JButton okButton = new JButton("OK");
-        JPanel centerPanel = initCenterPanel(taxesLabel, galleryPercentLabel, roundingLabel, okButton);
-        this.add(centerPanel);
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel centerPanel = initCenterPanel();
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
         JPanel errorPanel =  new JPanel();
         errorLabel = new JTextField("");
         errorPanel.add(errorLabel);
-        this.add(errorPanel);
+        mainPanel.add(errorPanel,BorderLayout.NORTH);
+        JButton okButton = new JButton("OK");
         okButton.addActionListener(action -> {
             parseNumbersAndCalculatePrices();
         });
-        this.add(okButton);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(okButton);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        this.add(mainPanel,BorderLayout.CENTER);
         this.pack();
+        this.setVisible(true);
     }
 
 
-    private JPanel initCenterPanel(JLabel taxesLabel, JLabel galleryPercentLabel, JLabel roundingLabel, JButton okButton) {
-        JPanel centerPanel = new JPanel(new GridLayout(4,2));
+    private JPanel initCenterPanel() {
+        JPanel centerPanel = new JPanel(new GridLayout(3,2));
+        JLabel taxesLabel = new JLabel("Steuersatz aufschlagen : ");
+        taxesField = new JTextField(10);
+        JLabel galleryPercentLabel = new JLabel("Galerie Prozente aufschlagen : ");
+        galleryPercentField = new JTextField(10);
+        JLabel roundingLabel = new JLabel("Runden auf : ");
+        roundingChoice = new RoundingChoice();
         centerPanel.add(taxesLabel);
-        this.add(taxesLabel);
         centerPanel.add(taxesField);
         centerPanel.add(galleryPercentLabel);
         centerPanel.add(galleryPercentField);
@@ -56,7 +62,7 @@ public class CalculationDialog extends JDialog {
 
     private void initArtpieceList(List<ArtPieceEntry> artpieces) {
         this.pieceWithNewPriceList = new ArrayList<>();
-        for (ArtPiece a: artpieces
+        for (ArtPieceEntry a: artpieces
              ) {
             this.pieceWithNewPriceList.add(new ArtPieceWithNewPrice(a, 0));
         }
@@ -93,5 +99,9 @@ public class CalculationDialog extends JDialog {
     private int parseNumber(JTextField numberLabel) throws Exception{
             int number = numberLabel.getText().equals("") ? 0 : Integer.parseInt(numberLabel.getText());
         return number ;
+    }
+
+    public OkCancelOption getOkCancelOption() {
+        return okCancelOption;
     }
 }

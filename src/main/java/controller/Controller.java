@@ -4,6 +4,7 @@ import adressbook.model.ABModel;
 import exhibitions.entities.Exhibition;
 import gui.MessageBord;
 import model.Model;
+import model.elements.ArtPiece;
 import model.elements.ArtPieceEntry;
 import gui.view.Viewer;
 
@@ -99,4 +100,6 @@ public interface Controller {
     Exhibition getExhibitionWithID(int idOfLastEntry);
 
     Image loadPictureOf(ArtPieceEntry entry);
+
+    void setPriceOfArtpiece(ArtPieceEntry artPiece, int newPrice);
 }

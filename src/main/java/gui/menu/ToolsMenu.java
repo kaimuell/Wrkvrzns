@@ -2,12 +2,13 @@ package gui.menu;
 
 import adressbook.view.AdressBookFrame;
 import controller.Controller;
+import controller.dialogFactory.ArtPieceWithNewPrice;
 import controller.dialogFactory.CalculationDialog;
+import controller.dialogFactory.OkCancelOption;
 import exhibitions.ExhibitionsController;
 import exhibitions.ExhibitionViewManager;
 import exhibitions.model.ExhibitionsModel;
 import model.ModelContainer;
-import model.elements.ArtPiece;
 import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
@@ -30,8 +31,16 @@ public class ToolsMenu extends JMenu {
         JMenuItem adjustPrices = new JMenuItem("Alle Preise anpassen");
         adjustPrices.setToolTipText("");
         adjustPrices.addActionListener(action -> {
-            CalculationDialog cd = new CalculationDialog(superComponent, (ArrayList<ArtPieceEntry>) ModelContainer.getModel().getPieces());
-            cd.setVisible(true);
+                CalculationDialog cd = new CalculationDialog(superComponent, (ArrayList<ArtPieceEntry>) ModelContainer.getModel().getPieces());
+                cd.setVisible(true);
+                if (cd.getOkCancelOption() == OkCancelOption.OK) {
+                    List<ArtPieceWithNewPrice> awnp = cd.getArtpiecesWithCalculatedPrices();
+                    for (ArtPieceWithNewPrice artPieceWithNewPrice : awnp) {
+                        controller.setPriceOfArtpiece(artPieceWithNewPrice.getArtPiece(), artPieceWithNewPrice.getNewPrice());
+                    }
+                    cd.dispose();
+                }
+
         });
         this.add(adjustPrices);
     }
