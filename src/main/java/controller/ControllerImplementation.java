@@ -7,6 +7,7 @@ import exhibitions.entities.Exhibition;
 import exhibitions.model.ExhibitionsModel;
 import gui.MessageBord;
 import model.ModelContainer;
+import model.elements.ArtPiece;
 import model.elements.ArtPieceEntry;
 import model.Model;
 import tools.PictureTools;
@@ -192,6 +193,13 @@ public class ControllerImplementation implements Controller {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    @Override
+    public void setPriceOfArtpiece(ArtPieceEntry artPiece, int newPrice) {
+        ArtPieceEntry entry = ModelContainer.getModel().getEntryWithId(artPiece.getId());
+        entry.setPrice(newPrice);
+        refreshViews();
     }
 
 

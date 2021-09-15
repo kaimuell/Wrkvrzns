@@ -1,21 +1,22 @@
 package controller.dialogFactory;
 
 import model.elements.ArtPiece;
+import model.elements.ArtPieceEntry;
 
 public class ArtPieceWithNewPrice {
-    private ArtPiece artPiece;
+    private ArtPieceEntry artPiece;
     private int newPrice;
 
-    public ArtPieceWithNewPrice(ArtPiece artPiece, int newPrice) {
+    public ArtPieceWithNewPrice(ArtPieceEntry artPiece, int newPrice) {
         this.artPiece = artPiece;
         this.newPrice = newPrice;
     }
 
-    public ArtPiece getArtPiece() {
+    public ArtPieceEntry getArtPiece() {
         return artPiece;
     }
 
-    public void setArtPiece(ArtPiece artPiece) {
+    public void setArtPiece(ArtPieceEntry artPiece) {
         this.artPiece = artPiece;
     }
 
