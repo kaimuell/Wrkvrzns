@@ -15,15 +15,12 @@ public class CalculationDialog extends JDialog {
     private JTextField errorLabel;
     private RoundingChoice roundingChoice;
     private List<ArtPieceWithNewPrice> pieceWithNewPriceList;
-    private OkCancelOption okCancelOption;
-
 
     public CalculationDialog(Frame owner, List<ArtPieceEntry> artpieces, CalculationDialogController dialogController) {
         super(owner);
         this.setPreferredSize(new Dimension(400, 200));
         initArtpieceList(artpieces);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.okCancelOption = OkCancelOption.UNDECIDED;
         this.dialogController = dialogController;
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel centerPanel = initCenterPanel();
@@ -36,12 +33,22 @@ public class CalculationDialog extends JDialog {
         okButton.addActionListener(action -> {
             parseNumbersAndCalculatePrices();
         });
-        JPanel buttonPanel = new JPanel();
+        JButton cancelButton = new JButton("Abbrechen");
+        cancelButton.addActionListener(action -> {
+            cancel();
+        });
+        JPanel buttonPanel = new JPanel(new GridLayout(1,2));
         buttonPanel.add(okButton);
+        buttonPanel.add(cancelButton);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         this.add(mainPanel, BorderLayout.CENTER);
         this.pack();
         this.setVisible(true);
+    }
+
+    private void cancel() {
+        dialogController.edit(OkCancelOption.CANCEL, null);
+        this.dispose();
     }
 
 
@@ -78,8 +85,8 @@ public class CalculationDialog extends JDialog {
                 this.revalidate();
             }
         }
-        okCancelOption = OkCancelOption.OK;
-        dialogController.edit(okCancelOption, pieceWithNewPriceList);
+
+        dialogController.edit(OkCancelOption.OK, pieceWithNewPriceList);
         this.dispose();
     }
 

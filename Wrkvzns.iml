@@ -34,5 +34,7 @@
     <orderEntry type="library" name="Maven: com.itextpdf:sign:7.1.16" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:styled-xml-parser:7.1.16" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:svg:7.1.16" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>
 </module>

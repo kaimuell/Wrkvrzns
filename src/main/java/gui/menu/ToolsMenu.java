@@ -28,9 +28,17 @@ public class ToolsMenu extends JMenu {
         this.superComponent = superComponent;
         initOpenAdressbook();
         initImportContacts(superComponent, controller);
+        this.add(new JLabel("-------------------------------"));
         initOpenExhibitions();
+        this.add(new JLabel("-------------------------------"));
+        initAdjustAllPrices(superComponent, controller);
+        initAdjustSelectedPrices(superComponent, controller);
+
+    }
+
+    private void initAdjustAllPrices(JFrame superComponent, Controller controller) {
         JMenuItem adjustPrices = new JMenuItem("Alle Preise anpassen");
-        adjustPrices.setToolTipText("");
+        adjustPrices.setToolTipText("Verändert die Preise aller Arbeiten um einen bestimmten Prozentsatz");
         adjustPrices.addActionListener(action -> {
                 SwingUtilities.invokeLater(() ->{
                 CalculationDialog cd = new CalculationDialog(
@@ -40,7 +48,22 @@ public class ToolsMenu extends JMenu {
                 cd.setVisible(true);
         });
     });
-    this.add(adjustPrices);
+        this.add(adjustPrices);
+    }
+
+    private void initAdjustSelectedPrices(JFrame superComponent, Controller controller) {
+        JMenuItem adjustPrices = new JMenuItem("Preise der Auswahl anpassen");
+        adjustPrices.setToolTipText("Verändert die Preise der ausgewählten Arbeiten um einen bestimmten Prozentsatz");
+        adjustPrices.addActionListener(action -> {
+            SwingUtilities.invokeLater(() ->{
+                CalculationDialog cd = new CalculationDialog(
+                        superComponent,
+                        controller.getSelectedElements(),
+                        new CalculationDialogChangeAllControllerImplementation(controller));
+                cd.setVisible(true);
+            });
+        });
+        this.add(adjustPrices);
     }
 
     private void initOpenExhibitions() {
