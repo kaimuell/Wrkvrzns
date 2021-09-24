@@ -2,9 +2,10 @@ package gui.menu;
 
 import adressbook.view.AdressBookFrame;
 import controller.Controller;
-import controller.dialogFactory.ArtPieceWithNewPrice;
-import controller.dialogFactory.CalculationDialog;
+import controller.dialogFactory.calculationDialog.ArtPieceWithNewPrice;
+import controller.dialogFactory.calculationDialog.CalculationDialog;
 import controller.dialogFactory.OkCancelOption;
+import controller.dialogFactory.calculationDialog.CalculationDialogChangeAllControllerImplementation;
 import exhibitions.ExhibitionsController;
 import exhibitions.ExhibitionViewManager;
 import exhibitions.model.ExhibitionsModel;
@@ -31,18 +32,15 @@ public class ToolsMenu extends JMenu {
         JMenuItem adjustPrices = new JMenuItem("Alle Preise anpassen");
         adjustPrices.setToolTipText("");
         adjustPrices.addActionListener(action -> {
-                CalculationDialog cd = new CalculationDialog(superComponent, (ArrayList<ArtPieceEntry>) ModelContainer.getModel().getPieces());
+                SwingUtilities.invokeLater(() ->{
+                CalculationDialog cd = new CalculationDialog(
+                        superComponent,
+                        ModelContainer.getModel().getPieces(),
+                        new CalculationDialogChangeAllControllerImplementation(controller));
                 cd.setVisible(true);
-                if (cd.getOkCancelOption() == OkCancelOption.OK) {
-                    List<ArtPieceWithNewPrice> awnp = cd.getArtpiecesWithCalculatedPrices();
-                    for (ArtPieceWithNewPrice artPieceWithNewPrice : awnp) {
-                        controller.setPriceOfArtpiece(artPieceWithNewPrice.getArtPiece(), artPieceWithNewPrice.getNewPrice());
-                    }
-                    cd.dispose();
-                }
-
         });
-        this.add(adjustPrices);
+    });
+    this.add(adjustPrices);
     }
 
     private void initOpenExhibitions() {

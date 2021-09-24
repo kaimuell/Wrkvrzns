@@ -99,7 +99,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li><a href="adressbook/package-tree.html">adressbook</a>, </li>
 <li><a href="adressbook/controller/package-tree.html">adressbook.controller</a>, </li>
 <li><a href="adressbook/model/package-tree.html">adressbook.model</a>, </li>
-<li><a href="adressbook/view/package-tree.html">adressbook.view</a>, </li>
+<li><a href="adressbook/gui.view/package-tree.html">adressbook.view</a>, </li>
 <li><a href="controller/package-tree.html">controller</a>, </li>
 <li><a href="controller/dialogController/package-tree.html">controller.dialogFactory</a>, </li>
 <li><a href="controller/fileHandler/package-tree.html">controller.fileHandler</a>, </li>
@@ -109,10 +109,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li><a href="model/package-tree.html">model</a>, </li>
 <li><a href="model/elements/package-tree.html">model.elements</a>, </li>
 <li><a href="tools/package-tree.html">tools</a>, </li>
-<li><a href="view/package-tree.html">view</a>, </li>
-<li><a href="view/pictureView/package-tree.html">view.pictureView</a>, </li>
-<li><a href="view/select_view/package-tree.html">view.select_view</a>, </li>
-<li><a href="view/tableView/package-tree.html">view.tableView</a></li>
+<li><a href="gui.view/package-tree.html">gui.view</a>, </li>
+<li><a href="gui.view/pictureView/package-tree.html">gui.view.pictureView</a>, </li>
+<li><a href="gui.view/select_view/package-tree.html">gui.view.select_view</a>, </li>
+<li><a href="gui.view/tableView/package-tree.html">gui.view.tableView</a></li>
 </ul>
 </div>
 <div class="contentContainer">
@@ -125,7 +125,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">adressbook.model.<a href="adressbook/model/ABModel.html" title="class in adressbook.model"><span class="typeNameLink">ABModel</span></a> (implements adressbook.model.<a href="adressbook/model/ABModelReader.html" title="interface in adressbook.model">ABModelReader</a>, java.io.Serializable)</li>
 <li class="circle">javax.swing.table.AbstractTableModel (implements java.io.Serializable, javax.swing.table.TableModel)
 <ul>
-<li class="circle">view.tableView.<a href="view/tableView/TableAdapter.html" title="class in view.tableView"><span class="typeNameLink">TableAdapter</span></a></li>
+<li class="circle">gui.view.tableView.<a href="gui.view/tableView/TableAdapter.html" title="class in gui.view.tableView"><span class="typeNameLink">TableAdapter</span></a></li>
 </ul>
 </li>
 <li class="circle">adressbook.model.<a href="adressbook/model/Address.html" title="class in adressbook.model"><span class="typeNameLink">Address</span></a> (implements java.io.Serializable)</li>
@@ -169,16 +169,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="circle">javax.swing.JPanel (implements javax.accessibility.Accessible)
 <ul>
-<li class="circle">adressbook.view.<a href="adressbook/view/ABViewPanel.html" title="class in adressbook.view"><span class="typeNameLink">ABViewPanel</span></a> (implements adressbook.view.<a href="adressbook/view/ABViewer.html" title="interface in adressbook.view">ABViewer</a>)</li>
-<li class="circle">adressbook.view.<a href="adressbook/view/PersonPanel.html" title="class in adressbook.view"><span class="typeNameLink">PersonPanel</span></a> (implements javax.swing.event.MouseInputListener)</li>
-<li class="circle">view.pictureView.<a href="view/pictureView/PictureView.html" title="class in view.pictureView"><span class="typeNameLink">PictureView</span></a> (implements view.<a href="view/Viewer.html" title="interface in view">Viewer</a>)</li>
-<li class="circle">view.select_view.<a href="view/select_view/SelectViewPanel.html" title="class in view.select_view"><span class="typeNameLink">SelectViewPanel</span></a> (implements view.<a href="view/Viewer.html" title="interface in view">Viewer</a>)</li>
-<li class="circle">view.<a href="view/ViewHub.html" title="class in view"><span class="typeNameLink">ViewHub</span></a> (implements view.<a href="view/Viewer.html" title="interface in view">Viewer</a>)</li>
+<li class="circle">adressbook.gui.view.<a href="adressbook/gui.view/ABViewPanel.html" title="class in adressbook.view"><span class="typeNameLink">ABViewPanel</span></a> (implements adressbook.gui.view.<a href="adressbook/gui.view/ABViewer.html" title="interface in adressbook.view">ABViewer</a>)</li>
+<li class="circle">adressbook.gui.view.<a href="adressbook/gui.view/PersonPanel.html" title="class in adressbook.view"><span class="typeNameLink">PersonPanel</span></a> (implements javax.swing.event.MouseInputListener)</li>
+<li class="circle">gui.view.pictureView.<a href="gui.view/pictureView/PictureView.html" title="class in gui.view.pictureView"><span class="typeNameLink">PictureView</span></a> (implements gui.view.<a href="gui.view/Viewer.html" title="interface in gui.view">Viewer</a>)</li>
+<li class="circle">gui.view.select_view.<a href="gui.view/select_view/SelectViewPanel.html" title="class in gui.view.select_view"><span class="typeNameLink">SelectViewPanel</span></a> (implements gui.view.<a href="gui.view/Viewer.html" title="interface in gui.view">Viewer</a>)</li>
+<li class="circle">gui.view.<a href="gui.view/ViewHub.html" title="class in gui.view"><span class="typeNameLink">ViewHub</span></a> (implements gui.view.<a href="gui.view/Viewer.html" title="interface in gui.view">Viewer</a>)</li>
 </ul>
 </li>
 <li class="circle">javax.swing.JTable (implements javax.accessibility.Accessible, javax.swing.event.CellEditorListener, javax.swing.event.ListSelectionListener, javax.swing.event.RowSorterListener, javax.swing.Scrollable, javax.swing.event.TableColumnModelListener, javax.swing.event.TableModelListener)
 <ul>
-<li class="circle">view.tableView.<a href="view/tableView/TableView.html" title="class in view.tableView"><span class="typeNameLink">TableView</span></a> (implements view.<a href="view/Viewer.html" title="interface in view">Viewer</a>)</li>
+<li class="circle">gui.view.tableView.<a href="gui.view/tableView/TableView.html" title="class in gui.view.tableView"><span class="typeNameLink">TableView</span></a> (implements gui.view.<a href="gui.view/Viewer.html" title="interface in gui.view">Viewer</a>)</li>
 </ul>
 </li>
 <li class="circle">javax.swing.text.JTextComponent (implements javax.accessibility.Accessible, javax.swing.Scrollable)
@@ -192,7 +192,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="circle">javax.swing.JToolBar (implements javax.accessibility.Accessible, javax.swing.SwingConstants)
 <ul>
-<li class="circle">adressbook.view.<a href="adressbook/view/ABToolbar.html" title="class in adressbook.view"><span class="typeNameLink">ABToolbar</span></a></li>
+<li class="circle">adressbook.gui.view.<a href="adressbook/gui.view/ABToolbar.html" title="class in adressbook.view"><span class="typeNameLink">ABToolbar</span></a></li>
 <li class="circle">gui.<a href="gui/Toolbar.html" title="class in gui"><span class="typeNameLink">Toolbar</span></a></li>
 </ul>
 </li>
@@ -204,7 +204,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">javax.swing.JDialog (implements javax.accessibility.Accessible, javax.swing.RootPaneContainer, javax.swing.WindowConstants)
 <ul>
-<li class="circle">adressbook.view.<a href="adressbook/view/PersonDialog.html" title="class in adressbook.view"><span class="typeNameLink">PersonDialog</span></a></li>
+<li class="circle">adressbook.gui.view.<a href="adressbook/gui.view/PersonDialog.html" title="class in adressbook.view"><span class="typeNameLink">PersonDialog</span></a></li>
 </ul>
 </li>
 </ul>
@@ -213,12 +213,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">javax.swing.JFrame (implements javax.accessibility.Accessible, javax.swing.RootPaneContainer, javax.swing.WindowConstants)
 <ul>
-<li class="circle">adressbook.view.<a href="adressbook/view/AdressBookFrame.html" title="class in adressbook.view"><span class="typeNameLink">AdressBookFrame</span></a> (implements adressbook.view.<a href="adressbook/view/ABViewer.html" title="interface in adressbook.view">ABViewer</a>)
+<li class="circle">adressbook.gui.view.<a href="adressbook/gui.view/AdressBookFrame.html" title="class in adressbook.view"><span class="typeNameLink">AdressBookFrame</span></a> (implements adressbook.gui.view.<a href="adressbook/gui.view/ABViewer.html" title="interface in adressbook.view">ABViewer</a>)
 <ul>
 <li class="circle">controller.dialogFactory.<a href="controller/dialogController/PersonSelectionDialog.html" title="class in controller.dialogFactory"><span class="typeNameLink">PersonSelectionDialog</span></a></li>
 </ul>
 </li>
-<li class="circle">gui.<a href="gui/MainFrame.html" title="class in gui"><span class="typeNameLink">MainFrame</span></a> (implements view.<a href="view/Viewer.html" title="interface in view">Viewer</a>)</li>
+<li class="circle">gui.<a href="gui/MainFrame.html" title="class in gui"><span class="typeNameLink">MainFrame</span></a> (implements gui.view.<a href="gui.view/Viewer.html" title="interface in gui.view">Viewer</a>)</li>
 </ul>
 </li>
 </ul>
@@ -230,13 +230,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </li>
 <li class="circle">controller.<a href="controller/ControllerImplementation.html" title="class in controller"><span class="typeNameLink">ControllerImplementation</span></a> (implements controller.<a href="controller/Controller.html" title="interface in controller">Controller</a>)</li>
-<li class="circle">view.<a href="view/DebugView.html" title="class in view"><span class="typeNameLink">DebugView</span></a> (implements view.<a href="view/Viewer.html" title="interface in view">Viewer</a>)</li>
+<li class="circle">gui.view.<a href="gui.view/DebugView.html" title="class in gui.view"><span class="typeNameLink">DebugView</span></a> (implements gui.view.<a href="gui.view/Viewer.html" title="interface in gui.view">Viewer</a>)</li>
 <li class="circle">controller.dialogFactory.<a href="controller/dialogController/DialogController.html" title="class in controller.dialogFactory"><span class="typeNameLink">DialogController</span></a></li>
 <li class="circle">controller.fileHandler.<a href="controller/fileHandler/FileHandler.html" title="class in controller.fileHandler"><span class="typeNameLink">FileHandler</span></a></li>
 <li class="circle">adressbook.<a href="adressbook/Main.html" title="class in adressbook"><span class="typeNameLink">Main</span></a></li>
 <li class="circle"><a href="Main.html" title="class in &lt;Unnamed&gt;"><span class="typeNameLink">Main</span></a></li>
 <li class="circle">model.<a href="model/Model.html" title="class in model"><span class="typeNameLink">Model</span></a> (implements model.<a href="model/ModelViewAccess.html" title="interface in model">ModelViewAccess</a>, java.io.Serializable)</li>
-<li class="circle">view.<a href="view/PanelMouseInputScheme.html" title="class in view"><span class="typeNameLink">PanelMouseInputScheme</span></a> (implements java.awt.event.MouseListener)</li>
+<li class="circle">gui.view.<a href="gui.view/PanelMouseInputScheme.html" title="class in gui.view"><span class="typeNameLink">PanelMouseInputScheme</span></a> (implements java.awt.event.MouseListener)</li>
 <li class="circle">adressbook.model.<a href="adressbook/model/Person.html" title="class in adressbook.model"><span class="typeNameLink">Person</span></a> (implements java.io.Serializable)
 <ul>
 <li class="circle">adressbook.model.<a href="adressbook/model/PersonEntry.html" title="class in adressbook.model"><span class="typeNameLink">PersonEntry</span></a> (implements java.io.Serializable)</li>
@@ -263,11 +263,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">adressbook.controller.<a href="adressbook/controller/ABController.html" title="interface in adressbook.controller"><span class="typeNameLink">ABController</span></a></li>
 <li class="circle">adressbook.model.<a href="adressbook/model/ABModelReader.html" title="interface in adressbook.model"><span class="typeNameLink">ABModelReader</span></a></li>
-<li class="circle">adressbook.view.<a href="adressbook/view/ABViewer.html" title="interface in adressbook.view"><span class="typeNameLink">ABViewer</span></a></li>
+<li class="circle">adressbook.gui.view.<a href="adressbook/gui.view/ABViewer.html" title="interface in adressbook.view"><span class="typeNameLink">ABViewer</span></a></li>
 <li class="circle">controller.<a href="controller/Controller.html" title="interface in controller"><span class="typeNameLink">Controller</span></a></li>
 <li class="circle">gui.<a href="gui/MessageBord.html" title="interface in gui"><span class="typeNameLink">MessageBord</span></a></li>
 <li class="circle">model.<a href="model/ModelViewAccess.html" title="interface in model"><span class="typeNameLink">ModelViewAccess</span></a></li>
-<li class="circle">view.<a href="view/Viewer.html" title="interface in view"><span class="typeNameLink">Viewer</span></a></li>
+<li class="circle">gui.view.<a href="gui.view/Viewer.html" title="interface in gui.view"><span class="typeNameLink">Viewer</span></a></li>
 </ul>
 </section>
 <section role="region">
@@ -281,7 +281,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">gui.elements.<a href="gui/elements/FilterType.html" title="enum in gui.elements"><span class="typeNameLink">FilterType</span></a></li>
 <li class="circle">controller.dialogFactory.<a href="controller/dialogController/OkCancelOption.html" title="enum in controller.dialogFactory"><span class="typeNameLink">OkCancelOption</span></a></li>
 <li class="circle">gui.elements.<a href="gui/elements/SortingType.html" title="enum in gui.elements"><span class="typeNameLink">SortingType</span></a></li>
-<li class="circle">view.<a href="view/ViewOption.html" title="enum in view"><span class="typeNameLink">ViewOption</span></a></li>
+<li class="circle">gui.view.<a href="gui.view/ViewOption.html" title="enum in gui.view"><span class="typeNameLink">ViewOption</span></a></li>
 </ul>
 </li>
 </ul>

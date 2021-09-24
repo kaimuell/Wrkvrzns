@@ -2,7 +2,7 @@ unnamed package
 adressbook
 adressbook.controller
 adressbook.model
-adressbook.view
+adressbook.gui.view
 controller
 controller.dialogFactory
 controller.fileHandler
@@ -12,7 +12,7 @@ gui.menu
 model
 model.elements
 tools
-view
-view.pictureView
-view.select_view
-view.tableView
+gui.view
+gui.view.pictureView
+gui.view.select_view
+gui.view.tableView
