@@ -1,7 +1,7 @@
-package controller.dialogFactory.calculationDialog;
+package gui.dialogFactory.calculationDialog;
 
 import controller.Controller;
-import controller.dialogFactory.OkCancelOption;
+import gui.dialogFactory.OkCancelOption;
 
 import java.util.List;
 

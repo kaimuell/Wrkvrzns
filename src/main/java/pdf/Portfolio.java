@@ -42,7 +42,6 @@ public class Portfolio {
         }
         pdfDocument.close();
         doc.close();
-
     }
 
     private String createDescription(ArtPieceEntry artpiece) {

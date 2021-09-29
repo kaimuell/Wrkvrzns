@@ -1,4 +1,4 @@
-package controller.dialogFactory;
+package gui.dialogFactory;
 
 import adressbook.model.Person;
 import controller.Controller;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static controller.dialogFactory.OkCancelOption.*;
+import static gui.dialogFactory.OkCancelOption.*;
 
 /**
  * Eingabe Dialog für die Informationen eines {@link ArtPieceEntry}

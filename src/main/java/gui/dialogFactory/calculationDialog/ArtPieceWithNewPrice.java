@@ -1,6 +1,5 @@
-package controller.dialogFactory.calculationDialog;
+package gui.dialogFactory.calculationDialog;
 
-import model.elements.ArtPiece;
 import model.elements.ArtPieceEntry;
 
 public class ArtPieceWithNewPrice {

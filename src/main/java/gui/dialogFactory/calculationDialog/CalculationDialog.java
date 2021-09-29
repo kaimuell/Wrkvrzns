@@ -1,7 +1,7 @@
-package controller.dialogFactory.calculationDialog;
+package gui.dialogFactory.calculationDialog;
 
-import controller.dialogFactory.OkCancelOption;
-import controller.dialogFactory.RoundingChoice;
+import gui.dialogFactory.OkCancelOption;
+import gui.dialogFactory.RoundingChoice;
 import model.elements.ArtPieceEntry;
 
 import javax.swing.*;

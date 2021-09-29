@@ -2,21 +2,16 @@ package gui.menu;
 
 import adressbook.view.AdressBookFrame;
 import controller.Controller;
-import controller.dialogFactory.calculationDialog.ArtPieceWithNewPrice;
-import controller.dialogFactory.calculationDialog.CalculationDialog;
-import controller.dialogFactory.OkCancelOption;
-import controller.dialogFactory.calculationDialog.CalculationDialogChangeAllControllerImplementation;
+import gui.dialogFactory.calculationDialog.CalculationDialog;
+import gui.dialogFactory.calculationDialog.CalculationDialogChangeAllControllerImplementation;
 import exhibitions.ExhibitionsController;
 import exhibitions.ExhibitionViewManager;
 import exhibitions.model.ExhibitionsModel;
 import model.ModelContainer;
-import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ToolsMenu extends JMenu {
     private final JFrame superComponent;

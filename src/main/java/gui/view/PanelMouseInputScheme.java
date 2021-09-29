@@ -1,7 +1,7 @@
 package gui.view;
 
 import controller.Controller;
-import controller.dialogFactory.DialogFactory;
+import gui.dialogFactory.DialogFactory;
 import model.elements.ArtPieceEntry;
 
 import java.awt.event.MouseEvent;
