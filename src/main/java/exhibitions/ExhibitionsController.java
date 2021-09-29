@@ -44,7 +44,6 @@ public class ExhibitionsController {
 
     public void selectExhibition(Exhibition exhibition) {
         exhibitionsModel.setSelectedExhibition(exhibition);
-        System.out.println("Ausstellung ausgewählt : " + exhibition.getName());
         updateViews();
     }
 

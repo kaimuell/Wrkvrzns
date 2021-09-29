@@ -75,7 +75,7 @@ class ExhibitionDialog extends JDialog {
         placeField = new JTextField(exhibition.getPlace());
         cityField = new JTextField(exhibition.getCity());
         countryField = new JTextField(exhibition.getCountry());
-        yearField = new JTextField(exhibition.getYear());
+        yearField = new JTextField(String.valueOf(exhibition.getYear()));
 
         inputPanel.add(typeLabel);
         inputPanel.add(exhibitionTypeChoice);

@@ -21,5 +21,6 @@ public class CalculationDialogChangeAllControllerImplementation implements Calcu
         for (ArtPieceWithNewPrice entryAndPrice : artPieceWithNewPriceList){
             controller.setPriceOfArtpiece(entryAndPrice.getArtPiece(), entryAndPrice.getNewPrice());
         }
+        controller.refreshViews();
     }
 }
