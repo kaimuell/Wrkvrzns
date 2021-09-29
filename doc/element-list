@@ -4,7 +4,7 @@ adressbook.controller
 adressbook.model
 adressbook.gui.view
 controller
-controller.dialogFactory
+gui.dialogFactory
 controller.fileHandler
 gui
 gui.elements

@@ -1,4 +1,4 @@
-package controller.dialogFactory;
+package gui.dialogFactory;
 
 import adressbook.model.ABModel;
 import adressbook.model.Person;
@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static controller.dialogFactory.OkCancelOption.*;
+import static gui.dialogFactory.OkCancelOption.*;
 import static java.lang.Thread.sleep;
 
 /**

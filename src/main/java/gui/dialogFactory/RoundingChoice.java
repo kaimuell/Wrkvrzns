@@ -1,4 +1,4 @@
-package controller.dialogFactory;
+package gui.dialogFactory;
 
 import tools.ArithmeticTools;
 

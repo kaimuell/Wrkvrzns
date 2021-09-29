@@ -1,7 +1,7 @@
 package gui;
 
 import controller.Controller;
-import controller.dialogFactory.DialogFactory;
+import gui.dialogFactory.DialogFactory;
 import gui.elements.FilterChoice;
 import gui.elements.FilterType;
 import gui.elements.SorterChoice;

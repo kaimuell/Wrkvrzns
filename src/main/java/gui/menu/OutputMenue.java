@@ -1,7 +1,7 @@
 package gui.menu;
 
 import controller.Controller;
-import controller.dialogFactory.DialogFactory;
+import gui.dialogFactory.DialogFactory;
 import model.elements.ArtPieceEntry;
 import pdf.DeliveryNote;
 import pdf.Portfolio;
