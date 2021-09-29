@@ -319,7 +319,11 @@ class ArtPieceDialog extends JDialog {
                     }
                 }
                 for (int id : idsToDelete) {
-                    artPiece.getExhibitionIds().remove(id);
+                    try {
+                        artPiece.getExhibitionIds().remove(id);
+                    }catch (Exception e){
+                        
+                    }
                 }
                 exhibitionLabel.setText(lastExhibition());
             }).start();
@@ -338,7 +342,8 @@ class ArtPieceDialog extends JDialog {
             return "noch nicht ausgestellt";
         }else {
             int idOfLastEntry = artPiece.getExhibitionIds().get(lastIndex);
-            String lastExhibition = controller.getExhibitionWithID(idOfLastEntry).getName();
+            String lastExhibition = controller.getExhibitionWithID(idOfLastEntry) == null?
+                    "Austellung nicht gefunden" : controller.getExhibitionWithID(idOfLastEntry).getName();
 
             return lastExhibition == null ? "Ausstellung nicht gefunden " : lastExhibition;
         }

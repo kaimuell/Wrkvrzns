@@ -199,7 +199,6 @@ public class ControllerImplementation implements Controller {
     public void setPriceOfArtpiece(ArtPieceEntry artPiece, int newPrice) {
         ArtPieceEntry entry = ModelContainer.getModel().getEntryWithId(artPiece.getId());
         entry.setPrice(newPrice);
-        refreshViews();
     }
 
 
@@ -253,7 +252,7 @@ public class ControllerImplementation implements Controller {
         sortAndFilterHandler.setModel(ModelContainer.getModel());
     }
 
-    protected void refreshViews() {
+    public void refreshViews() {
         for (Viewer view : views) {view.refreshView(); }
     }
 

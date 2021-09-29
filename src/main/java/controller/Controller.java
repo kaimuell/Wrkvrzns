@@ -58,6 +58,10 @@ public interface Controller {
      */
     void addView(Viewer view);
 
+    /**
+     * Adds a MessageBord to display messages
+     * @param messageBord the Message Bord
+     */
     void addMessageBord(MessageBord messageBord);
 
     /**
@@ -93,13 +97,31 @@ public interface Controller {
      */
     void createNewProfile(String profileName);
 
+    /**
+     * saves the model to a profile
+     * @param profileName the name of the profile
+     */
     void saveAs(String profileName);
 
+    /**
+     * sets the model to a loaded file
+     * @param file the file
+     */
     void load (File file);
 
     Exhibition getExhibitionWithID(int idOfLastEntry);
 
     Image loadPictureOf(ArtPieceEntry entry);
 
+    /**
+     * sets the price of an artpiece to a new price
+     * @param artPiece the artpiece
+     * @param newPrice the new price
+     */
     void setPriceOfArtpiece(ArtPieceEntry artPiece, int newPrice);
+
+    /**
+     * Updates the views to show changes in model
+     */
+    void refreshViews();
 }
