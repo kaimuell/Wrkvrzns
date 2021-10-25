@@ -7,11 +7,14 @@ import exhibitions.ExhibitionsController;
 import exhibitions.entities.Exhibition;
 import exhibitions.ExhibitionType;
 import exhibitions.model.ExhibitionsModel;
+import model.ArtPieceExhibitionRelationContainer;
+import model.ArtpieceExhibitionRelation;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
 
 import java.util.Iterator;
+import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
@@ -28,7 +31,24 @@ public class SaveFileParser {
         builder.append("1.0\n");
         writeAllArtpieces(model, builder);
         writeExhibitionList(model, builder);
+        writeExhibitionRelations(model, builder);
         return builder.toString();
+    }
+
+    private static void writeExhibitionRelations(Model model, StringBuilder builder) {
+        List<ArtpieceExhibitionRelation> relations = model.getArtpieceExhibitionRelations().getAllRelations();
+        builder.append("#artpiece_exhibition_relation\n");
+        for (Iterator<ArtpieceExhibitionRelation> it = relations.iterator(); it.hasNext(); ) {
+            ArtpieceExhibitionRelation relation = it.next();
+            builder.append(relation.getArtPieceEntry().getId())
+                    .append(",")
+                    .append(relation.getExhibition().getId());
+            if (it.hasNext()) {
+                builder.append("/");
+            } else {
+                builder.append("\n");
+            }
+        }
     }
 
     private static void writeExhibitionList(Model model, StringBuilder builder) {
@@ -49,26 +69,10 @@ public class SaveFileParser {
     private static void writeAllArtpieces(Model model, StringBuilder builder) {
         for (ArtPieceEntry entry : model.getPieces()) {
             writeArtpiece(builder, entry);
-            writeExhibitions(builder, entry);
             writeBuyersOfArtpiece(builder, entry);
         }
     }
 
-    private static void writeExhibitions(StringBuilder builder, ArtPieceEntry entry) {
-            if (entry.getExhibitionIds().isEmpty()){
-                builder.append("\n");
-            }else{
-                Iterator<Integer> it = entry.getExhibitionIds().iterator();
-                while (it.hasNext()){
-
-                    builder.append(String.valueOf(it.next()));
-                    if (it.hasNext()){
-                        builder.append(",");
-                    }
-                }
-                builder.append("\n");
-            }
-    }
 
     private static void writeBuyersOfArtpiece(StringBuilder builder, ArtPieceEntry entry) {
         if (entry.getBuyers().isEmpty()) {
@@ -119,7 +123,7 @@ public class SaveFileParser {
      */
 
     public static Model parseFileInput(Iterator<String> lines) throws VersionControlException {
-        Model model = new Model(new ABModel(), new ExhibitionsModel(null));
+        Model model = new Model(new ABModel(), new ExhibitionsModel(null), new ArtPieceExhibitionRelationContainer());
         String versionControlLine = lines.next();
 
         if(versionControlLine.equals("1.0")){
@@ -139,13 +143,51 @@ public class SaveFileParser {
                 createAdressbookEntry(lines, model);
             }else if (controlWord.equals("#exhibition")){
                 createExhibitionEntry(lines, model);
+            }else if (controlWord.equals("#artpiece_exhibition_relation")) {
+                if (lines.hasNext()) {
+                    createArtpieceExhibitionRelations(lines, model);
+                }
             }
         }
     }
 
+    private static void createArtpieceExhibitionRelations(Iterator<String> lines, Model model) {
+        String relations = lines.next();
+        for (String relation : relations.split("/")) {
+            String[] ids = relation.split(",");
+            if (ids != null) {
+                ArtPieceEntry artpiece = getArtPieceWithId(model, Integer.parseInt(ids[0]));
+                Exhibition exhibition = getExhibitionWithId(model, Integer.parseInt(ids[1]));
+                if (artpiece != null && exhibition != null) {
+                    model.getArtpieceExhibitionRelations().addRelation(new ArtpieceExhibitionRelation(artpiece, exhibition));
+                }
+            }
+        }
+    }
+
+    private static Exhibition getExhibitionWithId(Model model, int parseInt)
+    {
+        for (Iterator<Exhibition> it = model.getExhibitions().getExhibitonIterator(); it.hasNext(); ) {
+            Exhibition ex = it.next();
+            if (ex.getId() == parseInt) {
+                return ex;
+            }
+        }
+    return null;
+    }
+
+    private static ArtPieceEntry getArtPieceWithId(Model model, int id) {
+        for(ArtPieceEntry entry : model.getPieces()){
+            if (entry.getId() == id){
+                return entry;
+            }
+        }
+        return null;
+    }
+
     private static void createExhibitionEntry(Iterator<String> lines, Model model) {
 
-        ExhibitionsController exc = new ExhibitionsController(model.getExhibitions());
+        ExhibitionsController exc = new ExhibitionsController(model.getExhibitions(), null);
         exc.addExhibition(new Exhibition(
                 Integer.parseInt(lines.next()), //ID
                 ExhibitionType.valueOf(lines.next()), //ExhibitionType
@@ -155,24 +197,16 @@ public class SaveFileParser {
                 lines.next(),                   //City
                 lines.next(),                   //Country
                 Integer.parseInt(lines.next())  //Year
-        ));
+        ), false);
     }
 
     private static void createArtPiece(Iterator<String> lines, Model model) {
         ArtPieceEntry artPieceEntry =
                 parseArtpieceEntry(lines);
-        parseExhibitionIds(lines.next(), artPieceEntry);
         parseBuyersOfArtpiece(lines, artPieceEntry);
         model.getPieces().add(artPieceEntry);
     }
 
-    private static void parseExhibitionIds(String exhibitionIdLine, ArtPieceEntry artPieceEntry) {
-        if (!exhibitionIdLine.equals("")) {
-            for (String number : exhibitionIdLine.split(",")) {
-                artPieceEntry.getExhibitionIds().add(Integer.parseInt(number));
-            }
-        }
-    }
 
     private static void createAdressbookEntry(Iterator<String> lines, Model model) {
         model.getAdressbook().getPersonList().add(new PersonEntry(

@@ -10,7 +10,7 @@ public class ModelContainer {
     private Model model;
 
     private ModelContainer() {
-        this.model = new Model(new ABModel(), new ExhibitionsModel(new ArrayList<>()));
+        this.model = new Model(new ABModel(), new ExhibitionsModel(new ArrayList<>()), new ArtPieceExhibitionRelationContainer());
     }
 
     public static Model getModel(){

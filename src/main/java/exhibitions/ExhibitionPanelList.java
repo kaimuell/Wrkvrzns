@@ -15,16 +15,17 @@ class ExhibitionPanelList extends JPanel implements ExhibitionView{
 
     private final JFrame owner;
     private final ExhibitionsController controller;
-    private final ExhibitionsModel model;
     private static final Color SELECTED_ELEMENT_COLOR = new Color(240,180,180);;
     private static final Color BACKGROUND_COLOR = new Color (220,220,220);
     private final boolean isEditable;
+    private final ExhibitionsModel model;
 
-    ExhibitionPanelList(JFrame owner, ExhibitionsController controller, ExhibitionsModel model, boolean isEditable) {
+
+    public ExhibitionPanelList(ExhibitionViewFrame owner, ExhibitionsController controller, boolean isEditable, ExhibitionsModel model) {
+        this.isEditable = isEditable;
         this.owner = owner;
         this.controller = controller;
         this.model = model;
-        this.isEditable = isEditable;
         createPanels();
     }
 

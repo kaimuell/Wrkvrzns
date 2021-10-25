@@ -2,10 +2,8 @@ package gui.dialogFactory;
 
 import adressbook.model.Person;
 import controller.Controller;
-import exhibitions.ExhibitionsController;
 import exhibitions.ExhibitionViewManager;
 import exhibitions.entities.Exhibition;
-import exhibitions.model.ExhibitionsModel;
 import model.ModelContainer;
 import tools.PictureTools;
 import gui.elements.ArtworkTypeChoice;
@@ -15,7 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static gui.dialogFactory.OkCancelOption.*;
@@ -293,40 +290,19 @@ class ArtPieceDialog extends JDialog {
         exhibitionLabel = new JLabel(lastExhibition());
         JButton addExhibitionButton = new JButton("Hinzufügen");
         addExhibitionButton.addActionListener(action -> {
-            new Thread(() -> {
-                ExhibitionViewManager edc = new ExhibitionViewManager(
-                        new ExhibitionsController(ModelContainer.getModel().getExhibitions()));
-                Exhibition selectedExhibition = edc.selectExhibitionDialog(this, ModelContainer.getModel().getExhibitions());
-                if (selectedExhibition != null) {
-                    artPiece.getExhibitionIds().add(selectedExhibition.getId());
+            SwingUtilities.invokeLater(new Thread(() -> {
+                    ExhibitionViewManager.setRelationBetweenArtpieceAndExhibitionDialog(this, this.artPiece);
                     exhibitionLabel.setText(lastExhibition());
-                }
-            }).start();
+                }));
         });
 
         JButton editExhibitionsButton = new JButton("Bearbeiten");
         editExhibitionsButton.addActionListener(action -> {
+            SwingUtilities.invokeLater(
             new Thread( () -> {
-                List<Exhibition> exhibitions = ModelContainer.getModel().getExhibitions().getExhibitionsWithIDs(artPiece.getExhibitionIds());
-                ExhibitionsModel exhibitionModel = new ExhibitionsModel(exhibitions);
-                ExhibitionViewManager exhibitionViewManager = new ExhibitionViewManager(
-                        new ExhibitionsController(exhibitionModel));
-                List<Integer> edited_ids = exhibitionViewManager.createEditExhibitionsListDialog(this, exhibitionModel);
-                List<Integer> idsToDelete = new ArrayList<>();
-                for (int id : artPiece.getExhibitionIds()) {
-                    if (!edited_ids.contains(id)){
-                    idsToDelete.add(id);
-                    }
-                }
-                for (int id : idsToDelete) {
-                    try {
-                        artPiece.getExhibitionIds().remove(id);
-                    }catch (Exception e){
-                        
-                    }
-                }
+                ExhibitionViewManager.editExhibitionsOfArtpiece(this, this.artPiece);
                 exhibitionLabel.setText(lastExhibition());
-            }).start();
+            }));
         });
 
         entryPanel.add(infoLabel);
@@ -337,15 +313,13 @@ class ArtPieceDialog extends JDialog {
     }
 
     private String lastExhibition(){
-        int lastIndex = artPiece.getExhibitionIds().size() -1;
+        List<Exhibition> exhibitions = ModelContainer.getModel().getArtpieceExhibitionRelations().getExhibitionsOfArtpiece(artPiece);
+        int lastIndex = exhibitions.size() -1;
         if (lastIndex < 0){
             return "noch nicht ausgestellt";
         }else {
-            int idOfLastEntry = artPiece.getExhibitionIds().get(lastIndex);
-            String lastExhibition = controller.getExhibitionWithID(idOfLastEntry) == null?
-                    "Austellung nicht gefunden" : controller.getExhibitionWithID(idOfLastEntry).getName();
-
-            return lastExhibition == null ? "Ausstellung nicht gefunden " : lastExhibition;
+           Exhibition lastExhibition = exhibitions.get(lastIndex);
+            return lastExhibition == null ? "Ausstellung nicht gefunden " : lastExhibition.getName();
         }
 
     }

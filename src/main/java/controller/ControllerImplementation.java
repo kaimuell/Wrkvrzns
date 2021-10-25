@@ -210,6 +210,7 @@ public class ControllerImplementation implements Controller {
                  ModelContainer.getModel().getPieces().remove(entry);
                  ModelContainer.getModel().getFiltertPieces().remove(entry);
                  deletedIDs.add(entry.getId());
+                 ModelContainer.getModel().getArtpieceExhibitionRelations().removeRelationsOfArtpiece(entry);
                  counter++;
             }
         fileHandler.deletePicturesAndBitmapsWithIds(deletedIDs);

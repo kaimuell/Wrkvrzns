@@ -4,6 +4,7 @@ import adressbook.model.ABModel;
 import controller.Controller;
 import exhibitions.model.ExhibitionsModel;
 import model.Model;
+import model.ModelContainer;
 import model.elements.ArtPieceEntry;
 import model.ModelViewAccess;
 import gui.view.Viewer;
@@ -28,7 +29,7 @@ public class SelectViewPanel extends JPanel implements Viewer {
     private static final Color SELECTED_ELEMENT_COLOR = new Color(255, 218, 220);
 
     public SelectViewPanel(Controller controller) {
-        this.model = new Model(new ABModel(), new ExhibitionsModel(null));
+        this.model = ModelContainer.getModel();
         this.controller = controller;
 
     }

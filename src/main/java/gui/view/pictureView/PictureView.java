@@ -4,6 +4,7 @@ import adressbook.model.ABModel;
 import controller.Controller;
 import exhibitions.model.ExhibitionsModel;
 import model.Model;
+import model.ModelContainer;
 import model.ModelViewAccess;
 import model.elements.ArtPieceEntry;
 import gui.view.Viewer;
@@ -30,7 +31,7 @@ public class PictureView extends JPanel implements Viewer {
     public PictureView(Controller controller){
         this.panelHeight = 200;
         this.panelWidth = 200;
-        this.model = new Model(new ABModel(), new ExhibitionsModel(null));
+        this.model = ModelContainer.getModel();
         this.controller = controller;
         this.picturePanels = new ArrayList<>();
         this.setLayout(new GridLayout(0,8));
