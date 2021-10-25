@@ -3,6 +3,7 @@ package controller.fileHandler;
 
 import adressbook.model.ABModel;
 import exhibitions.model.ExhibitionsModel;
+import model.ArtPieceExhibitionRelationContainer;
 import tools.PictureTools;
 import model.Model;
 import model.elements.ArtPieceEntry;
@@ -126,7 +127,7 @@ public class FileHandler {
     }
 
     private void writeEmptyModelToSaveFile() throws IOException {
-        Model model = new Model(new ABModel(), new ExhibitionsModel(null));
+        Model model = new Model(new ABModel(), new ExhibitionsModel(null), new ArtPieceExhibitionRelationContainer());
         save(model);
     }
 
@@ -345,7 +346,7 @@ public class FileHandler {
      * @throws IOException speichern  des Profils ist fehlgeschlagen
      */
     public Model createNewProfile(String profileName) throws IOException {
-            Model model = new Model(new ABModel(), new ExhibitionsModel(null));
+            Model model = new Model(new ABModel(), new ExhibitionsModel(null), new ArtPieceExhibitionRelationContainer());
             String profileDirectory = createProfileDirectories(profileName);
             createNewProfileFile(profileDirectory);
             save(model);

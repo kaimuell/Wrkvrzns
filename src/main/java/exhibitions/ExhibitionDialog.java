@@ -1,5 +1,6 @@
 package exhibitions;
 
+import exhibitions.ExhibitionTypeChoice;
 import gui.dialogFactory.OkCancelOption;
 import exhibitions.entities.Exhibition;
 

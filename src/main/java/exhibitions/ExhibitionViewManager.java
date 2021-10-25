@@ -2,12 +2,9 @@ package exhibitions;
 
 import gui.dialogFactory.OkCancelOption;
 import exhibitions.entities.Exhibition;
-import exhibitions.model.ExhibitionsModel;
+import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Die Klasse {@link ExhibitionViewManager} fasst die Ansichten auf Ausstellungen zusammen.
@@ -35,7 +32,7 @@ public class ExhibitionViewManager {
                 }
             }
             if (dialog.okCancelOption == OkCancelOption.OK) {
-                controller.addExhibition(exhibition);
+                controller.addExhibition(exhibition, false);
             }
             dialog.dispose();
         }
@@ -59,64 +56,20 @@ public class ExhibitionViewManager {
         );
     }
 
-    public Exhibition selectExhibitionDialog(JDialog owner, ExhibitionsModel model){
-        ExhibitionViewFrame evf = new ExhibitionViewFrame(model, true, true, true);
+    public static void setRelationBetweenArtpieceAndExhibitionDialog(JDialog owner, ArtPieceEntry artPieceEntry){
+        ExhibitionViewFrame evf = new ExhibitionViewFrame(true, true, true, null, new CreateRelationEWController(artPieceEntry));
         evf.setVisible(true);
-        while (evf.okCancelOption == OkCancelOption.UNDECIDED){
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        if (evf.okCancelOption == OkCancelOption.OK){
-            evf.dispose();
-            return model.getSelectedExhibition();
-        } else {
-            evf.dispose();
-            return null;
-        }
     }
 
-    public List<Integer> createEditExhibitionsListDialog(JDialog owner, ExhibitionsModel exhibitionModel) {
-        ExhibitionViewFrame evf = new ExhibitionViewFrame(exhibitionModel, false, false, false);
+    public static void editExhibitionsOfArtpiece(JDialog owner, ArtPieceEntry entry) {
+        ExhibitionViewFrame evf = new ExhibitionViewFrame(false, false, false, entry, new VoidWindowController());
         evf.setLocationRelativeTo(owner);
         evf.setVisible(true);
-        List<Integer> oldids = new ArrayList();
-        for (Iterator<Integer> it = exhibitionModel.getKeysIterator(); it.hasNext(); ) {
-            Integer id = it.next();
-            oldids.add(id);
-        }
-        while (evf.okCancelOption == OkCancelOption.UNDECIDED) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        List<Integer> ids = new ArrayList();
-        boolean accepted = false;
-        if (evf.okCancelOption == OkCancelOption.OK){
-            for (Iterator<Integer> it = exhibitionModel.getKeysIterator(); it.hasNext(); ) {
-                Integer id = it.next();
-                ids.add(id);
-            }
-            accepted = true;
-        }
-        evf.dispose();
-        return accepted ? ids : oldids;
     }
 
-    public void createExhibitionMainWindow(ExhibitionsModel exhibitionsModel){
-        ExhibitionViewFrame evf = new ExhibitionViewFrame(exhibitionsModel, true, false, true);
+    public static void createExhibitionMainWindow(JFrame owner){
+        ExhibitionViewFrame evf = new ExhibitionViewFrame( true, false, true, null, new VoidWindowController());
         evf.setVisible(true);
-        while (evf.okCancelOption == OkCancelOption.UNDECIDED) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        evf.dispose();
+        evf.setLocationRelativeTo(owner);
     }
 }

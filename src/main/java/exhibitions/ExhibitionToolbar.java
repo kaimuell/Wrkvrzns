@@ -8,10 +8,10 @@ import javax.swing.*;
 
 class ExhibitionToolbar extends MyToolbar {
     private final ExhibitionsController controller;
-    private final ExhibitionsModel model;
     private final JFrame owner;
+    private final ExhibitionsModel model;
 
-    ExhibitionToolbar(JFrame owner, ExhibitionsController controller, ExhibitionsModel model, boolean withAddingOption) {
+    ExhibitionToolbar(JFrame owner, ExhibitionsController controller, boolean withAddingOption, ExhibitionsModel model) {
         this.owner = owner;
         this.controller = controller;
         this.model = model;

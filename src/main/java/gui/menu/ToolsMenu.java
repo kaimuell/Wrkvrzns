@@ -4,9 +4,7 @@ import adressbook.view.AdressBookFrame;
 import controller.Controller;
 import gui.dialogFactory.calculationDialog.CalculationDialog;
 import gui.dialogFactory.calculationDialog.CalculationDialogChangeAllControllerImplementation;
-import exhibitions.ExhibitionsController;
 import exhibitions.ExhibitionViewManager;
-import exhibitions.model.ExhibitionsModel;
 import model.ModelContainer;
 
 import javax.swing.*;
@@ -65,11 +63,9 @@ public class ToolsMenu extends JMenu {
         JMenuItem openExhibitions = new JMenuItem("Ausstellungen");
         openExhibitions.setToolTipText("Zeigt die Liste der Ausstellungen");
         openExhibitions.addActionListener(action -> {
-                    new Thread(() -> {
-                       ExhibitionsModel exhibitionsModel = ModelContainer.getModel().getExhibitions();
-                        ExhibitionViewManager edc = new ExhibitionViewManager(new ExhibitionsController(exhibitionsModel));
-                        edc.createExhibitionMainWindow(exhibitionsModel);
-                    }).start();
+                     SwingUtilities.invokeLater(()->{
+                        ExhibitionViewManager.createExhibitionMainWindow(superComponent);
+                    });
                 }
         );
         this.add(openExhibitions);

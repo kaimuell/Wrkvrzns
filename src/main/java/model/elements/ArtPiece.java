@@ -17,7 +17,6 @@ public class ArtPiece implements Serializable {
     private int year;
     private int edition;
     private List<Person> buyers;
-    private List<Integer> exhibitionIds;
     private int price;
     private String strorageLocation;
 
@@ -34,7 +33,6 @@ public class ArtPiece implements Serializable {
         this.edition = edition;
         this.strorageLocation = storageLocation;
         this.buyers = new ArrayList<>();
-        this.exhibitionIds = new ArrayList<>();
     }
 
     public ArtPiece(ArtPiece piece) {
@@ -48,7 +46,6 @@ public class ArtPiece implements Serializable {
         this.price = piece.getPrice();
         this.edition = piece.getEdition();
         this.buyers = piece.getBuyers();
-        this.exhibitionIds = piece.getExhibitionIds();
     }
 
     /**
@@ -182,14 +179,6 @@ public class ArtPiece implements Serializable {
 
     public void setBuyers(List<Person> buyers) {
         this.buyers = buyers;
-    }
-
-    public List<Integer> getExhibitionIds() {
-        return exhibitionIds;
-    }
-
-    public void setExhibitionIds(List<Integer> exhibitionIds) {
-        this.exhibitionIds = exhibitionIds;
     }
 
     public String getStorageLocation() {

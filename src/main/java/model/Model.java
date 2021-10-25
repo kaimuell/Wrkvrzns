@@ -12,14 +12,16 @@ public class Model implements Serializable, ModelViewAccess {
     private ABModel adressbook;
     private ExhibitionsModel exhibitions;
     private List<ArtPieceEntry> pieces;
+    private ArtPieceExhibitionRelationContainer artpieceExhibitionRelations;
 
     private List<ArtPieceEntry> filtertPieces;
 
-    public Model(ABModel adressbuch, ExhibitionsModel exhibitions) {
+    public Model(ABModel adressbuch, ExhibitionsModel exhibitions, ArtPieceExhibitionRelationContainer artpieceExhibitionRelations) {
         this.setAdressbook(adressbuch);
         this.exhibitions = exhibitions;
         this.pieces = new ArrayList<>();
         this.filtertPieces = new ArrayList<>();
+        this.artpieceExhibitionRelations = artpieceExhibitionRelations;
     }
 
     public List<ArtPieceEntry> getFiltertPieces() {
@@ -68,5 +70,9 @@ public class Model implements Serializable, ModelViewAccess {
 
     public void setAdressbook(ABModel adressbook) {
         this.adressbook = adressbook;
+    }
+
+    public ArtPieceExhibitionRelationContainer getArtpieceExhibitionRelations() {
+        return artpieceExhibitionRelations;
     }
 }
