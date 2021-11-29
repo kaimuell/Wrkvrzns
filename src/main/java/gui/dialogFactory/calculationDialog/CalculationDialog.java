@@ -2,6 +2,7 @@ package gui.dialogFactory.calculationDialog;
 
 import gui.dialogFactory.OkCancelOption;
 import gui.dialogFactory.RoundingChoice;
+import languagePack.LanguagePackContainer;
 import model.elements.ArtPieceEntry;
 
 import javax.swing.*;
@@ -29,11 +30,15 @@ public class CalculationDialog extends JDialog {
         errorLabel = new JTextField("");
         errorPanel.add(errorLabel);
         mainPanel.add(errorPanel, BorderLayout.NORTH);
-        JButton okButton = new JButton("OK");
+        JButton okButton = new JButton(
+                LanguagePackContainer.getLanguagePack().getOk()
+        );
         okButton.addActionListener(action -> {
             parseNumbersAndCalculatePrices();
         });
-        JButton cancelButton = new JButton("Abbrechen");
+        JButton cancelButton = new JButton(
+                LanguagePackContainer.getLanguagePack().getCancel()
+        );
         cancelButton.addActionListener(action -> {
             cancel();
         });
@@ -54,10 +59,14 @@ public class CalculationDialog extends JDialog {
 
     private JPanel initCenterPanel() {
         JPanel centerPanel = new JPanel(new GridLayout(3, 2));
-        JLabel percentLabel = new JLabel("Prozente aufschlagen : ");
+        JLabel percentLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getCalculationDialogPercentLabel()
+        );
         percentField = new JTextField(10);
-        JLabel infoLabel = new JLabel(" - für abziehen");
-        JLabel roundingLabel = new JLabel("Runden auf : ");
+        JLabel infoLabel = new JLabel(LanguagePackContainer.getLanguagePack().getCalculationDialogInfoLabel());
+        JLabel roundingLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getCalculationDialogRoundingLabel()
+        );
         roundingChoice = new RoundingChoice();
         centerPanel.add(percentLabel);
         centerPanel.add(percentField);
@@ -81,7 +90,9 @@ public class CalculationDialog extends JDialog {
             try {
                 artPiece.setNewPrice(calculatePrice(artPiece.getArtPiece().getPrice()));
             } catch (Exception e) {
-                errorLabel.setText("Konnte Eingaben nicht parsen");
+                errorLabel.setText(
+                        LanguagePackContainer.getLanguagePack().getErrorMessageCouldntParseInput()
+                );
                 this.revalidate();
             }
         }

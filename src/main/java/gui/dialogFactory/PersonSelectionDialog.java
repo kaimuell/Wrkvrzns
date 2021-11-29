@@ -3,6 +3,7 @@ package gui.dialogFactory;
 import adressbook.model.ABModel;
 import adressbook.model.Person;
 import adressbook.view.AdressBookFrame;
+import languagePack.LanguagePackContainer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,12 +22,12 @@ public class PersonSelectionDialog extends AdressBookFrame {
      this.selectedPerson = null;
      this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
      JPanel buttonPanel = new JPanel();
-     JButton okButton = new JButton("OK");
+     JButton okButton = new JButton(LanguagePackContainer.getLanguagePack().getOk());
      okButton.addActionListener(action -> {
          this.okCancelOption = OkCancelOption.OK;
          this.selectedPerson = controller.getSelectedPerson();
      });
-     JButton cancelButton = new JButton("Abbrechen");
+     JButton cancelButton = new JButton(LanguagePackContainer.getLanguagePack().getCancel());
      cancelButton.addActionListener(action -> {
          this.okCancelOption = OkCancelOption.CANCEL;
      });

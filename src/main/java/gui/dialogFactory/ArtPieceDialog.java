@@ -4,6 +4,7 @@ import adressbook.model.Person;
 import controller.Controller;
 import exhibitions.ExhibitionViewManager;
 import exhibitions.entities.Exhibition;
+import languagePack.LanguagePackContainer;
 import model.ModelContainer;
 import tools.PictureTools;
 import gui.elements.ArtworkTypeChoice;
@@ -114,7 +115,7 @@ class ArtPieceDialog extends JDialog {
 
     private JPanel createStorageLocationPanel() {
         JPanel storageLocationPanel = new JPanel(new GridLayout(1,2));
-        JLabel storageLocationLabel = new JLabel("Lagerort : ");
+        JLabel storageLocationLabel = new JLabel(LanguagePackContainer.getLanguagePack().getArtPieceDialogStorageLocation());
         storageLocationField = new JTextField(artPiece.getStorageLocation());
         storageLocationPanel.add(storageLocationLabel);
         storageLocationPanel.add(storageLocationField);
@@ -138,7 +139,7 @@ class ArtPieceDialog extends JDialog {
         imagePreviewIcon.setIcon(new ImageIcon(artPiece.getBitmap() == null?
                 PictureTools.defaultEmptyImage().getScaledInstance(80,80, Image.SCALE_FAST)
                 : artPiece.getBitmap().getScaledInstance(80,80,Image.SCALE_SMOOTH)));
-        JButton loadPictureButton = new JButton("Bild laden");
+        JButton loadPictureButton = new JButton(LanguagePackContainer.getLanguagePack().getArtPieceDialogLoadPicture());
         loadPictureButton.addActionListener(e -> selectPictureFromDialog());
         previewPanel.add(imagePreviewIcon);
         inputPanel.add(loadPictureButton);
@@ -156,7 +157,7 @@ class ArtPieceDialog extends JDialog {
                 this.picturePath = setPictureFieldToSelectionOf(openDialog);
                 repaint();
             } catch (IOException ex) {
-                errorInfoLabel.setText("Bild konnte nicht geladen werden");
+                errorInfoLabel.setText(LanguagePackContainer.getLanguagePack().getErrorMessageCouldntLoadPicture());
                 repaint();
             }
         }
@@ -198,74 +199,96 @@ class ArtPieceDialog extends JDialog {
     }
 
     private void addNameTextFieldTo(JPanel entryPanel) {
-        JLabel nameLabel = new JLabel("Titel");
+        JLabel nameLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogTitleLabel()
+        );
         nameField = new JTextField(artPiece.getName(), 15);
         entryPanel.add(nameLabel);
         entryPanel.add(nameField);
     }
 
     private void addTechniqueTextFieldTo(JPanel entryPanel) {
-        JLabel techniqueLabel = new JLabel("Technik");
+        JLabel techniqueLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogTechniqueLabel()
+        );
         techniqueField = new JTextField(artPiece.getTechnique(),25);
         entryPanel.add(techniqueLabel);
         entryPanel.add(techniqueField);
     }
 
     private void addHeightTextFieldTo(JPanel entryPanel) {
-        JLabel heightLabel = new JLabel("Höhe (in cm)");
+        JLabel heightLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogHeightLabel()
+        );
         heightField = new JTextField(((Integer)artPiece.getHeight()).toString(), 6);
         entryPanel.add(heightLabel);
         entryPanel.add(heightField);
     }
 
     private void addWithTextFieldTo(JPanel entryPanel) {
-        JLabel widthLabel = new JLabel("Breite (in cm)");
+        JLabel widthLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogWidthLabel()
+        );
         widthField = new JTextField(((Integer) artPiece.getWidth()).toString(), 6);
         entryPanel.add(widthLabel);
         entryPanel.add(widthField);
     }
 
     private void addDepthTextFieldTo(JPanel entryPanel) {
-        JLabel depthLabel = new JLabel("Tiefe (in cm)");
+        JLabel depthLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogDepthLabel()
+        );
         depthField = new JTextField(((Integer) artPiece.getDepth()).toString(), 6);
         entryPanel.add(depthLabel);
         entryPanel.add(depthField);
     }
 
     private void addLengthTextFieldTo(JPanel entryPanel) {
-        JLabel lengthLabel = new JLabel("Länge (in min)");
+        JLabel lengthLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogLengthLabel()
+        );
         lengthField = new JTextField(((Integer) artPiece.getLength()).toString(), 6);
         entryPanel.add(lengthLabel);
         entryPanel.add(lengthField);
     }
 
     private void addYearTextFieldTo(JPanel entryPanel) {
-        JLabel yearLabel = new JLabel("Entstehungsjahr");
+        JLabel yearLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogYearLabel()
+        );
         yearField = new JTextField(((Integer) artPiece.getYear()).toString(), 6);
         entryPanel.add(yearLabel);
         entryPanel.add(yearField);
     }
 
     private void addPriceTextFieldTo(JPanel entryPanel) {
-        JLabel priceLabel = new JLabel("Preis (€)");
+        JLabel priceLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogPriceLabel()
+        );
         priceField = new JTextField(((Integer) artPiece.getPrice()).toString(), 9);
         entryPanel.add(priceLabel);
         entryPanel.add(priceField);
     }
 
     private void addEditionTextFieldTo(JPanel entryPanel) {
-        JLabel editionLabel = new JLabel("Auflage");
+        JLabel editionLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogEditionLabel()
+        );
         editionField =  new JTextField(((Integer)artPiece.getEdition()).toString(), 6);
         entryPanel.add(editionLabel);
         entryPanel.add(editionField);
     }
     private void initBuyerSelection(JPanel entryPanel) {
 
-        JLabel isSoldLabel = new JLabel("Verkauft an:");
+        JLabel isSoldLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogSoldTo()
+        );
 
         buyerLabel = new JLabel(artPiece.getBuyersRepresentation());
 
-        JButton selectBuyerButton = new JButton("Käufer hinzufügen");
+        JButton selectBuyerButton = new JButton(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogSelectBuyer()
+        );
         selectBuyerButton.addActionListener( action -> {
                     new Thread(() -> {
                         addBuyerFromSelectionDialog();
@@ -273,8 +296,8 @@ class ArtPieceDialog extends JDialog {
                 }
         );
 
-        JButton deleteBuyerButton = new JButton("Käufer bearbeiten");
-        deleteBuyerButton.addActionListener(e ->
+        JButton editBuyerButton = new JButton(LanguagePackContainer.getLanguagePack().getArtPieceDialogEditBuyer());
+        editBuyerButton.addActionListener(e ->
                 new Thread(() ->
                         editBuyers()).start()
         );
@@ -282,13 +305,17 @@ class ArtPieceDialog extends JDialog {
         entryPanel.add(isSoldLabel);
         entryPanel.add(buyerLabel);
         entryPanel.add(selectBuyerButton);
-        entryPanel.add(deleteBuyerButton);
+        entryPanel.add(editBuyerButton);
     }
 
     private void initExhibitionSelection(JPanel entryPanel){
-        JLabel infoLabel = new JLabel("Letze Ausstellung");
+        JLabel infoLabel = new JLabel(
+                LanguagePackContainer.getLanguagePack().getArtPieceDialogLastBuyer()
+        );
         exhibitionLabel = new JLabel(lastExhibition());
-        JButton addExhibitionButton = new JButton("Hinzufügen");
+        JButton addExhibitionButton = new JButton(
+                LanguagePackContainer.getLanguagePack().getAdd()
+        );
         addExhibitionButton.addActionListener(action -> {
             SwingUtilities.invokeLater(new Thread(() -> {
                     ExhibitionViewManager.setRelationBetweenArtpieceAndExhibitionDialog(this, this.artPiece);
@@ -296,7 +323,7 @@ class ArtPieceDialog extends JDialog {
                 }));
         });
 
-        JButton editExhibitionsButton = new JButton("Bearbeiten");
+        JButton editExhibitionsButton = new JButton(LanguagePackContainer.getLanguagePack().getEdit());
         editExhibitionsButton.addActionListener(action -> {
             SwingUtilities.invokeLater(
             new Thread( () -> {
@@ -316,10 +343,11 @@ class ArtPieceDialog extends JDialog {
         List<Exhibition> exhibitions = ModelContainer.getModel().getArtpieceExhibitionRelations().getExhibitionsOfArtpiece(artPiece);
         int lastIndex = exhibitions.size() -1;
         if (lastIndex < 0){
-            return "noch nicht ausgestellt";
+            return LanguagePackContainer.getLanguagePack().getArtPieceDialogNotInAnyExhibitonYet();
         }else {
            Exhibition lastExhibition = exhibitions.get(lastIndex);
-            return lastExhibition == null ? "Ausstellung nicht gefunden " : lastExhibition.getName();
+            return lastExhibition == null ?
+            LanguagePackContainer.getLanguagePack().getErrorExhibitionNotFound(): lastExhibition.getName();
         }
 
     }
