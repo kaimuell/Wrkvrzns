@@ -2,6 +2,7 @@ package gui.menu;
 
 import controller.Controller;
 import gui.dialogFactory.DialogFactory;
+import languagePack.LanguagePackContainer;
 
 import javax.swing.*;
 import java.io.File;
@@ -12,27 +13,27 @@ class DataMenu extends JMenu {
 
 
     DataMenu(JFrame parentFrame, Controller controller) {
-        super("Datei");
+        super(LanguagePackContainer.getLanguagePack().getDataMenuHeader());
         this.parentFrame = parentFrame;
         this.controller = controller;
         JMenuItem newProfile = newProfileOption();
         JMenuItem save = saveOption();
         JMenuItem close = closeOption();
         JMenuItem load = loadOption();
-        JMenuItem saveAs = saveAsOption();
+        //JMenuItem saveAs = saveAsOption();
 
         this.add(newProfile);
         this.add(load);
         this.add(save);
-        this.add(saveAs);
+        //this.add(saveAs);
         this.add(close);
     }
 
 
     private JMenuItem newProfileOption() {
-        JMenuItem newProfile = new JMenuItem("Neu");
+        JMenuItem newProfile = new JMenuItem(LanguagePackContainer.getLanguagePack().getNew());
         newProfile.addActionListener( action -> {
-            String name = JOptionPane.showInputDialog(parentFrame, "Name des neuen Profils : ");
+            String name = JOptionPane.showInputDialog(parentFrame, LanguagePackContainer.getLanguagePack().getDataMenuNewProfile());
             if (name != null) {
                 controller.createNewProfile(name);
             }
@@ -41,7 +42,7 @@ class DataMenu extends JMenu {
     }
 
     private JMenuItem loadOption() {
-        JMenuItem load = new JMenuItem("Laden");
+        JMenuItem load = new JMenuItem(LanguagePackContainer.getLanguagePack().getDataMenuLoad());
         load.addActionListener(action -> {
             JFileChooser fileChooser = DialogFactory.createChooseSingleProfileDialog();
             int option = fileChooser.showOpenDialog(parentFrame);
@@ -54,15 +55,15 @@ class DataMenu extends JMenu {
     }
 
     private JMenuItem saveOption() {
-        JMenuItem save = new JMenuItem("Speichern");
+        JMenuItem save = new JMenuItem(LanguagePackContainer.getLanguagePack().getDataMenuSave());
         save.addActionListener(a -> controller.save());
         return save;
     }
 
     private JMenuItem saveAsOption() {
-        JMenuItem saveAs = new JMenuItem("Speichern als");
+        JMenuItem saveAs = new JMenuItem(LanguagePackContainer.getLanguagePack().getDataMenuSaveAs());
         saveAs.addActionListener(action -> {
-            String profileName = JOptionPane.showInputDialog(parentFrame, "Name des neuen Profils : ");
+            String profileName = JOptionPane.showInputDialog(parentFrame, LanguagePackContainer.getLanguagePack().getDataMenuSaveAsDialog());
             if (profileName != null) {
                 controller.saveAs(profileName);
             }
@@ -71,10 +72,14 @@ class DataMenu extends JMenu {
     }
 
     private JMenuItem closeOption() {
-        JMenuItem close = new JMenuItem("Beenden");
+        JMenuItem close = new JMenuItem(LanguagePackContainer.getLanguagePack().getQuit());
         close.addActionListener(action -> {
-            int returnval = JOptionPane.showConfirmDialog(parentFrame,
-                    "Wirklich beenden?", "Beenden", JOptionPane.YES_NO_OPTION);
+            int returnval = JOptionPane.showConfirmDialog(
+                    parentFrame,
+                    LanguagePackContainer.getLanguagePack().getQuitConfimQuestion(),
+                    LanguagePackContainer.getLanguagePack().getQuit(),
+                    JOptionPane.YES_NO_OPTION
+            );
             if (returnval == JOptionPane.YES_OPTION) {
                 controller.save();
                 System.exit(0);

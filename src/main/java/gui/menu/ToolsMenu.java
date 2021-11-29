@@ -5,6 +5,7 @@ import controller.Controller;
 import gui.dialogFactory.calculationDialog.CalculationDialog;
 import gui.dialogFactory.calculationDialog.CalculationDialogChangeAllControllerImplementation;
 import exhibitions.ExhibitionViewManager;
+import languagePack.LanguagePackContainer;
 import model.ModelContainer;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class ToolsMenu extends JMenu {
     private Controller controller;
 
     public ToolsMenu(JFrame superComponent, Controller controller) {
-        super("Werkzeuge");
+        super(LanguagePackContainer.getLanguagePack().getTools());
         this.controller = controller;
         this.superComponent = superComponent;
         initOpenAdressbook();
@@ -30,8 +31,8 @@ public class ToolsMenu extends JMenu {
     }
 
     private void initAdjustAllPrices(JFrame superComponent, Controller controller) {
-        JMenuItem adjustPrices = new JMenuItem("Alle Preise anpassen");
-        adjustPrices.setToolTipText("Verändert die Preise aller Arbeiten um einen bestimmten Prozentsatz");
+        JMenuItem adjustPrices = new JMenuItem(LanguagePackContainer.getLanguagePack().getToolsMenuAdjustAllPrices());
+        adjustPrices.setToolTipText(LanguagePackContainer.getLanguagePack().getToolsMenuAdjustAllPricesToolTipText());
         adjustPrices.addActionListener(action -> {
                 SwingUtilities.invokeLater(() ->{
                 CalculationDialog cd = new CalculationDialog(
@@ -45,8 +46,8 @@ public class ToolsMenu extends JMenu {
     }
 
     private void initAdjustSelectedPrices(JFrame superComponent, Controller controller) {
-        JMenuItem adjustPrices = new JMenuItem("Preise der Auswahl anpassen");
-        adjustPrices.setToolTipText("Verändert die Preise der ausgewählten Arbeiten um einen bestimmten Prozentsatz");
+        JMenuItem adjustPrices = new JMenuItem(LanguagePackContainer.getLanguagePack().getToolsMenuAdjustPrices());
+        adjustPrices.setToolTipText(LanguagePackContainer.getLanguagePack().getToolsMenuAdjustPricesToolTipText());
         adjustPrices.addActionListener(action -> {
             SwingUtilities.invokeLater(() ->{
                 CalculationDialog cd = new CalculationDialog(
@@ -60,8 +61,8 @@ public class ToolsMenu extends JMenu {
     }
 
     private void initOpenExhibitions() {
-        JMenuItem openExhibitions = new JMenuItem("Ausstellungen");
-        openExhibitions.setToolTipText("Zeigt die Liste der Ausstellungen");
+        JMenuItem openExhibitions = new JMenuItem(LanguagePackContainer.getLanguagePack().getToolsMenuOpenExhibitions());
+        openExhibitions.setToolTipText(LanguagePackContainer.getLanguagePack().getToolsMenuOpenExhibitionsToolTipText());
         openExhibitions.addActionListener(action -> {
                      SwingUtilities.invokeLater(()->{
                         ExhibitionViewManager.createExhibitionMainWindow(superComponent);
@@ -73,16 +74,15 @@ public class ToolsMenu extends JMenu {
     }
 
     private void initImportContacts(JFrame superComponent, Controller controller) {
-        JMenuItem importAdresses = new JMenuItem("Kontakte importieren");
-        importAdresses.setToolTipText("Benötogt eine von Thunderbird exportierte .csv Datei, " +
-                "bei der die Einträge durch Komma getrennt sind.");
+        JMenuItem importAdresses = new JMenuItem(LanguagePackContainer.getLanguagePack().getToolsMenuImportAdresses());
+        importAdresses.setToolTipText(LanguagePackContainer.getLanguagePack().getToolsMenuImportAdressesToolTipText());
         importAdresses.addActionListener(action -> {
             JFileChooser chooser = createFilechooserforCSVFiles();
             int chooseOption = chooser.showOpenDialog(superComponent);
             if (chooseOption == JFileChooser.APPROVE_OPTION){
                 File file = chooser.getSelectedFile();
                 int paneOption = JOptionPane.showConfirmDialog(superComponent,
-                        "Nur Kontakte importieren, die einen gespeicherten Namen haben?");
+                        LanguagePackContainer.getLanguagePack().getToolsMenuImportAdressesConfimDialogText());
                 if (paneOption == JOptionPane.OK_OPTION){
                     controller.importContacts(file, true);
                 }else if(paneOption == JOptionPane.NO_OPTION){
@@ -103,11 +103,11 @@ public class ToolsMenu extends JMenu {
     }
 
     private void initOpenAdressbook() {
-        JMenuItem adressbook = new JMenuItem("Adressbuch öffnen");
+        JMenuItem adressbook = new JMenuItem(LanguagePackContainer.getLanguagePack().getToolsMenuOpenAddressBook());
         adressbook.addActionListener(action -> {
             AdressBookFrame af =
             new AdressBookFrame(ModelContainer.getModel().getAdressbook());
-            af.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+            af.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         });
         this.add(adressbook);
     }

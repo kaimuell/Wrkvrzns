@@ -1,5 +1,6 @@
 package gui.view.tableView;
 
+import languagePack.LanguagePackContainer;
 import model.Model;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
@@ -14,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
 public class TableAdapter extends AbstractTableModel {
 
     private final static String[] COLUMN_NAMES =
-            new String[]{"Name", "Typ", "Technik", "Höhe", "Breite", "Tiefe", "Länge", "Jahr", "Preis", "Auflage", "Käufer"};
+                LanguagePackContainer.getLanguagePack().getTableAdapterColumnNames();
 
     private Model model;
 

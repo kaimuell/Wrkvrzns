@@ -6,7 +6,7 @@ import gui.view.ViewHub;
 import javax.swing.*;
 
 /**
- * Die MenuBar des Programms
+ * The Menu Bar of the programm
  */
 public class MainMenuBar extends JMenuBar {
     public MainMenuBar(JFrame parentFrame, Controller controller, ViewHub viewHub) {

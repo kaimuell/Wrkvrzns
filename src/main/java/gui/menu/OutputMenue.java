@@ -4,6 +4,8 @@ import controller.Controller;
 import gui.dialogFactory.DialogFactory;
 import gui.dialogFactory.calculationDialog.CalculationDialog;
 import gui.dialogFactory.calculationDialog.CalculationDialogCreatePriceListControllerImplementation;
+import languagePack.LanguagePack;
+import languagePack.LanguagePackContainer;
 import model.elements.ArtPieceEntry;
 import pdf.DeliveryNote;
 import pdf.Portfolio;
@@ -23,12 +25,12 @@ public class OutputMenue extends JMenu {
     private Controller controller;
 
     public OutputMenue(Controller controller, JFrame parentFrame) {
-        super("Ausgabe");
+        super(LanguagePackContainer.getLanguagePack().getOutputMenueHeader());
         this.controller = controller;
         this.parentFrame = parentFrame;
 
-        JMenuItem createDeliveryNote = new JMenuItem("Preisliste erstellen");
-        createDeliveryNote.setToolTipText("Erstellt eine PDF mit einer Auflistung der ausgewählten Werke");
+        JMenuItem createDeliveryNote = new JMenuItem(LanguagePackContainer.getLanguagePack().getOutputMenueCreateDeliveryNode());
+        createDeliveryNote.setToolTipText(LanguagePackContainer.getLanguagePack().getOutputMenueCreateDeliveryNodeToolTip());
         createDeliveryNote.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,8 +38,8 @@ public class OutputMenue extends JMenu {
             }
         });
 
-        JMenuItem createArtpieceList = new JMenuItem("Preisliste erstellen");
-        createArtpieceList.setToolTipText("Erstellt eine PDF mit einer Auflistung der ausgewählten Werke");
+        JMenuItem createArtpieceList = new JMenuItem(LanguagePackContainer.getLanguagePack().getOutputMenueCreatePriceList());
+        createArtpieceList.setToolTipText(LanguagePackContainer.getLanguagePack().getOutputMenueCreatePriceListToolTip());
         createArtpieceList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -46,12 +48,17 @@ public class OutputMenue extends JMenu {
             }
         });
 
-        JMenuItem createArtpieceListWithAdjustedPrices = new JMenuItem("Preisliste mit angepassten Preisen erstellen");
-        createArtpieceListWithAdjustedPrices.setToolTipText("Erstellt eine PDF mit einer Auflistung der ausgewählten Werke");
+        JMenuItem createArtpieceListWithAdjustedPrices = new JMenuItem(
+                LanguagePackContainer.getLanguagePack().getOutputMenueCreatePriceListAdjPrices());
+        createArtpieceListWithAdjustedPrices.setToolTipText(
+                LanguagePackContainer.getLanguagePack().getOutputMenueCreatePriceListAdjPricesToolTip());
         createArtpieceListWithAdjustedPrices.addActionListener(action -> {
             List<ArtPieceEntry> entries = controller.getSelectedElements();
             if (entries.isEmpty()) {
-                JOptionPane.showMessageDialog(parentFrame, "Keine Einträge ausgewählt.");
+                JOptionPane.showMessageDialog(
+                        parentFrame,
+                        LanguagePackContainer.getLanguagePack().getNoEntriesSelected()
+                );
             } else {
                 JFileChooser fileChooser = DialogFactory.createChooseSinglePDFDialog();
                 int option = fileChooser.showOpenDialog(parentFrame);
@@ -68,14 +75,14 @@ public class OutputMenue extends JMenu {
 
         });
 
-        JMenuItem createPortfolio = new JMenuItem("Portfolio erstellen");
-        createPortfolio.setToolTipText("Erstellt eine PDF mit einem Portfolio der ausgewählten Werke");
+        JMenuItem createPortfolio = new JMenuItem(LanguagePackContainer.getLanguagePack().getOutputMenueCreatePortfolio());
+        createPortfolio.setToolTipText(LanguagePackContainer.getLanguagePack().getOutputMenueCreatePortfolioToolTip());
         createPortfolio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<ArtPieceEntry> entries = controller.getSelectedElements();
                 if (entries.isEmpty()) {
-                    JOptionPane.showMessageDialog(parentFrame, "Keine Einträge ausgewählt");
+                    JOptionPane.showMessageDialog(parentFrame, LanguagePackContainer.getLanguagePack().getNoEntriesSelected());
                 } else {
                     JFileChooser fileChooser = DialogFactory.createChooseSinglePDFDialog();
                     int option = fileChooser.showOpenDialog(parentFrame);
@@ -90,10 +97,9 @@ public class OutputMenue extends JMenu {
                             }
                             try {
                                 new Portfolio(entries, images, true).create_PDF(file.getAbsolutePath());
-                                JOptionPane.showMessageDialog(parentFrame, "Portfolio erstellt.");
+                                JOptionPane.showMessageDialog(parentFrame, LanguagePackContainer.getLanguagePack().getPortfolioCreated());
                             } catch (IOException ioException) {
-                                JOptionPane.showMessageDialog(parentFrame, "Die Datei konnte nicht erzeugt werden. " +
-                                        "Eventuell ist sie in einem anderen Programm geöffnet.");
+                                JOptionPane.showMessageDialog(parentFrame, LanguagePackContainer.getLanguagePack().getErrorMessageFileNotMade());
                             }
                         }
                     }
@@ -109,7 +115,7 @@ public class OutputMenue extends JMenu {
     private void createList(Controller controller, JFrame parentFrame, boolean withPrices) {
         List<ArtPieceEntry> entries = controller.getSelectedElements();
         if (entries.isEmpty()) {
-            JOptionPane.showMessageDialog(parentFrame, "Keine Einträge ausgewählt.");
+            JOptionPane.showMessageDialog(parentFrame, LanguagePackContainer.getLanguagePack().getNoEntriesSelected());
         } else {
             JFileChooser fileChooser = DialogFactory.createChooseSinglePDFDialog();
             int option = fileChooser.showOpenDialog(parentFrame);
@@ -119,10 +125,12 @@ public class OutputMenue extends JMenu {
                 if (file != null && !entries.isEmpty()) {
                     try {
                         new DeliveryNote(entries, withPrices).create_PDF(file.getAbsolutePath());
-                        JOptionPane.showMessageDialog(parentFrame, "Preisliste erstellt.");
+                        JOptionPane.showMessageDialog(parentFrame, LanguagePackContainer.getLanguagePack().getPriceListMade());
                     } catch (IOException ioException) {
-                        JOptionPane.showMessageDialog(parentFrame, "Die Datei konnte nicht erzeugt werden. " +
-                                "Eventuell ist sie in einem anderen Programm geöffnet.");
+                        JOptionPane.showMessageDialog(
+                                parentFrame,
+                                LanguagePackContainer.getLanguagePack().getErrorMessageFileNotMade()
+                        );
                     }
                 }
             }
