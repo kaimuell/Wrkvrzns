@@ -12,7 +12,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <itext.version>7.1.16</itext.version>
+        <itext.version>7.1.17</itext.version>
     </properties>
 
 
@@ -30,6 +30,7 @@
             <type>pom</type>
 
         </dependency>
+
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-surefire-provider</artifactId>
@@ -38,7 +39,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.8.1</version>
+            <version>5.8.2</version>
         </dependency>
 
     </dependencies>
@@ -73,6 +74,14 @@
                         <artifactId>junit-jupiter-engine</artifactId>
                         <version>5.2.0-M1</version>
                     </dependency>
+
+                    <!-- https://jmaven.com/maven/com.twelvemonkeys.imageio/imageio-jpeg -->
+                    <dependency>
+                        <groupId>com.twelvemonkeys.imageio</groupId>
+                        <artifactId>imageio-jpeg</artifactId>
+                        <version>3.8.1</version>
+                    </dependency>
+
                 </dependencies>
             </plugin>
 
