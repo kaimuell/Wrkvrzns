@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * Fasst Operationen auf Bildern zusammen
@@ -55,10 +56,23 @@ public class PictureTools {
      * @return das Bild
      * @throws IOException laden fehlgeschlagen
      */
-    public static Image loadImage(String filepath) throws IOException{
-        File dat = new File(filepath);
+    public static Image loadImage(Path filepath) throws IOException{
+        File dat = filepath.toFile();
         BufferedImage img = ImageIO.read(dat);
         return (Image) img;
+    }
+
+    /**
+     * Versuch ein Bild aus dem übergebenen Filepath zu laden
+     * @param filepath der Pfad der Datei
+     * @return das Bild
+     * @throws IOException laden fehlgeschlagen
+     */
+    public static Image loadImage(String filepath) throws IOException{
+        File imageFile = new File(filepath);
+        BufferedImage image;
+        image = ImageIO.read(imageFile);
+        return image;
     }
 
     /**
@@ -81,13 +95,12 @@ public class PictureTools {
         IIOImage outputImage = new IIOImage(image, null, null);
         jpgWriter.write(null, outputImage, jpgWriteParam);
         jpgWriter.dispose();
-
     }
 
 
     /**
      * Gibt das Standardbild zurück, welches genutzt wird, falls noch kein Bild zugewiesen wurde
-     * @return das STandardbild
+     * @return das Standardbild
      */
     public static Image defaultEmptyImage() {
         return createEmptyImage();
@@ -110,5 +123,4 @@ public class PictureTools {
 
         return image;
     }
-    
 }
