@@ -5,11 +5,12 @@ import exhibitions.entities.Exhibition;
 import model.elements.ArtPiece;
 import model.elements.ArtPieceEntry;
 import model.elements.ArtworkType;
+import org.junit.jupiter.api.Test;
 import tools.PictureTools;
 
 public class ArtpieceExhibitionRelationTests {
 
-
+    @Test
     void relationFunctionalityTest(){
         ArtPieceExhibitionRelationContainer container = new ArtPieceExhibitionRelationContainer();
         ArtPieceEntry arttpiece1 = new ArtPieceEntry(0, new ArtPiece("bla", "bla", ArtworkType.PAINTING,0, 0, 0, 0, 0, 0, 0, ""),PictureTools.defaultEmptyImage());

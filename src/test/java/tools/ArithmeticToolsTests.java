@@ -1,11 +1,13 @@
 package tools;
 
 
+import org.junit.jupiter.api.Test;
+
 import static tools.ArithmeticTools.*;
 
 public class ArithmeticToolsTests {
 
-
+    @Test
     void testArithmeticTools(){
         assert (roundToTen(15) == 20);
         assert (roundToTen(12) == 10);

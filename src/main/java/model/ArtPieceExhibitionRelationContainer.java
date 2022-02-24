@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+A Container Class to hold the Relations between Artpieces and Exhibitions
+ */
 public class ArtPieceExhibitionRelationContainer {
 
     private List<ArtpieceExhibitionRelation> relationList;
@@ -40,7 +43,9 @@ public class ArtPieceExhibitionRelationContainer {
     public List<ArtPieceEntry> getArtpieceEntriesOfExhibition(Exhibition exhibition){
         List<ArtPieceEntry> entries = new ArrayList<>();
         for (ArtpieceExhibitionRelation relation : relationList){
-            if(relation.getExhibition().getId() == exhibition.getId());
+            if(relation.getExhibition().getId() == exhibition.getId()){
+                entries.add(relation.getArtPieceEntry());
+            };
         }
         return entries;
     }
@@ -77,9 +82,9 @@ public class ArtPieceExhibitionRelationContainer {
                 }
             }
         }
-            if (foundRelation != null) {
-                relationList.remove(foundRelation);
-            }
+        if (foundRelation != null) {
+           relationList.remove(foundRelation);
+        }
     }
 
 
