@@ -28,6 +28,13 @@ public class PictureTools {
 
     }
 
+    /**
+     * Erstellt eine proportional skalierte Version des Einagebebilds.
+     * @param width die Zielbreite
+     * @param height die Zielhöhe
+     * @param image das EingabeBild
+     * @return die proportional skalierte Version
+     */
     private static BufferedImage createProportionalScaledImage(int width, int height, Image image){
         BufferedImage imageBuff = imageToBufferedImage(image);
 
@@ -59,7 +66,7 @@ public class PictureTools {
     public static Image loadImage(Path filepath) throws IOException{
         File dat = filepath.toFile();
         BufferedImage img = ImageIO.read(dat);
-        return (Image) img;
+        return img;
     }
 
     /**
@@ -70,8 +77,7 @@ public class PictureTools {
      */
     public static Image loadImage(String filepath) throws IOException{
         File imageFile = new File(filepath);
-        BufferedImage image;
-        image = ImageIO.read(imageFile);
+        BufferedImage image = ImageIO.read(imageFile);
         return image;
     }
 
@@ -106,15 +112,24 @@ public class PictureTools {
         return createEmptyImage();
     }
 
-    private static BufferedImage imageToBufferedImage(Image im) {
+    /**
+     * Konvertiert ein Bild der Klasse Image in die Klasse BufferedImage
+     * @param image das Image
+     * @return das BufferedImage
+     */
+    private static BufferedImage imageToBufferedImage(Image image) {
         BufferedImage bi = new BufferedImage
-                (im.getWidth(null),im.getHeight(null),BufferedImage.TYPE_INT_RGB);
+                (image.getWidth(null),image.getHeight(null),BufferedImage.TYPE_INT_RGB);
         Graphics bg = bi.getGraphics();
-        bg.drawImage(im, 0, 0, null);
+        bg.drawImage(image, 0, 0, null);
         bg.dispose();
         return bi;
     }
 
+    /**
+     * Erstellt ein leeres Bild mit der Größe 150x150 Pixel
+     * @return das Bild
+     */
     private static Image createEmptyImage(){
         BufferedImage image = new BufferedImage(150,150, BufferedImage.TYPE_3BYTE_BGR);
         Graphics2D g2d = image.createGraphics();
