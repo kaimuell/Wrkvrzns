@@ -8,4 +8,3 @@ Dieses Programm wurde erstellt, bevor dem Autor das Prinzip von TDD bekannt war.
 Das Programm nutzt ein einfaches Datenkonzept, indem alle Daten zentral gespeichert werden.
 Von Bildern wird eine Kopie angelegt, was den Speicherbedarf erhöht, jedoch das Exportieren vereinfacht, da keine neuen Links gesetzt werden müssen.
 
-Leier fand der prototyp bei dem Zeilpublickum keinen Anklang.
